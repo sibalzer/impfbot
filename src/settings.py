@@ -13,12 +13,12 @@ SLEEP_BETWEEN_REQUESTS_IN_S = int(
 SLEEP_BETWEEN_FAILED_REQUESTS_IN_S = int(
     config["ADVANCED"]["sleep_between_failed_requests_in_s"])
 SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN = int(
-    config["ADVANCED"]["sleep_after_ipban_in_min"])
+    config["ADVANCED"]["sleep_after_ipban_in_min"])*60
 
 JITTER = int(
     config["ADVANCED"]["jitter"])
 
-SEND_EMAIL = config["EMAIL"]["enable"]
+SEND_EMAIL = True if config["EMAIL"]["enable"].lower() == "true" else False
 
 if SEND_EMAIL:
     SENDER = config["EMAIL"]["sender"]
@@ -26,4 +26,5 @@ if SEND_EMAIL:
     PASSWORD = config["EMAIL"]["password"]
     EMAIL_RECEIVERS = config["EMAIL"]["empfaenger"].split(',')
 
-OPEN_BROWSER = config["WEBBROWSER"]["open_browser"]
+OPEN_BROWSER = True if config["WEBBROWSER"]["open_browser"].lower(
+) == "true" else False

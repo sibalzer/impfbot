@@ -1,0 +1,32 @@
+[COMMON]
+geburtstag=23.06.1912
+postleitzahl=42042
+
+[EMAIL]
+;true wenn eine Benachrichtigung via Mail gesendet werden soll sonst false
+enable=true
+;Absender Adresse
+sender=sender@server.de
+;Login Passwort
+password=xxxx
+;smtp Server
+server=mail.server.de
+;smtp Port - derzeit kann nur an SSL Server gesendet werden
+port=465
+;E-Mail Empfaenger Liste 
+email_list=sender@server.de,guenni@server.de,frida@server.de
+
+
+[WEBBROWSER]
+;Desktop only - Soll der default Browser automatisch geoeffnet werden 
+open_browser=true
+
+[ADVANCED]
+;Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 5min, kann aber empirisch verkleinert werden)
+sleep_between_requests_in_s=300
+;Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert. D.h. fünf Fehlschläge = Wartezeit von 5*30s bis zum nächsen Aufruf
+sleep_between_failed_requests_in_s=30
+;Wenn eine Abfrage 10x fehlschlaegt ist die IP vermutlich gebannt. Standardmaeßig wird dann 3h gewartet
+sleep_after_ipban_in_min=180
+;Zufällige Zeitspanne von 0-jtter die auf die Wartezeiten addiert wird
+jitter=15
