@@ -1,0 +1,10 @@
+version: "3"
+services:
+  impfbot:
+    container_name: impfbot
+    image: ghcr.io/sibalzer/impfbot:latest
+    restart: unless-stopped
+    volumes:
+      - ./config.ini:/config.ini
+    environment:
+      - TZ=Europe/Berlin
