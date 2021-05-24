@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 headers = {
     'Accept': 'application/json',
-    'User-Agent': 'vacBot'
+    'User-Agent': 'impfbot'
 }
 
 
