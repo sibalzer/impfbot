@@ -27,7 +27,7 @@ def check_for_slot() -> None:
 
                 sleep(60*15, 15)
             else:
-                log.info(f"No free slots.")
+                log.info(f"No free slot.")
     except Exception as e:
         log.error(f"Something went wrong ({e})")
 
