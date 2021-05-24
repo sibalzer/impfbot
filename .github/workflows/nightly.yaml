@@ -19,7 +19,6 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd backend
           docker build \
             -t "ghcr.io/${GITHUB_REPOSITORY}:${GITHUB_SHA:0:7}" \
             -t "ghcr.io/${GITHUB_REPOSITORY}:nightly" ./docker
