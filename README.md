@@ -31,7 +31,7 @@ Du möchtest mithelfen? Super! Aktuell gibt es nur E-Mail Benachrichtigungen, ab
   3. Erstelle einen Pull Request & fertig
 
 ## Sonstiges
-Ich war mir nicht ganz sicher, ob man solch einen Bot schreiben und veröffentlichen soll, aufgrund der aktuellen Lage habe ich mich doch dazu entschieden. Es werden täglich kurzfristig freigewordene Impfdosen über das Impfportal (je nach Impfzentrum stündlich) zu Verfügung gestellt, aber an einer "Spontan"-Warteliste mangelt es. D.h. entwender man campiert tagelang auf der Seite des Impfportals (für Arbeitnehmer btw nicht möglich), bis die F5 Taste den Geist aufgibt oder man nutzt einen Bot wie diesen hier.
+Ich war mir nicht ganz sicher, ob man solch einen Bot schreiben und veröffentlichen soll, aufgrund der aktuellen Lage habe ich mich doch dazu entschieden. Es werden täglich kurzfristig freigewordene Impfdosen über das Impfportal (je nach Impfzentrum stündlich) zur Verfügung gestellt, aber an einer "Spontan"-Warteliste mangelt es. D.h. entwender man campiert tagelang auf der Seite des Impfportals, bis die F5 Taste den Geist aufgibt oder man nutzt einen Bot wie diesen hier.
 
 ## TODO
  - Englische Beschreibung
