@@ -2,7 +2,7 @@ from log import log
 import settings
 import api_wrapper
 import alerts
-from datetime import timedelta, datetime
+from datetime import datetime
 
 from common import sleep, sleep_until, is_night
 
@@ -11,8 +11,9 @@ def check_for_slot() -> None:
     try:
         result = api_wrapper.fetch_api(
             plz=settings.ZIP,
-            birthdate_timestamp=int(datetime.now().timestamp() - (datetime.now() -
-                                                                  settings.BIRTHDATE).total_seconds()),
+            birthdate_timestamp=int(
+                datetime.now().timestamp() -
+                (datetime.now() - settings.BIRTHDATE).total_seconds()),
             max_retries=5,
             sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
             sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
@@ -27,7 +28,7 @@ def check_for_slot() -> None:
 
                 sleep(60*15, 15)
             else:
-                log.info(f"No free slot.")
+                log.info("No free slot.")
     except Exception as e:
         log.error(f"Something went wrong ({e})")
 
@@ -36,7 +37,7 @@ if __name__ == "__main__":
     try:
         while True:
             if is_night() and settings.SLEEP_AT_NIGHT:
-                log.info(f"It's night. Sleeping until 7am")
+                log.info("It's night. Sleeping until 7am")
                 sleep_until(hour=7, minute=0)
 
             check_for_slot()
