@@ -5,6 +5,18 @@
 
 ### ⚠ BREAKING CHANGES
 
+* alert bug
+
+### Bug Fixes
+
+* alert bug ([d5fd1ed](https://www.github.com/sibalzer/impfbot/commit/d5fd1ed2675683dd35cccce6868f3392d52c18df))
+* alert bug ([b261e16](https://www.github.com/sibalzer/impfbot/commit/b261e16f49eae7a18dea8fa652a08c3bde2af5fa))
+
+## [1.2.1](https://www.github.com/sibalzer/impfbot/compare/v1.2.1...v1.2.1) (2021-05-25)
+
+
+### ⚠ BREAKING CHANGES
+
 * added Telegram integration
 
 ### Features
