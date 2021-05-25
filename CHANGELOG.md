@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://www.github.com/sibalzer/impfbot/compare/v1.2.1...v2.0.0) (2021-05-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* added Telegram integration
+
+### Features
+
+* added Telegram integration ([0540636](https://www.github.com/sibalzer/impfbot/commit/0540636f1e6b31a15ab28a438587615ffddbb33c))
+
 ### [1.2.1](https://www.github.com/sibalzer/impfbot/compare/v1.2.0...v1.2.1) (2021-05-25)
 
 
