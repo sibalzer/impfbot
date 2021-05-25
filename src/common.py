@@ -1,5 +1,5 @@
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time as dt
 import time
 import sys
 
@@ -16,3 +16,18 @@ def sleep(time_in_s: int, jitter: int = 0) -> None:
         time.sleep(1)
     sys.stdout.write("\r")
     sys.stdout.flush()
+
+
+def is_night() -> bool:
+    morning = dt(hour=7, minute=0)
+    evening = dt(hour=23, minute=0)
+    now = datetime.now().time()
+    return not (morning < now and now < evening)
+
+
+def sleep_until(hour, minute) -> None:
+    t = datetime.today()
+    future = datetime(t.year, t.month, t.day, hour, minute)
+    if t.timestamp() > future.timestamp():
+        future += timedelta(days=1)
+    sleep((future-t).total_seconds())

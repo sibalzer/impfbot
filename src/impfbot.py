@@ -1,11 +1,9 @@
-import time
-
 from log import log
 import settings
 import api_wrapper
 import alerts
 
-from common import sleep
+from common import sleep, sleep_until, is_night
 
 
 def check_for_slot() -> None:
@@ -35,7 +33,12 @@ def check_for_slot() -> None:
 if __name__ == "__main__":
     try:
         while True:
+            if is_night():
+                log.info(f"It's night. Sleeping until 7am")
+                sleep_until(hour=7, minute=0)
+
             check_for_slot()
             sleep(settings.SLEEP_BETWEEN_REQUESTS_IN_S, settings.JITTER)
+
     except (KeyboardInterrupt, SystemExit):
         print("Bye...")
