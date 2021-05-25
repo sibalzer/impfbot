@@ -1,2 +1,2 @@
-py -3 -m pip install -r requirements.txt
-py -3 src/impfbot.py
+pip3 install -r requirements.txt
+python3 src/impfbot.py
