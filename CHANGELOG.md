@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/sibalzer/impfbot/compare/v1.0.0...v1.1.0) (2021-05-25)
+
+
+### Features
+
+* sleep at night ([a724b3a](https://www.github.com/sibalzer/impfbot/commit/a724b3af579fa4d6347371a6ea78c7994d4d68eb))
+
 ## 1.0.0 (2021-05-25)
 
 
