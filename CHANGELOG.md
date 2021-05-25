@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.2.1](https://www.github.com/sibalzer/impfbot/compare/v1.2.0...v1.2.1) (2021-05-25)
+
+
+### Bug Fixes
+
+* flake8 warnings ([ea80a0b](https://www.github.com/sibalzer/impfbot/commit/ea80a0b2d07349bbf5460a8e1f634adec4e64dd9))
+
 ## [1.2.0](https://www.github.com/sibalzer/impfbot/compare/v1.1.4...v1.2.0) (2021-05-25)
 
 
