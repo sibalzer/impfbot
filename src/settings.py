@@ -28,3 +28,6 @@ if SEND_EMAIL:
 
 OPEN_BROWSER = True if config["WEBBROWSER"]["open_browser"].lower(
 ) == "true" else False
+
+SLEEP_AT_NIGHT = True if config["ADVANCED"]["sleep_at_night"].lower(
+) == "true" else False

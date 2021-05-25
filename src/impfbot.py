@@ -33,7 +33,7 @@ def check_for_slot() -> None:
 if __name__ == "__main__":
     try:
         while True:
-            if is_night():
+            if is_night() and settings.SLEEP_AT_NIGHT:
                 log.info(f"It's night. Sleeping until 7am")
                 sleep_until(hour=7, minute=0)
 

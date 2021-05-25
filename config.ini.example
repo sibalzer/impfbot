@@ -30,3 +30,5 @@ sleep_between_failed_requests_in_s=30
 sleep_after_ipban_in_min=180
 ;Zufällige Zeitspanne von 0-jtter die auf die Wartezeiten addiert wird
 jitter=15
+;Legt fest ob der Bot nachts schlafen soll (Default: true da eh keine Termine veröffentlicht werden)
+sleep_at_night=true
