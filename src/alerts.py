@@ -1,6 +1,7 @@
 import smtplib
 from email.message import EmailMessage
 from email.utils import formatdate
+from telegram.ext import Updater
 import webbrowser
 import logging
 
@@ -19,6 +20,11 @@ def alert(msg: str) -> None:
             send_mail(msg)
         except Exception as e:
             log.error(f"Couldn't send mail: {e}")
+    if settings.SEND_TELEGRAM_MSG:
+        try:
+            send_telegram_msg(msg)
+        except:
+            log.error(f"Couldn't send Telegram message: {e}")
     if settings.OPEN_BROWSER:
         try:
             webbrowser.open(appointment_url)
@@ -39,3 +45,10 @@ def send_mail(msg: str) -> None:
     with smtplib.SMTP_SSL(settings.SERVER, settings.PORT)as smtp:
         smtp.login(settings.SENDER, settings.PASSWORD)
         smtp.send_message(mail)
+
+def send_telegram_msg(msg: str) -> None:
+    update = Updater(settings.TOKEN)
+    update.bot.send_message(
+        chat_id=settings.CHAT_ID,
+        text=msg
+    )
