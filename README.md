@@ -37,3 +37,6 @@ Ich war mir nicht ganz sicher, ob man solch einen Bot schreiben und veröffentli
 ## TODO
  - Englische Beschreibung
  - Ein ausführliches Tutorial für nicht technikaffine Menschen
+
+## Sponsoring
+Dir hat der impfbot geholfen und du möchtest monetär etwas beitragen? Dann spende doch unter [dieser Spendenaktion an Ärzte ohne Grenzen](https://www.aerzte-ohne-grenzen.de/spenden-sammeln?cfd=z1suz).
