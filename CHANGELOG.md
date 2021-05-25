@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://www.github.com/sibalzer/impfbot/compare/v1.1.4...v1.2.0) (2021-05-25)
+
+
+### Features
+
+* added test email ([8207f11](https://www.github.com/sibalzer/impfbot/commit/8207f114da600d702c17bd45d8f73c7f8d15bb2e))
+
 ### [1.1.4](https://www.github.com/sibalzer/impfbot/compare/v1.1.3...v1.1.4) (2021-05-25)
 
 
