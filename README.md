@@ -19,7 +19,7 @@ Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung.
 ## Support & Contributing 
 
 ### Feedback & Probleme bei einrichten
-Schreib mir [hier](https://github.com/sibalzer/impfbot/issues/5) in oder [twitter](https://twitter.com/datearl) mich an.
+Schreib [hier](https://github.com/sibalzer/impfbot/issues/5) oder [twitter](https://twitter.com/datearl) mich an.
 
 ### Feature Requests
 Eröffne ein Issue unter [issues](https://github.com/sibalzer/impfbot/issues/new/choose)
