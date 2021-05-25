@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.2](https://www.github.com/sibalzer/impfbot/compare/v1.1.1...v1.1.2) (2021-05-25)
+
+
+### Bug Fixes
+
+* no py launcher for linux ([e876686](https://www.github.com/sibalzer/impfbot/commit/e876686f6132156cb1461cab826efc890a94591e))
+
 ### [1.1.1](https://www.github.com/sibalzer/impfbot/compare/v1.1.0...v1.1.1) (2021-05-25)
 
 
