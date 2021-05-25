@@ -32,7 +32,7 @@ Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung.
 1. https://t.me/BotFather anschreiben und Bot erstellen. Den Token dann in die `config.ini` kopieren.
 2. Den eigenen Bot anschreiben (Wichtig! Url müsste lauten https://t.me/__name__ sollte aber auch in der Bothfather Nachricht stehen).
 3. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren.
-4. Fertig
+4. Validieren das auch alles funktioniert: Doppelklick auf `test_telegram.bat`
 
 ## Support & Contributing
 
