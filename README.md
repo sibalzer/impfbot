@@ -3,7 +3,6 @@
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sibalzer/impfbot?label=version)
 [![Python](https://img.shields.io/badge/Made%20with-Python%203.x-blue.svg?style=flat-square&logo=Python&logoColor=white)](https://www.python.org/)
 [![GitHub license](https://img.shields.io/github/license/sibalzer/impfbot)](https://github.com/sibalzer/impfbot/blob/main/LICENSE)
-![GitHub all releases](https://img.shields.io/github/downloads/sibalzer/impfbot/total)
 
 Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niedersächsischen Impfportals (https://impfportal-niedersachsen.de) auf freie Impfslots und sendet eine Benachrichtigung via Mail. Ab da gilt leider der Schnellste gewinnt. Bitte missbraucht den Bot nicht und verwendet moderate Intervalle. Ansonsten werdet ihr sowieso IP gebannt.
 
@@ -20,7 +19,7 @@ Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung.
 ## Support & Contributing 
 
 ### Feedback & Probleme bei einrichten
-Schreib mir [hier](https://github.com/sibalzer/impfbot/issues/5) in oder twitter mich an [twitter](https://twitter.com/datearl)
+Schreib [hier](https://github.com/sibalzer/impfbot/issues/5) oder [twitter](https://twitter.com/datearl) mich an.
 
 ### Feature Requests
 Eröffne ein Issue unter [issues](https://github.com/sibalzer/impfbot/issues/new/choose)
@@ -31,9 +30,9 @@ Du möchtest mithelfen? Super! Aktuell gibt es nur E-Mail Benachrichtigungen, ab
   2. Vervollständige benötigte Einstellungen unter ```settings.py``` und ```config.ini.example```
   3. Erstelle einen Pull Request & fertig
 
-## Sonstiges
-Ich war mir nicht ganz sicher, ob man solch einen Bot schreiben und veröffentlichen soll, aufgrund der aktuellen Lage habe ich mich doch dazu entschieden. Es werden täglich kurzfristig freigewordene Impfdosen über das Impfportal (je nach Impfzentrum stündlich) zu Verfügung gestellt, aber an einer "Spontan"-Warteliste mangelt es. D.h. entwender man campiert tagelang auf der Seite des Impfportals (für Arbeitnehmer btw nicht möglich), bis die F5 Taste den Geist aufgibt oder man nutzt einen Bot wie diesen hier.
-
 ## TODO
  - Englische Beschreibung
  - Ein ausführliches Tutorial für nicht technikaffine Menschen
+
+## Sponsoring
+Dir hat der impfbot geholfen und du möchtest monetär etwas beitragen? Dann spende doch unter [dieser Spendenaktion an Ärzte ohne Grenzen](https://www.aerzte-ohne-grenzen.de/spenden-sammeln?cfd=z1suz).
