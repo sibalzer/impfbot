@@ -24,7 +24,7 @@ def alert(msg: str) -> None:
     if settings.SEND_TELEGRAM_MSG:
         try:
             send_telegram_msg(msg)
-        except:
+        except Exception as e:
             log.error(f"Couldn't send Telegram message: {e}")
     if settings.OPEN_BROWSER:
         try:
