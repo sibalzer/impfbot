@@ -3,7 +3,6 @@
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sibalzer/impfbot?label=version)
 [![Python](https://img.shields.io/badge/Made%20with-Python%203.x-blue.svg?style=flat-square&logo=Python&logoColor=white)](https://www.python.org/)
 [![GitHub license](https://img.shields.io/github/license/sibalzer/impfbot)](https://github.com/sibalzer/impfbot/blob/main/LICENSE)
-![GitHub all releases](https://img.shields.io/github/downloads/sibalzer/impfbot/total)
 
 Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niedersächsischen Impfportals (https://impfportal-niedersachsen.de) auf freie Impfslots und sendet eine Benachrichtigung via Mail. Ab da gilt leider der Schnellste gewinnt. Bitte missbraucht den Bot nicht und verwendet moderate Intervalle. Ansonsten werdet ihr sowieso IP gebannt.
 
