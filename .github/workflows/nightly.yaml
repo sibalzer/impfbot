@@ -20,7 +20,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -f docker/Dockerfile
+            -f docker/Dockerfile \
             -t "ghcr.io/${GITHUB_REPOSITORY}:${GITHUB_SHA:0:7}" \
             -t "ghcr.io/${GITHUB_REPOSITORY}:nightly" .
 
