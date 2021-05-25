@@ -29,6 +29,7 @@ try:
         SERVER = config["EMAIL"]["server"]
         PASSWORD = config["EMAIL"]["password"]
         EMAIL_RECEIVERS = config["EMAIL"]["empfaenger"].split(',')
+        PORT = config["EMAIL"]["port"]
 except KeyError as e:
     log.warning(
         f"[EMAIL] '{e}' is missing in Config. Set Email to False")
