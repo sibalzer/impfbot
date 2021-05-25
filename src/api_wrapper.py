@@ -2,13 +2,14 @@ import logging
 
 from requests.sessions import Session
 from common import sleep
+import settings
 
 log = logging.getLogger(__name__)
 
 
 headers = {
     'Accept': 'application/json',
-    'User-Agent': 'impfbot'
+    'User-Agent': settings.USER_AGENT
 }
 
 

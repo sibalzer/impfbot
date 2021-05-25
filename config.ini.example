@@ -32,3 +32,5 @@ sleep_after_ipban_in_min=180
 jitter=15
 ;Legt fest ob der Bot nachts schlafen soll (Default: true da eh keine Termine veröffentlicht werden)
 sleep_at_night=true
+;User-Agent für die Anfrage an die API
+user_agent=impfbot
