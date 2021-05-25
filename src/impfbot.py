@@ -24,7 +24,7 @@ def check_for_slot() -> None:
                     f"Free slot! ({elem['freeSlotSizeOnline']}) {elem['vaccineName']}/{elem['vaccineType']}")
 
                 msg = f"Freier Impfslot ({elem['freeSlotSizeOnline']})! {elem['vaccineName']}/{elem['vaccineType']}"
-                alerts.send_alert(msg)
+                alerts.alert(msg)
 
                 sleep(60*15, 15)
             else:
