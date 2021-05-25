@@ -30,8 +30,9 @@ Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung.
 ### Einrichten von Telegram 📣
 
 1. https://t.me/BotFather anschreiben und Bot erstellen. Den Token dann in die `config.ini` kopieren.
-2. Den eigenen Bot anschreiben (Wichtig! Url müsste lauten https://t.me/__name__ sollte aber auch in der Bothfather Nachricht stehen).
-3. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren.
+Folgene Schritte muss für jeden ausgeführt werden, der Nachrichten
+2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mit ```.``` getrennt).
+3. Wichtig! Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (Url steht in der Bothfather Nachricht und dann start drücken)
 4. Fertig
 
 ## Support & Contributing
