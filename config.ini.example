@@ -16,6 +16,13 @@ port=465
 ;E-Mail Empfaenger Liste 
 empfaenger=sender@server.de,guenni@server.de,frida@server.de
 
+[TELEGRAM]
+;true, wenn Telegram verwendet werden soll; sonst false
+enable_telegram=true
+;Token muss zunächst generiert werden: https://t.me/BotFather
+token=TOKEN
+;User-ID des Empfängers: https://t.me/userinfobot
+chat_id='123456789'
 
 [WEBBROWSER]
 ;Desktop only - Soll der default Browser automatisch geoeffnet werden 

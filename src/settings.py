@@ -35,6 +35,21 @@ except KeyError as e:
         f"[EMAIL] '{e}' is missing in Config. Set Email to False")
     SEND_EMAIL = False
 
+try:
+    SEND_TELEGRAM_MSG = True if config["TELEGRAM"]["enable_telegram"].lower() == "true" else False
+except KeyError:
+    log.warning(
+        "[TELEGRAM] 'enable_telegram' is missing in Config. Set False")
+    SEND_TELEGRAM_MSG = False
+
+try:
+    if SEND_TELEGRAM_MSG:
+        TOKEN = config["TELEGRAM"]["token"]
+        CHAT_ID = config["TELEGRAM"]["chat_id"]
+except KeyError as e:
+    log.warning(
+        f"[TELEGRAM] '{e}' is missing in Config. Set Telegram to False")
+    SEND_EMAIL = False
 
 try:
     OPEN_BROWSER = True if config["WEBBROWSER"]["open_browser"].lower(
