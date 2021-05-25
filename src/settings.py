@@ -45,7 +45,7 @@ except KeyError:
 try:
     if SEND_TELEGRAM_MSG:
         TOKEN = config["TELEGRAM"]["token"]
-        CHAT_ID = config["TELEGRAM"]["chat_id"]
+        CHAT_IDS = config["TELEGRAM"]["chat_id"].split(',')
 except KeyError as e:
     log.warning(
         f"[TELEGRAM] '{e}' is missing in Config. Set Telegram to False")
