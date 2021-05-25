@@ -1,5 +1,5 @@
 [COMMON]
-geburtstag=23.06.1912
+geburtstag=23.06.1984
 postleitzahl=42042
 
 [EMAIL]
@@ -14,7 +14,7 @@ server=mail.server.de
 ;smtp Port - derzeit kann nur an SSL Server gesendet werden
 port=465
 ;E-Mail Empfaenger Liste 
-email_list=sender@server.de,guenni@server.de,frida@server.de
+empfaenger=sender@server.de,guenni@server.de,frida@server.de
 
 
 [WEBBROWSER]
