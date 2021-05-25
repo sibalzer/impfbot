@@ -7,7 +7,7 @@ import logging
 import settings
 
 
-appointment_url = f"https://www.impfportal-niedersachsen.de/portal/#/appointment/public"
+appointment_url = r"https://www.impfportal-niedersachsen.de/portal/#/appointment/public"
 
 
 log = logging.getLogger(__name__)
