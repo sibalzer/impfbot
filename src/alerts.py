@@ -50,8 +50,9 @@ def send_mail(msg: str) -> None:
 
 def send_telegram_msg(msg: str) -> None:
     update = Updater(settings.TOKEN)
-    update.bot.send_message(
-        chat_id=settings.CHAT_ID,
-        text=f"*{msg}*\n{appointment_url}",
-        parse_mode=ParseMode.MARKDOWN
-    )
+    for chat_id in settings.CHAT_IDS:
+        update.bot.send_message(
+            chat_id=chat_id,
+            text=f"*{msg}*\n{appointment_url}",
+            parse_mode=ParseMode.MARKDOWN
+        )
