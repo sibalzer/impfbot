@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.1.3](https://www.github.com/sibalzer/impfbot/compare/v1.1.2...v1.1.3) (2021-05-25)
+
+
+### Bug Fixes
+
+* email port ([556e16b](https://www.github.com/sibalzer/impfbot/commit/556e16b55a15d96a9082e29e390d074428193b82))
+* mail port ([8178a46](https://www.github.com/sibalzer/impfbot/commit/8178a462c53f671874e5fa390a345367da98d460))
+
 ### [1.1.2](https://www.github.com/sibalzer/impfbot/compare/v1.1.1...v1.1.2) (2021-05-25)
 
 
