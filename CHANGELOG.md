@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.4](https://www.github.com/sibalzer/impfbot/compare/v1.1.3...v1.1.4) (2021-05-25)
+
+
+### Bug Fixes
+
+* birthyear befor 1974 ([4065132](https://www.github.com/sibalzer/impfbot/commit/4065132914fb961390324d3387a51b021243260a))
+
 ### [1.1.3](https://www.github.com/sibalzer/impfbot/compare/v1.1.2...v1.1.3) (2021-05-25)
 
 
