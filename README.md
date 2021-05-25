@@ -7,7 +7,7 @@
 
 Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niedersächsischen Impfportals (https://impfportal-niedersachsen.de) auf freie Impfslots und sendet eine Benachrichtigung via Mail. Ab da gilt leider der Schnellste gewinnt. Bitte missbraucht den Bot nicht und verwendet moderate Intervalle. Ansonsten werdet ihr sowieso IP gebannt.
 
-> ### ⚠ Hilfe gesucht! (Zeiten und Shadowbans)
+> ### ⚠ Hilfe gesucht! (Zeiten und Shadowbans/IP-Bans)
 > Derzeit fragt der Bot alle 5min die API ab ich würde das gerne etwas optmieren brauche dafür aber Hilfe poste dazu deine Settings [hier](https://github.com/sibalzer/impfbot/issues/6)
 
 ## Setup
