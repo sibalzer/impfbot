@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.1.1](https://www.github.com/sibalzer/impfbot/compare/v1.1.0...v1.1.1) (2021-05-25)
+
+
+### Bug Fixes
+
+* config.ini.example ([871705b](https://www.github.com/sibalzer/impfbot/commit/871705b5054b91f85677ecd65730c5d8c0241e0d))
+* email_list -> empfaenger ([80f4beb](https://www.github.com/sibalzer/impfbot/commit/80f4bebe794058ddd2bfa50a275a08f787f18e3f))
+
 ## [1.1.0](https://www.github.com/sibalzer/impfbot/compare/v1.0.0...v1.1.0) (2021-05-25)
 
 

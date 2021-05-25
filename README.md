@@ -12,8 +12,14 @@ Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niede
 ## Setup
 ### Voraussetzungen
   - python 3.x mit py-Launcher via https://www.python.org/downloads/
+ 
 ### Einrichtung
-Per git clone oder [ZIP-Download](https://github.com/sibalzer/impfbot/archive/refs/heads/main.zip) herunterladen. Die config.ini.example in config.ini umbenennen und anpassen. Dann kann der Bot auch schon via ```windows_start.bat``` oder ```linux_start.sh``` gestartet werden.
+  1.     Python von hier laden und installieren: https://www.python.org/downloads/
+  2.     Den Bot runterladen (Rechts oben der grüne Button und da ZIP-Archiv oder [hier](https://github.com/sibalzer/impfbot/archive/refs/heads/main.zip))
+  3.     Das Archiv (Die Zip Datei) entpacken
+  4.     ```config.ini.example``` nach ```config.ini``` umbennen und deine Daten eintragen (PLZ, Geburtstag, Email Server Daten)
+  5.     Doppelklick auf ```windows_start.bat```
+    
 Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung. Siehe dazu [docker](https://github.com/sibalzer/impfbot/tree/main/docker).
 
 ## Support & Contributing 
