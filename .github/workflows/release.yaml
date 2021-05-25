@@ -31,8 +31,9 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
         run: |
           docker build \
+          -f docker/Dockerfile
           -t "ghcr.io/${GITHUB_REPOSITORY}:${{ steps.release.outputs.tag_name }}" \
-          -t "ghcr.io/${GITHUB_REPOSITORY}:latest" ./docker
+          -t "ghcr.io/${GITHUB_REPOSITORY}:latest" .
 
       - name: Release Docker image to ghcr.io
         if: ${{ steps.release.outputs.release_created }}

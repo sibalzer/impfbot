@@ -20,8 +20,9 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
+            -f docker/Dockerfile
             -t "ghcr.io/${GITHUB_REPOSITORY}:${GITHUB_SHA:0:7}" \
-            -t "ghcr.io/${GITHUB_REPOSITORY}:nightly" ./docker
+            -t "ghcr.io/${GITHUB_REPOSITORY}:nightly" .
 
       - name: Release Docker images to ghcr.io
         run: |
