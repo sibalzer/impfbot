@@ -1,8 +1,8 @@
+from datetime import datetime
 from log import log
 import settings
 import api_wrapper
 import alerts
-from datetime import datetime
 
 from common import sleep, sleep_until, is_night
 
@@ -18,6 +18,8 @@ def check_for_slot() -> None:
             sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
             sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
         )
+        if not result:
+            log.error("Result is emtpy. (Invalid ZIP Code (PLZ))")
         for elem in result:
             if not elem['outOfStock']:
                 log.info(
