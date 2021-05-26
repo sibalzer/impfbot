@@ -95,6 +95,12 @@ try:
 except KeyError:
     log.warning("'sleep_after_ipban_in_min' is missing in Config. Set 3h")
     SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN = 60*180
+try:
+    COOLDOWN_AFTER_FOUND_IN_MIN = int(
+        config["ADVANCED"]["cooldown_after_found_in_min"])*60
+except KeyError:
+    log.warning("'cooldown_after_found_in_min' is missing in Config. Set 15min")
+    COOLDOWN_AFTER_FOUND_IN_MIN = 60*15
 
 try:
     JITTER = int(

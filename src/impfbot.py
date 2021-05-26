@@ -28,7 +28,7 @@ def check_for_slot() -> None:
                 msg = f"Freier Impfslot ({elem['freeSlotSizeOnline']})! {elem['vaccineName']}/{elem['vaccineType']}"
                 alerts.alert(msg)
 
-                sleep(60*15, 15)
+                sleep(settings.COOLDOWN_AFTER_FOUND_IN_MIN, 0)
             else:
                 log.info("No free slot.")
     except Exception as e:
