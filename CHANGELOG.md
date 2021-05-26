@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.2.1](https://www.github.com/sibalzer/impfbot/compare/v1.2.1...v1.2.1) (2021-05-26)
+
+
+### Bug Fixes
+
+* change output handler from stderr to stdout ([249bf40](https://www.github.com/sibalzer/impfbot/commit/249bf409f1bac30f42e072c46fb191273f3a6fec))
+
 ## [1.2.1](https://www.github.com/sibalzer/impfbot/compare/v1.2.1...v1.2.1) (2021-05-25)
 
 
