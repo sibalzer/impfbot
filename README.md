@@ -49,7 +49,7 @@ Eröffne ein Issue unter [issues](https://github.com/sibalzer/impfbot/issues/new
 
 Du möchtest mithelfen? Super! Aktuell gibt es nur E-Mail Benachrichtigungen, aber auch Benachrichtigungen via ~~telegram~~ o.ä. wären toll. Gehe dazu wie folgt vor:
 
-1. Füge den Service unter `altets.py` - `alert(msg)` hinzu
+1. Füge den Service unter `alerts.py` - `alert(msg)` hinzu
 2. Vervollständige benötigte Einstellungen unter `settings.py` und `config.ini.example`
 3. Erstelle einen Pull Request & fertig
 
