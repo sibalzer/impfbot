@@ -72,15 +72,15 @@ postleitzahl=49049
 
 [EMAIL]
 enable=true
-sender=
-password=
-server=
+sender=beispielsender@server.tld,beispielsmfaenger@server.tld
+password=xxxxxxxxxx
+server=github@simonbalzer.de
 port=465
-empfaenger=
+empfaenger=github@simonbalzer.de
 
 [TELEGRAM]
 enable_telegram=true
-token=
+token=***REMOVED***
 chat_id=
 
 [WEBBROWSER]
