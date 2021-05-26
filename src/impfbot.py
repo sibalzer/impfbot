@@ -14,7 +14,7 @@ def check_for_slot() -> None:
             birthdate_timestamp=int(
                 datetime.now().timestamp() -
                 (datetime.now() - settings.BIRTHDATE).total_seconds()),
-            max_retries=5,
+            max_retries=10,
             sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
             sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
         )
