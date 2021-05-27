@@ -80,7 +80,7 @@ Beispiel Config:
 
 ```ini
 [COMMON]
-geburtstag=23.06.1910
+geburtstag=23.06.1912
 postleitzahl=49049
 
 [EMAIL]
@@ -93,18 +93,18 @@ empfaenger=beispielsender@server.tld,beispielsmfaenger@server.tld
 
 [TELEGRAM]
 enable_telegram=true
-token=***REMOVED***
-chat_id=
+token=xxxxxxxxxx
+chat_id=01234586789,9876543210
 
 [WEBBROWSER]
 open_browser=true
 
 [ADVANCED]
-sleep_between_requests_in_s=300
-sleep_between_failed_requests_in_s=30
+sleep_between_requests_in_s=123
+sleep_between_failed_requests_in_s=12
 sleep_after_ipban_in_min=180
-cooldown_after_found_in_min=15
-jitter=15
+cooldown_after_found_in_min=5
+jitter=10
 sleep_at_night=true
 user_agent=impfbot
 ```
