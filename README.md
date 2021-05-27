@@ -42,7 +42,7 @@ Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung.
 
 Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen will
 
-2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mit `.` getrennt).
+2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mit `,` getrennt).
 3. Wichtig! Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (Url steht in der Bothfather Nachricht und dann start drücken)
 4. Validieren das auch alles funktioniert: Doppelklick auf `test_telegram.bat`
 
@@ -51,7 +51,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 > Deine Daten werden lokal gespeichert! Falls du das selber überprüfen willst geht das am einfachsten über die Suche, da bekommst du alle Codezeilen in die bspw. dein Passwort genutzt wird. Bsp.: Passwort https://github.com/sibalzer/impfbot/search?q=password
 
 - **\[COMMON\]**: Allgemeine Einstellungen
-  - `geburtstag` - Geburtstag der Abgefragt werden soll. Beispiel: `23.6.1912`
+  - `geburtstag` - Geburtstag der Abgefragt werden soll. Beispiel: `23.06.1912`
   - `postleitzahl` - Fünfstellige PLZ für die Postleitzahl der Bot Benachrichtigungen schicken soll. Beispiel: `49123`
 - **\[EMAIL\]**: E-Mail Einstellungen
   - `enable` - Legt fest ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
