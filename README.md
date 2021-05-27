@@ -10,19 +10,21 @@ Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niede
 >
 > Derzeit fragt der Bot alle 5min die API ab ich würde das gerne etwas optmieren brauche dafür aber Hilfe poste dazu deine Settings [hier](https://github.com/sibalzer/impfbot/issues/6)
 
-## Setup 🤖
+## 🤖 Setup
 
 ### Voraussetzungen
 
 - python 3.x mit py-Launcher via https://www.python.org/downloads/
 
-### Schritt für Schritt 📝
+### 📝 Anleitung
+
+Am Beispiel von Windows:
 
 1. Python von hier laden und installieren: https://www.python.org/downloads/
 2. Den Bot runterladen (Rechts oben der grüne Button und da ZIP-Archiv oder [hier](https://github.com/sibalzer/impfbot/archive/refs/heads/main.zip))
 3. Das Archiv (Die Zip Datei) entpacken
 4. `config.ini.example` nach `config.ini` umbennen und deine Daten eintragen (PLZ, Geburtstag, Email Server Daten
-5. Doppelklick auf `test_mail.bat` um die E-Mail Einstellungen zu prüfen
+5. Doppelklick auf `windows_validate.bat` um die Einstellungen zu prüfen
 6. Doppelklick auf `windows_start.bat`
 
 Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung. Siehe dazu [docker](https://github.com/sibalzer/impfbot/tree/main/docker).
@@ -30,11 +32,67 @@ Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung.
 ### Einrichten von Telegram 📣
 
 1. https://t.me/BotFather anschreiben und Bot erstellen. Den Token dann in die `config.ini` kopieren.
-Folgene Schritte muss für jeden ausgeführt werden, der Nachrichten
-2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mit `,` getrennt für mehere Empfänger).
+Folgedne Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen soll.
+2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mit `.` getrennt).
 3. Wichtig! Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (Url steht in der Bothfather Nachricht und dann start drücken)
 4. Fertig!
 
+### config.ini Parameter
+
+- \[COMMON\]: Allgemeine Einstellungen
+  - `geburtstag` - Geburtstag der Abgefragt werden soll. Beispiel: `23.6.1912`
+  - `postleitzahl` - Fünfstellige PLZ für die Postleitzahl der Bot Benachrichtigungen schicken soll. Beispiel: `49123`
+- \[EMAIL\]: Email Einstellungen
+  - `enable` - Legt fest ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
+  - `sender` - Die E-Mail Adresse von der die Benachrichtigungen versendet werden sollen. Beispiel: `versender@server.tld`
+  - `password` - Das Passwort für die Versender-E-Mail Adresse.
+  - `server` - Beispiel: `smtp.server.tld`
+  - `port` - Der Port für den SMTP-Server. Beispiel: `465`
+  - `empfaenger` - Eine Liste der E-Mail Adressen an die eine Nachricht geschickt werden soll. Beispiel: `sender@server.de,foo@server.de,hoo@server.de` oder (nur an sich selber) `sender@server.de`
+- \[TELEGRAM\]: Email Einstellungen
+  - `enable_telegram` - Legt fest ob Telegram Nachrichten versendet werden sollen. `true` wenn ja, sonst `false`.
+  - `token` - Der Bot-Token von https://t.me/BotFather
+  - `chat_id` - User-ID des Empfängers: nutze dazu https://t.me/userinfobot
+- \[WEBBROWSER\]: Webbrowser Einstallungen
+  - `enable_telegram` - Legt fest ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
+- \[ADVANCED\]: Einstallungen für fortgeschrittene hier wirds experimentell
+  - `sleep_between_requests_in_s` - Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 5min, kann aber empirisch verkleinert werden)
+  - `sleep_between_failed_requests_in_s` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5*30s bis zum nächsen Aufruf
+  - `sleep_after_ipban_in_min` - Wenn eine Abfrage 10x fehlschlaegt ist die IP vermutlich gebannt. Standardmaeßig wird dann 3h gewartet.
+  - `jitter` - Zufällige Zeitspanne von 0-jtter Sekunden die auf die Wartezeiten addiert wird (Default: `15`)
+  - `sleep_at_night` - Legt fest ob der Bot nachts schlafen soll (Default: `true` da eh keine Termine veröffentlicht werden)
+  - `user_agent`- Der User Agent im Header übermittel wird (Default: `true`)
+
+Beispiel Config:
+```ini
+[COMMON]
+geburtstag=23.06.1910
+postleitzahl=49049
+
+[EMAIL]
+enable=true
+sender=
+password=
+server=
+port=465
+empfaenger=
+
+[TELEGRAM]
+enable_telegram=true
+token=
+chat_id=
+
+[WEBBROWSER]
+open_browser=true
+
+[ADVANCED]
+sleep_between_requests_in_s=300
+sleep_between_failed_requests_in_s=30
+sleep_after_ipban_in_min=180
+jitter=15
+sleep_at_night=true
+user_agent=impfbot
+```
 ## Support & Contributing
 
 ### Feedback & Probleme bei einrichten
