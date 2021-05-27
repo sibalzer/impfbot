@@ -1,8 +1,11 @@
 from datetime import datetime
+import sys
+import argparse
 from log import log
 import settings
-import api_wrapper
 import alerts
+
+import api_wrapper
 
 from common import sleep, sleep_until, is_night
 
@@ -16,16 +19,18 @@ def check_for_slot() -> None:
                 (datetime.now() - settings.BIRTHDATE).total_seconds()),
             max_retries=10,
             sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
-            sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
+            sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN,
+            user_agent=settings.USER_AGENT
         )
         if not result:
-            log.error("Result is emtpy. (Invalid ZIP Code (PLZ))")
+            log.error("Result is emtpy. (Invalid ZIP Code (PLZ)?)")
         for elem in result:
             if not elem['outOfStock']:
                 log.info(
                     f"Free slot! ({elem['freeSlotSizeOnline']}) {elem['vaccineName']}/{elem['vaccineType']}")
 
                 msg = f"Freier Impfslot ({elem['freeSlotSizeOnline']})! {elem['vaccineName']}/{elem['vaccineType']}"
+
                 alerts.alert(msg)
 
                 sleep(settings.COOLDOWN_AFTER_FOUND_IN_MIN, 0)
@@ -37,6 +42,22 @@ def check_for_slot() -> None:
 
 if __name__ == "__main__":
     try:
+        parser = argparse.ArgumentParser(
+            description='Notification bot for the lower saxony vaccination portal ')
+        parser.add_argument('-f', '-c', '--config', dest='configfile',
+                            help='Path to config.ini file', required=False, default='config.ini')
+        arg = vars(parser.parse_args())
+
+        try:
+            settings.load(arg['configfile'])
+        except (settings.ParseExeption, FileNotFoundError) as e:
+            log.error(e)
+            sys.exit(1)
+        except settings.ParseRuntimeExeption as e:
+            log.warning(e)
+        except Exception as e:
+            log.warning(e)
+
         while True:
             if is_night() and settings.SLEEP_AT_NIGHT:
                 log.info("It's night. Sleeping until 7am")
