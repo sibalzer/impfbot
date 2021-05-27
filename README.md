@@ -50,23 +50,23 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 
 > Deine Daten werden lokal gespeichert! Falls du das selber überprüfen willst geht das am einfachsten über die Suche, da bekommst du alle Codezeilen in die bspw. dein Passwort genutzt wird. Bsp.: Passwort https://github.com/sibalzer/impfbot/search?q=password
 
-- \[COMMON\]: Allgemeine Einstellungen
+- **\[COMMON\]**: Allgemeine Einstellungen
   - `geburtstag` - Geburtstag der Abgefragt werden soll. Beispiel: `23.6.1912`
   - `postleitzahl` - Fünfstellige PLZ für die Postleitzahl der Bot Benachrichtigungen schicken soll. Beispiel: `49123`
-- \[EMAIL\]: Email Einstellungen
+- **\[EMAIL\]**: Email Einstellungen
   - `enable` - Legt fest ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
   - `sender` - Die E-Mail Adresse von der die Benachrichtigungen versendet werden sollen. Beispiel: `versender@server.tld`
   - `password` - Das Passwort für die Versender-E-Mail Adresse. 
   - `server` - Beispiel: `smtp.server.tld`
   - `port` - Der Port für den SMTP-Server. Beispiel: `465`
   - `empfaenger` - Eine Liste der E-Mail Adressen an die eine Nachricht geschickt werden soll. Beispiel: `sender@server.de,foo@server.de,hoo@server.de` oder (nur an sich selber) `sender@server.de`
-- \[TELEGRAM\]: Email Einstellungen
+- **\[TELEGRAM\]**: Email Einstellungen
   - `enable_telegram` - Legt fest ob Telegram Nachrichten versendet werden sollen. `true` wenn ja, sonst `false`.
   - `token` - Der Bot-Token von https://t.me/BotFather
   - `chat_id` - User-ID des Empfängers: nutze dazu https://t.me/userinfobot
-- \[WEBBROWSER\]: Webbrowser Einstallungen
+- **\[WEBBROWSER\]**: Webbrowser Einstellungen
   - `enable_telegram` - Legt fest ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
-- \[ADVANCED\]: Einstallungen für fortgeschrittene hier wirds experimentell
+- **\[ADVANCED\]**: Einstallungen für fortgeschrittene hier wirds experimentell
   - `sleep_between_requests_in_s` - Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 5min, kann aber empirisch verkleinert werden)
   - `sleep_between_failed_requests_in_s` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5\*30s bis zum nächsen Aufruf
   - `sleep_after_ipban_in_min` - Wenn eine Abfrage 10x fehlschlaegt ist die IP vermutlich gebannt. Standardmaeßig wird dann 3h gewartet.
@@ -138,4 +138,4 @@ Du möchtest mithelfen? Super! Aktuell gibt es nur E-Mail Benachrichtigungen, ab
 
 ## Sponsoring
 
-Dir hat der impfbot geholfen und du möchtest monetär etwas beitragen? Dann spende doch unter [dieser Spendenaktion an Ärzte ohne Grenzen](https://www.aerzte-ohne-grenzen.de/spenden-sammeln?cfd=z1suz).
+Dir hat der impfbot geholfen und du möchtest monetär etwas beitragen? Dann spende doch unter [dieser Spendenaktion an Ärzte ohne Grenzen](https://www.aerzte-ohne-grenzen.de/spenden-sammeln?cfd=z1suz). (Ja, etwas abgekupfert von [vaccipy](https://github.com/iamnotturner/vaccipy). Aber ich fand die Idee gut.)
