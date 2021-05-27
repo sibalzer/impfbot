@@ -32,10 +32,11 @@ Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung.
 ### Einrichten von Telegram 📣
 
 1. https://t.me/BotFather anschreiben und Bot erstellen. Den Token dann in die `config.ini` kopieren.
-Folgedne Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen soll.
+Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen soll.
 2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mit `.` getrennt).
 3. Wichtig! Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (Url steht in der Bothfather Nachricht und dann start drücken)
 4. Fertig!
+
 
 ### config.ini Parameter
 
@@ -57,13 +58,16 @@ Folgedne Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
   - `enable_telegram` - Legt fest ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
 - \[ADVANCED\]: Einstallungen für fortgeschrittene hier wirds experimentell
   - `sleep_between_requests_in_s` - Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 5min, kann aber empirisch verkleinert werden)
-  - `sleep_between_failed_requests_in_s` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5*30s bis zum nächsen Aufruf
+  - `sleep_between_failed_requests_in_s` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5\*30s bis zum nächsen Aufruf
   - `sleep_after_ipban_in_min` - Wenn eine Abfrage 10x fehlschlaegt ist die IP vermutlich gebannt. Standardmaeßig wird dann 3h gewartet.
+  - `cooldown_after_found_in_min` - Cooldown nachdem ein Impftermin gefunden wurde. Standardmaeßig wird dann 15min gewartet (in min)
+    cooldown_after_found_in_min=15
   - `jitter` - Zufällige Zeitspanne von 0-jtter Sekunden die auf die Wartezeiten addiert wird (Default: `15`)
   - `sleep_at_night` - Legt fest ob der Bot nachts schlafen soll (Default: `true` da eh keine Termine veröffentlicht werden)
   - `user_agent`- Der User Agent im Header übermittel wird (Default: `true`)
 
 Beispiel Config:
+
 ```ini
 [COMMON]
 geburtstag=23.06.1910
@@ -71,11 +75,11 @@ postleitzahl=49049
 
 [EMAIL]
 enable=true
-sender=beispielsender@server.tld,beispielsmfaenger@server.tld
+sender=beispielsender@server.tld
 password=xxxxxxxxxx
-server=github@server.tld
+server=smtp.server.de
 port=465
-empfaenger=github@server.tld
+empfaenger=beispielsender@server.tld,beispielsmfaenger@server.tld
 
 [TELEGRAM]
 enable_telegram=true
@@ -89,10 +93,12 @@ open_browser=true
 sleep_between_requests_in_s=300
 sleep_between_failed_requests_in_s=30
 sleep_after_ipban_in_min=180
+cooldown_after_found_in_min=15
 jitter=15
 sleep_at_night=true
 user_agent=impfbot
 ```
+
 ## Support & Contributing
 
 ### Feedback & Probleme bei einrichten
