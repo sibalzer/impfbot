@@ -1,8 +1,8 @@
+from datetime import datetime
 from log import log
 import settings
 import api_wrapper
 import alerts
-from datetime import datetime
 
 from common import sleep, sleep_until, is_night
 
@@ -14,10 +14,12 @@ def check_for_slot() -> None:
             birthdate_timestamp=int(
                 datetime.now().timestamp() -
                 (datetime.now() - settings.BIRTHDATE).total_seconds()),
-            max_retries=5,
+            max_retries=10,
             sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
             sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
         )
+        if not result:
+            log.error("Result is emtpy. (Invalid ZIP Code (PLZ))")
         for elem in result:
             if not elem['outOfStock']:
                 log.info(
@@ -26,7 +28,7 @@ def check_for_slot() -> None:
                 msg = f"Freier Impfslot ({elem['freeSlotSizeOnline']})! {elem['vaccineName']}/{elem['vaccineType']}"
                 alerts.alert(msg)
 
-                sleep(60*15, 15)
+                sleep(settings.COOLDOWN_AFTER_FOUND_IN_MIN, 0)
             else:
                 log.info("No free slot.")
     except Exception as e:
