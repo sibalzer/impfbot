@@ -34,7 +34,7 @@ Am Beispiel von Windows:
 5. Doppelklick auf `windows_validate.bat` um die Einstellungen zu prüfen
 6. Doppelklick auf `windows_start.bat`
 
-Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung. Siehe dazu [docker](https://github.com/sibalzer/impfbot/tree/main/docker).
+Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung. Siehe dazu [docker](https://github.com/sibalzer/impfbot/tree/main/docker). Das validieren der Config funktioniert über den Befehl `docker exec impfbot python src/validate_config.py -a`.
 
 ### Einrichten von Telegram 📣
 
@@ -53,10 +53,10 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 - **\[COMMON\]**: Allgemeine Einstellungen
   - `geburtstag` - Geburtstag der Abgefragt werden soll. Beispiel: `23.6.1912`
   - `postleitzahl` - Fünfstellige PLZ für die Postleitzahl der Bot Benachrichtigungen schicken soll. Beispiel: `49123`
-- **\[EMAIL\]**: Email Einstellungen
+- **\[EMAIL\]**: E-Mail Einstellungen
   - `enable` - Legt fest ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
   - `sender` - Die E-Mail Adresse von der die Benachrichtigungen versendet werden sollen. Beispiel: `versender@server.tld`
-  - `password` - Das Passwort für die Versender-E-Mail Adresse. 
+  - `password` - Das Passwort für die Versender E-Mail Adresse. 
   - `server` - Beispiel: `smtp.server.tld`
   - `port` - Der Port für den SMTP-Server. Beispiel: `465`
   - `empfaenger` - Eine Liste der E-Mail Adressen an die eine Nachricht geschickt werden soll. Beispiel: `sender@server.de,foo@server.de,hoo@server.de` oder (nur an sich selber) `sender@server.de`
@@ -66,7 +66,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
   - `chat_id` - User-ID des Empfängers: nutze dazu https://t.me/userinfobot
 - **\[WEBBROWSER\]**: Webbrowser Einstellungen
   - `enable_telegram` - Legt fest ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
-- **\[ADVANCED\]**: Einstallungen für fortgeschrittene hier wirds experimentell
+- **\[ADVANCED\]**: Einstellungen für fortgeschrittene hier wirds experimentell
   - `sleep_between_requests_in_s` - Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 5min, kann aber empirisch verkleinert werden)
   - `sleep_between_failed_requests_in_s` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5\*30s bis zum nächsen Aufruf
   - `sleep_after_ipban_in_min` - Wenn eine Abfrage 10x fehlschlaegt ist die IP vermutlich gebannt. Standardmaeßig wird dann 3h gewartet.
