@@ -4,11 +4,18 @@
 [![Python](https://img.shields.io/badge/Made%20with-Python%203.x-blue.svg?style=flat-square&logo=Python&logoColor=white)](https://www.python.org/)
 [![GitHub license](https://img.shields.io/github/license/sibalzer/impfbot)](https://github.com/sibalzer/impfbot/blob/main/LICENSE)
 
-Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niedersächsischen Impfportals (https://impfportal-niedersachsen.de) auf freie Impfslots und sendet eine Benachrichtigung via Mail. Ab da gilt leider der Schnellste gewinnt. Bitte missbraucht den Bot nicht und verwendet moderate Intervalle. Ansonsten werdet ihr sowieso IP gebannt.
+Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niedersächsischen Impfportals (https://impfportal-niedersachsen.de) auf freie Impfslots und sendet eine Benachrichtigung via Mail. Ab da gilt leider der Schnellste gewinnt. Bitte missbraucht den Bot nicht und verwendet moderate Intervalle.
 
 > ### ⚠ Hilfe gesucht! (Zeiten und Shadowbans/IP-Bans)
 >
 > Derzeit fragt der Bot alle 5min die API ab ich würde das gerne etwas optmieren brauche dafür aber Hilfe poste dazu deine Settings [hier](https://github.com/sibalzer/impfbot/issues/6)
+
+## Features
+* Automatisches Suchen von kurzfristigen Impfterminen
+* Benachrichtigungen über E-Mail und Telegram 
+* Öffnet deinen Browser automatisch wenn ein Termin gefunden wurde. Du musst nur noch deine Daten eingeben!
+
+> Was der impfbot nicht macht: Dem Termin für dich reservieren und/oder deine Daten automatisch eingeben.
 
 ## 🤖 Setup
 
@@ -41,13 +48,15 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 
 ### config.ini Parameter
 
+> Deine Daten werden lokal gespeichert! Falls du das selber überprüfen willst geht das am einfachsten über die Suche, da bekommst du alle Codezeilen in die bspw. dein Passwort genutzt wird. Bsp.: Passwort https://github.com/sibalzer/impfbot/search?q=password
+
 - \[COMMON\]: Allgemeine Einstellungen
   - `geburtstag` - Geburtstag der Abgefragt werden soll. Beispiel: `23.6.1912`
   - `postleitzahl` - Fünfstellige PLZ für die Postleitzahl der Bot Benachrichtigungen schicken soll. Beispiel: `49123`
 - \[EMAIL\]: Email Einstellungen
   - `enable` - Legt fest ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
   - `sender` - Die E-Mail Adresse von der die Benachrichtigungen versendet werden sollen. Beispiel: `versender@server.tld`
-  - `password` - Das Passwort für die Versender-E-Mail Adresse.
+  - `password` - Das Passwort für die Versender-E-Mail Adresse. 
   - `server` - Beispiel: `smtp.server.tld`
   - `port` - Der Port für den SMTP-Server. Beispiel: `465`
   - `empfaenger` - Eine Liste der E-Mail Adressen an die eine Nachricht geschickt werden soll. Beispiel: `sender@server.de,foo@server.de,hoo@server.de` oder (nur an sich selber) `sender@server.de`
