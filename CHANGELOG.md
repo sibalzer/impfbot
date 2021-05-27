@@ -12,6 +12,28 @@
 ### Features
 
 * added Telegram integration ([0540636](https://www.github.com/sibalzer/impfbot/commit/0540636f1e6b31a15ab28a438587615ffddbb33c))
+* Telegram Integration; Config Validation ([8ca338c](https://www.github.com/sibalzer/impfbot/commit/8ca338ccaa6e8d50c66de43c07a3865a28d5e2df))
+
+
+### Bug Fixes
+
+* alert bug ([774e611](https://www.github.com/sibalzer/impfbot/commit/774e611bef1249a352d9cf3178c1810af5d3cced))
+* alert bug ([47e2de0](https://www.github.com/sibalzer/impfbot/commit/47e2de0eb2f2e07b34e3c17cb7776ebaf98106cd))
+* change output handler from stderr to stdout ([312852a](https://www.github.com/sibalzer/impfbot/commit/312852af0cdba8d3c97cf9985bd601945dd207aa))
+* typo in README.md ([3e2c7a3](https://www.github.com/sibalzer/impfbot/commit/3e2c7a3af623ab2057d48fc0291549d76d253d1f))
+
+## [2.0.0](https://www.github.com/sibalzer/impfbot/compare/v1.2.1...v2.0.0) (2021-05-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* Telegram Integration; Config Validation
+* alert bug
+* added Telegram integration
+
+### Features
+
+* added Telegram integration ([0540636](https://www.github.com/sibalzer/impfbot/commit/0540636f1e6b31a15ab28a438587615ffddbb33c))
 * Telegram Integration; Config Validation ([874f26c](https://www.github.com/sibalzer/impfbot/commit/874f26ce5328bb44911864a8b108a764d2b4cf25))
 
 
