@@ -1,5 +1,38 @@
 # Changelog
 
+## [3.0.0](https://www.github.com/sibalzer/impfbot/compare/v2.0.0...v3.0.0) (2021-05-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* alert bug
+* added Telegram integration
+* initial release
+
+### Features
+
+* added Telegram integration ([3b2648b](https://www.github.com/sibalzer/impfbot/commit/3b2648ba5d27df9131f988136b7db3f1b7ef8950))
+* added test email ([a92099b](https://www.github.com/sibalzer/impfbot/commit/a92099b359b7f1fa916626a6167f9cf735b17161))
+* added test email ([43e8cbf](https://www.github.com/sibalzer/impfbot/commit/43e8cbf0a89ed2c733d97dbf6a48e819d2232aa9))
+* initial release ([cea7428](https://www.github.com/sibalzer/impfbot/commit/cea7428fdfb20cf35904b58b87642d4a5232d184))
+* sleep at night ([a1367cc](https://www.github.com/sibalzer/impfbot/commit/a1367cc91704708b1faf371f0e4a6130791b2c17))
+
+
+### Bug Fixes
+
+* alert bug ([948e219](https://www.github.com/sibalzer/impfbot/commit/948e219d6b1eb98ecbb8c56a5823eccc921bdbd2))
+* birthyear befor 1974 ([2b4dd3d](https://www.github.com/sibalzer/impfbot/commit/2b4dd3daa8be041fee520eb2159ae5889d676fa7))
+* change output handler from stderr to stdout ([b707fcc](https://www.github.com/sibalzer/impfbot/commit/b707fcc199c546684de0389b31444bf03121f538))
+* config.ini.example ([d4f72dc](https://www.github.com/sibalzer/impfbot/commit/d4f72dc0fc8fd4588e308aef5dcfc0e20f238687))
+* context ([8b7ce46](https://www.github.com/sibalzer/impfbot/commit/8b7ce469a2828fa39490b4a6ccf7d5cc496bef34))
+* docker build pwd ([8b7ce46](https://www.github.com/sibalzer/impfbot/commit/8b7ce469a2828fa39490b4a6ccf7d5cc496bef34))
+* email port ([49744d9](https://www.github.com/sibalzer/impfbot/commit/49744d995a603afec8753ce1e21532919e5c9d4a))
+* email_list -> empfaenger ([1e0b073](https://www.github.com/sibalzer/impfbot/commit/1e0b0733e1b9f133793a2dbef1387a5bb9797621))
+* flake8 warnings ([d30a738](https://www.github.com/sibalzer/impfbot/commit/d30a73859630f0d671d3acb35ae244cacab14d52))
+* line escapes ([8b7ce46](https://www.github.com/sibalzer/impfbot/commit/8b7ce469a2828fa39490b4a6ccf7d5cc496bef34))
+* no py launcher for linux ([d0b8679](https://www.github.com/sibalzer/impfbot/commit/d0b86793d2bbab9d12bb799d1c088ac4990e75ea))
+* paths ([8b7ce46](https://www.github.com/sibalzer/impfbot/commit/8b7ce469a2828fa39490b4a6ccf7d5cc496bef34))
+
 ## [2.0.0](https://www.github.com/sibalzer/impfbot/compare/v1.2.1...v2.0.0) (2021-05-27)
 
 
