@@ -1,5 +1,5 @@
 [COMMON]
-geburtstag=23.06.1984
+geburtstag=23.6.1912
 postleitzahl=42042
 
 [EMAIL]
@@ -30,13 +30,13 @@ open_browser=true
 
 [ADVANCED]
 ;Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 5min, kann aber empirisch verkleinert werden)
-sleep_between_requests_in_s=300
+sleep_between_requests_in_s=150
 ;Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert. D.h. fünf Fehlschläge = Wartezeit von 5*30s bis zum nächsen Aufruf
-sleep_between_failed_requests_in_s=30
+sleep_between_failed_requests_in_s=15
 ;Wenn eine Abfrage 10x fehlschlaegt ist die IP vermutlich gebannt. Standardmaeßig wird dann 3h gewartet
 sleep_after_ipban_in_min=180
 ;Zufällige Zeitspanne von 0-jtter die auf die Wartezeiten addiert wird
-jitter=15
+jitter=5
 ;Legt fest ob der Bot nachts schlafen soll (Default: true da eh keine Termine veröffentlicht werden)
 sleep_at_night=true
 ;User-Agent für die Anfrage an die API
