@@ -1,20 +1,17 @@
 import logging
 
 from requests.sessions import Session
-from requests.exceptions import ConnectTimeout
+from requests.exceptions import ConnectionError
 from common import sleep
-import settings
-
 log = logging.getLogger(__name__)
 
 
-headers = {
-    'Accept': 'application/json',
-    'User-Agent': settings.USER_AGENT
-}
+def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, sleep_after_error: int = 30, sleep_after_shadowban: int = 300, user_agent: str = 'python', jitter: int = 15) -> any:
+    headers = {
+        'Accept': 'application/json',
+        'User-Agent': user_agent
+    }
 
-
-def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, sleep_after_error: int = 30, sleep_after_shadowban: int = 300, jitter: int = 15) -> any:
     url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{plz}"
     if birthdate_timestamp is not None:
         url += f"?stiko=&count=1&birthdate={int(birthdate_timestamp)*1000}"
