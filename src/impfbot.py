@@ -16,7 +16,9 @@ def check_for_slot() -> None:
                 (datetime.now() - settings.BIRTHDATE).total_seconds()),
             max_retries=10,
             sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
-            sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
+            sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN,
+            user_agent=settings.USER_AGENT,
+            jitter=settings.JITTER
         )
         if not result:
             log.error("Result is emtpy. (Invalid ZIP Code (PLZ))")
