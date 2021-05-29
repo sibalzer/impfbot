@@ -22,9 +22,6 @@ setuptools.setup(
     include_package_data=True,
     install_requires=project_dir.joinpath(
         "requirements.txt").read_text().split("\n"),
-
-    extra_requires=project_dir.joinpath(
-        "tests/requirements.txt").read_text().split("\n"),
     zip_safe=False,
     license="GPL v3",
 )
