@@ -1,6 +1,7 @@
 """ generate a config if none found """
 import tkinter as tk
 import configparser
+import datetime
 from tkinter import ttk
 from tkcalendar import DateEntry
 
@@ -34,20 +35,21 @@ def start_config_generation(config_dict):
 
     init_input(config_dict)
     if run_gui:
-        run_gui_config(gui_window, config_dict)
+        config_dict = run_gui_config(gui_window, config_dict)
     else:
-        run_cli_config()
+        config_dict = run_cli_config(config_dict)
+
+    with open("config.ini", "w") as configfile:
+        config_dict.write(configfile)
 
 def run_gui_config(tk_window, config_dict):
     """ create a window for data entry """
 
     def get_input():
-        config_dict["COMMON"]["geburtstag"] = birthday.get()
+        config_dict["COMMON"]["geburtstag"] = birthday.get_date().strftime("%d.%m.%Y")
         config_dict["COMMON"]["postleitzahl"] = plz.get()
         for item in NOTIFICATORS:
             config_dict[item.upper()]["enable"] = str(enable[item].get()).lower()
-        with open("config.ini", "w") as configfile:
-            config_dict.write(configfile)
         return config_dict
 
     def create_subwindow(event):
@@ -118,36 +120,30 @@ def run_gui_config(tk_window, config_dict):
 
     tk_window.mainloop()
 
+    return config_dict
+
 
 def run_cli_config(config_dict):
-    def get_mail_credentials():
-        config_dict["EMAIL"]["enable"] = "true"
-        mail_input = {}
-        for field in FIELDS["EMail"]:
-            mail_input[field] = input(f'{FIELDS["EMail"][field]}: ')
-        return mail_input
-    
-    def get_telegram_credentials():
-        config_dict["TELEGRAM"]["enable"] = "true"
-        telegram_input = {}
-        for field in FIELDS["EMail"]:
-            telegram_input[field] = input(f'{FIELDS["Telegram"][field]}: ')
-        return telegram_input
+    def get_notificator_credentials(notificator):
+        config_dict[notificator.upper()]["enable"] = "true"
+        notificator_input = {}
+        for field in FIELDS[notificator]:
+            notificator_input[field] = input(f'{FIELDS[notificator][field]}: ')
+        return notificator_input
 
     birthday = input('Bitte den Geburtstag eingeben: ')
     plz = input('Bitte die PLZ eingeben: ')
-    enable_mail_input = input('Soll per E-Mail benachrichtigt werden? (j/n): ')
-    enable_mail = True if enable_mail_input.lower() == "j" else False
-    if enable_mail:
-        config_dict["EMAIL"] = get_mail_credentials()
-    else:
-        config_dict["EMAIL"]["enable"] = "false"
-    enable_telegram_input = input('Soll per E-Mail benachrichtigt werden? (j/n): ')
-    enable_telegram = True if enable_telegram_input.lower() == "j" else False
-    if enable_telegram:
-        config_dict["TELEGRAM"] = get_telegram_credentials()
-    else:
-        config_dict["TELEGRAM"]["enable"] = "false"
+
+    enable_notificator = {}
+    for notificator in FIELDS:
+        enable_notificator[notificator] = (True if 
+            input(f'Soll per {notificator} benachrichtigt werden? (j/n): ').lower() == "j"
+            else False
+        )
+        if enable_notificator[notificator]:
+            config_dict[notificator.upper()] = get_notificator_credentials(notificator)
+        else:
+            config_dict[notificator.upper()]["enable"] = "false"
 
     config_dict["COMMON"]["geburtstag"] = birthday
     config_dict["COMMON"]["postleitzahl"] = plz
