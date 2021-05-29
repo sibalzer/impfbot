@@ -14,7 +14,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 pytest
+          pip install flake8 pylint pytest
           pip install -r requirements.txt
       - name: Lint with flake8
         run: |
@@ -22,3 +22,13 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Lint with pylint
+        run: |
+          pylint --path src --threshold 2
+          pylint --path test --fail-under 8
+      - name: Set up test env
+        run: |
+          pip install -e .
+      - name: Run tests
+        run: |
+          pytest
