@@ -94,7 +94,6 @@ def run_gui_config(tk_window, config_dict):
                 input_arr[field] = tk.Entry(subwindow)
                 input_arr[field].grid(row=row_index, column=1)
                 row_index += 1
-            
             close = tk.Button(subwindow, text="Fenster schließen", command=close_subwindow)
             close.grid(row=row_index, column=1)
         return 0
@@ -136,6 +135,27 @@ def run_gui_config(tk_window, config_dict):
         config_dict = {}
         tk_window.destroy()
 
+    def advanced_settings():
+        def close_settings_window():
+            for field in config_dict["ADVANCED"]:
+                config_dict["ADVANCED"][field] = advanced_settings_input[field].get()
+            settings_window.destroy()
+
+        settings_window_row_index = 0
+        settings_window = tk.Toplevel(tk_window)
+        advanced_settings_input = {}
+        for field in config_dict["ADVANCED"]:
+            tk.Label(
+                settings_window,
+                text=field
+            ).grid(row=settings_window_row_index, column=0)
+            advanced_settings_input[field] = tk.Entry(settings_window)
+            advanced_settings_input[field].grid(row=settings_window_row_index, column=1)
+            advanced_settings_input[field].insert(0, config_dict["ADVANCED"][field])
+            settings_window_row_index += 1
+        close_advanced = tk.Button(settings_window, text="Fenster schließen", command=close_settings_window)
+        close_advanced.grid(row=settings_window_row_index, column=1)
+
     tk_window.geometry("400x400+250+100")
 
     row_index = 6
@@ -171,12 +191,14 @@ def run_gui_config(tk_window, config_dict):
     confirm = tk.Button(tk_window, text="Abbrechen", command=cancel)
     confirm.grid(row=row_index, column=1)
 
-    close = tk.Button(tk_window, text="Fenster schließen", command=close_window)
+    close = tk.Button(tk_window, text="Speichern und schließen", command=close_window)
     close.grid(row=row_index + 1, column=1)
+
+    advanced = tk.Button(tk_window, text="Weitere Einstellungen", command=advanced_settings)
+    advanced.grid(row=row_index + 2, column=1)
 
     tk_window.mainloop()
 
-    return config_dict
 
 
 def run_cli_config(config_dict):
