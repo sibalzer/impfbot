@@ -4,6 +4,7 @@ import logging
 import sys
 import os
 
+from common import GOOD_PLZ
 from config_generator import start_config_generation
 
 log = logging.getLogger(__name__)
@@ -18,7 +19,7 @@ try:
     ZIP = config["COMMON"]["postleitzahl"]
     if len(ZIP) != 5:
         raise Exception('Non 5 digit ZIP-Code')
-    if ZIP[0:2] not in ['19', '21', '26', '27', '28', '29', '30', '31', '34', '37', '38', '48', '49']:
+    if ZIP[0:2] not in GOOD_PLZ:
         log.warning(
             "[EMAIL] Are you sure that you are living in lower saxony? Because your ZIP-Code seem suspicious...")
 except KeyError as e:
@@ -57,10 +58,9 @@ except KeyError as e:
     SEND_EMAIL = False
 
 try:
-    SEND_TELEGRAM_MSG = True if config["TELEGRAM"]["enable_telegram"].lower(
-    ) == "true" else False
+    SEND_TELEGRAM_MSG = config["TELEGRAM"]["enable"].lower() == "true"
 except KeyError:
-    log.warning("[TELEGRAM] 'enable_telegram' is missing in Config. Set False")
+    log.warning("[TELEGRAM] 'enable' is missing in Config. Set False")
     SEND_TELEGRAM_MSG = False
 
 try:
@@ -73,10 +73,9 @@ except KeyError as e:
     SEND_EMAIL = False
 
 try:
-    OPEN_BROWSER = True if config["WEBBROWSER"]["open_browser"].lower(
-    ) == "true" else False
+    OPEN_BROWSER = config["WEBBROWSER"]["enable"].lower() == "true"
 except KeyError:
-    log.warning("'open_browser' is missing in Config. Set False")
+    log.warning("[WEBBROWSER] 'enable' is missing in Config. Set False")
     OPEN_BROWSER = False
 
 try:

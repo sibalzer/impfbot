@@ -4,6 +4,8 @@ import configparser
 from tkinter import ttk
 from tkcalendar import DateEntry
 
+from common import GOOD_PLZ
+
 NOTIFICATORS = ["EMail", "Telegram", "Webbrowser"]
 FIELDS = {
     "EMail": {
