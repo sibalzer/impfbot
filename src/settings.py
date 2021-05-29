@@ -2,11 +2,17 @@ import configparser
 import datetime
 import logging
 import sys
+import os
+
+from config_generator import start_config_generation
 
 log = logging.getLogger(__name__)
 
 config = configparser.ConfigParser()
-config.read("config.ini")
+if os.path.exists("config.ini"):
+    config.read("config.ini")
+else:
+    start_config_generation(config)
 
 try:
     ZIP = config["COMMON"]["postleitzahl"]
