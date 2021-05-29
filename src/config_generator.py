@@ -35,9 +35,9 @@ def run_gui_config(tk_window, config_dict):
     def create_subwindow(event):
         def close_subwindow():
             subwindow.destroy()
-
         notificator = event.widget.cget("text")
-        if notificator != "Webbrowser":
+        if notificator != "Webbrowser" and not enable[notificator].get():
+            enable[notificator].set(not enable[notificator].get())
             fields = {
                 "EMail": {"sender": "Empfänger",
                     "password": "Passwort",
@@ -50,7 +50,7 @@ def run_gui_config(tk_window, config_dict):
                 }
             }
             input_arr = {}
-            subwindow = tk.Tk()
+            subwindow = tk.Toplevel(tk_window)
             row_index = 0
             notificator_fields = fields[notificator]
             for field in notificator_fields:
@@ -61,7 +61,6 @@ def run_gui_config(tk_window, config_dict):
             
             close = tk.Button(subwindow, text="Fenster schließen", command=close_subwindow)
             close.grid(row=row_index, column=1)
-            subwindow.mainloop()
 
     def close_window():
         tk_window.destroy()
