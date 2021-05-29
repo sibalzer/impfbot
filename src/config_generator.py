@@ -1,7 +1,6 @@
 """ generate a config if none found """
 import tkinter as tk
 import configparser
-import datetime
 from tkinter import ttk
 from tkcalendar import DateEntry
 
@@ -136,16 +135,21 @@ def run_cli_config(config_dict):
 
     enable_notificator = {}
     for notificator in FIELDS:
-        enable_notificator[notificator] = (True if 
+        enable_notificator[notificator] = (
             input(f'Soll per {notificator} benachrichtigt werden? (j/n): ').lower() == "j"
-            else False
         )
         if enable_notificator[notificator]:
             config_dict[notificator.upper()] = get_notificator_credentials(notificator)
         else:
             config_dict[notificator.upper()]["enable"] = "false"
 
+    enable_browser = (str(
+        input('Soll bei Benachrichtigung ein'
+        'Browserfenster geöffnet werden? (j/n): ').lower() == "j").lower()
+    )
+
     config_dict["COMMON"]["geburtstag"] = birthday
     config_dict["COMMON"]["postleitzahl"] = plz
+    config_dict["WEBBROWSER"]["open_browser"] = enable_browser
 
     return config_dict
