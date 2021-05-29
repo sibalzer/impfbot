@@ -3,7 +3,7 @@ name: ci
 on: [push]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,8 +24,15 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Lint with pylint
         run: |
-          pylint --path src --threshold 2
-          pylint --path test --fail-under 8
+          pylint src --fail-under 8
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
       - name: Set up test env
         run: |
           pip install -e .
