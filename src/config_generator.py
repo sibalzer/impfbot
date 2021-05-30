@@ -215,8 +215,8 @@ def run_gui_config(tk_window, config_dict):
 
 def run_cli_config(config_dict):
     def get_notifier_credentials(notifier):
-        config_dict[notifier.upper()]["enable"] = "true"
         notifier_input = {}
+        notifier_input["enable"] = "true"
         for field in FIELDS[notifier]:
             match = None
             while match is None:
