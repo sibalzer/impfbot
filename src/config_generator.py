@@ -7,7 +7,7 @@ from tkcalendar import DateEntry
 
 from common import GOOD_PLZ
 
-NOTIFICATORS = ["EMail", "Telegram", "Webbrowser"]
+NOTIFIERS = ["EMail", "Telegram", "Webbrowser"]
 FIELDS = {
     "EMail": {
         "sender": "Absender",
@@ -23,7 +23,7 @@ FIELDS = {
 }
 # from emailregex.com, adapted for python syntax
 MAIL_REGEX = r"\b(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])\b"
-NOTIFICATOR_REGEX = {
+NOTIFIER_REGEX = {
     "sender": MAIL_REGEX,
     "password": r"\b[^ ]+\b",   # match anything not a space
     "server": r"\b[\p{L}\p{N}\-\.]+\b",    # match alphanumeric characters, dash, and dot
@@ -35,7 +35,7 @@ NOTIFICATOR_REGEX = {
 
 def init_input(config_dict):
     config_dict["COMMON"] = {}
-    for item in NOTIFICATORS:
+    for item in NOTIFIERS:
         config_dict[item.upper()] = {}
     config_dict["ADVANCED"] = {}
     config["ADVANCED"]["sleep_between_requests_in_s"] = "300"
@@ -72,37 +72,37 @@ def run_gui_config(tk_window, config_dict):
         """ read config from form """
         config_dict["COMMON"]["geburtstag"] = birthday.get_date().strftime("%d.%m.%Y")
         config_dict["COMMON"]["postleitzahl"] = plz.get()
-        for item in NOTIFICATORS:
+        for item in NOTIFIERS:
             config_dict[item.upper()]["enable"] = str(enable[item].get()).lower()
 
     def create_subwindow(event):
-        """ when selecting a notificator, show a new window with the required options """
+        """ when selecting a notifier, show a new window with the required options """
         def close_subwindow():
             """ get values and close window """
-            if validate_notificator_input():
-                for field in FIELDS[notificator]:
-                    config_dict[notificator.upper()][field] = input_arr[field].get()
+            if validate_notifier_input():
+                for field in FIELDS[notifier]:
+                    config_dict[notifier.upper()][field] = input_arr[field].get()
                 subwindow.destroy()
             else:
                 open_alert_window(msg="Bitte alle Felder ausfüllen.")
 
-        def validate_notificator_input():
+        def validate_notifier_input():
             """ check for empty input """
             for item in input_arr:
-                match = regex.match(NOTIFICATOR_REGEX[item], input_arr[item].get())
+                match = regex.match(NOTIFIER_REGEX[item], input_arr[item].get())
                 if match is None:
                     return False
             return True
 
-        notificator = event.widget.cget("text")
-        if notificator != "Webbrowser" and not enable[notificator].get():
-            enable[notificator].set(not enable[notificator].get())
+        notifier = event.widget.cget("text")
+        if notifier != "Webbrowser" and not enable[notifier].get():
+            enable[notifier].set(not enable[notifier].get())
             input_arr = {}
             subwindow = tk.Toplevel(tk_window)
             row_index = 0
-            notificator_fields = FIELDS[notificator]
-            for field in notificator_fields:
-                tk.Label(subwindow, text=notificator_fields[field]).grid(row=row_index, column=0)
+            notifier_fields = FIELDS[notifier]
+            for field in notifier_fields:
+                tk.Label(subwindow, text=notifier_fields[field]).grid(row=row_index, column=0)
                 input_arr[field] = tk.Entry(subwindow)
                 input_arr[field].grid(row=row_index, column=1)
                 row_index += 1
@@ -120,8 +120,8 @@ def run_gui_config(tk_window, config_dict):
         close_alert = tk.Button(alert_window, text="OK", command=close_alert_window)
         close_alert.grid(row=1, column=0)
 
-    def check_notificators_enabled():
-        """ check whether any notificator is enabled """
+    def check_notifiers_enabled():
+        """ check whether any notifier is enabled """
         for item in enable:
             if enable[item].get():
                 return True
@@ -135,7 +135,7 @@ def run_gui_config(tk_window, config_dict):
 
     def close_window():
         """ close the window """
-        if not check_notificators_enabled():
+        if not check_notifiers_enabled():
             open_alert_window(msg="Bitte eine Art der Benachrichtigung auswählen!")
         elif not validate_input():
             open_alert_window(msg="Bitte korrekte Daten eingeben.")
@@ -184,7 +184,7 @@ def run_gui_config(tk_window, config_dict):
     plz.grid(row=4, column=1)
 
     tk.Label(tk_window, text="Benachrichtigung", font="bold").grid(row=5, column=1)
-    for item in NOTIFICATORS:
+    for item in NOTIFIERS:
         enable[item] = tk.BooleanVar()
         enable[item].set(False)
         checkboxes[item] = ttk.Checkbutton(
@@ -214,15 +214,15 @@ def run_gui_config(tk_window, config_dict):
 
 
 def run_cli_config(config_dict):
-    def get_notificator_credentials(notificator):
-        config_dict[notificator.upper()]["enable"] = "true"
-        notificator_input = {}
-        for field in FIELDS[notificator]:
+    def get_notifier_credentials(notifier):
+        config_dict[notifier.upper()]["enable"] = "true"
+        notifier_input = {}
+        for field in FIELDS[notifier]:
             match = None
             while match is None:
-                notificator_input[field] = input(f'{FIELDS[notificator][field]}: ')
-                match = regex.match(NOTIFICATOR_REGEX[field], notificator_input[field])
-        return notificator_input
+                notifier_input[field] = input(f'{FIELDS[notifier][field]}: ')
+                match = regex.match(NOTIFIER_REGEX[field], notifier_input[field])
+        return notifier_input
 
     birthday = ""
     plz = ""
@@ -235,18 +235,18 @@ def run_cli_config(config_dict):
         plz = input('Bitte die PLZ eingeben: ')
         match = regex.match(r"\b\d{5}\b", plz)
 
-    enable_notificator = {}
-    for notificator in FIELDS:
+    enable_notifier = {}
+    for notifier in FIELDS:
         input_res = ""
         while input_res.lower() not in ["j", "n"]:
             input_res = input(
-                f'Soll per {notificator} benachrichtigt werden? (j/n): '
+                f'Soll per {notifier} benachrichtigt werden? (j/n): '
             ).lower()
-        enable_notificator[notificator] = input_res == "j"
-        if enable_notificator[notificator]:
-            config_dict[notificator.upper()] = get_notificator_credentials(notificator)
+        enable_notifier[notifier] = input_res == "j"
+        if enable_notifier[notifier]:
+            config_dict[notifier.upper()] = get_notifier_credentials(notifier)
         else:
-            config_dict[notificator.upper()]["enable"] = "false"
+            config_dict[notifier.upper()]["enable"] = "false"
 
     enable_browser_input = ""
     while enable_browser_input.lower() not in ["j", "n"]:
