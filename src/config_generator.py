@@ -21,6 +21,17 @@ FIELDS = {
         "chat_ids": "Chat-ID(s)"
     }
 }
+# from emailregex.com, adapted for python syntax
+MAIL_REGEX = r"\b(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])\b"
+NOTIFICATOR_REGEX = {
+    "sender": MAIL_REGEX,
+    "password": r"\b[^ ]+\b",   # match anything not a space
+    "server": r"\b[\p{L}\p{N}\-\.]+\b",    # match alphanumeric characters, dash, and dot
+    "port": r"\b\d{2,}\b",
+    "receivers": r"\b" + MAIL_REGEX + r"(," + MAIL_REGEX + r")*\b",
+    "token": r"\b[a-zA-Z0-9\:\-]+\b",    # I hope this covers all possible tokens
+    "chat_ids": r"\b\d{5,}(,\d{5,})*\b" # matches a list of numbers
+}
 
 def init_input(config_dict):
     config_dict["COMMON"] = {}
@@ -78,7 +89,8 @@ def run_gui_config(tk_window, config_dict):
         def validate_notificator_input():
             """ check for empty input """
             for item in input_arr:
-                if input_arr[item].get() == "":
+                match = regex.match(NOTIFICATOR_REGEX[item], input_arr[item].get())
+                if match is None:
                     return False
             return True
 
@@ -206,9 +218,10 @@ def run_cli_config(config_dict):
         config_dict[notificator.upper()]["enable"] = "true"
         notificator_input = {}
         for field in FIELDS[notificator]:
-            notificator_input[field] = ""
-            while notificator_input[field] == "":
+            match = None
+            while match is None:
                 notificator_input[field] = input(f'{FIELDS[notificator][field]}: ')
+                match = regex.match(NOTIFICATOR_REGEX[field], notificator_input[field])
         return notificator_input
 
     birthday = ""
@@ -237,7 +250,7 @@ def run_cli_config(config_dict):
 
     enable_browser_input = ""
     while enable_browser_input.lower() not in ["j", "n"]:
-        enable_browser_input = input('Soll bei Benachrichtigung ein'
+        enable_browser_input = input('Soll bei Benachrichtigung ein '
             'Browserfenster geöffnet werden? (j/n): ').lower()
     enable_browser = str(enable_browser_input.lower() == "j").lower()
 
