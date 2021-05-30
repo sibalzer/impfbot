@@ -38,13 +38,13 @@ def init_input(config_dict):
     for item in NOTIFIERS:
         config_dict[item.upper()] = {}
     config_dict["ADVANCED"] = {}
-    config["ADVANCED"]["sleep_between_requests_in_s"] = "300"
-    config["ADVANCED"]["sleep_between_failed_requests_in_s"] = "30"
-    config["ADVANCED"]["sleep_after_ipban_in_min"] = "180"
-    config["ADVANCED"]["cooldown_after_found_in_min"] = "15"
-    config["ADVANCED"]["jitter"] = "15"
-    config["ADVANCED"]["sleep_at_night"] = "true"
-    config["ADVANCED"]["user_agent"] = "impfbot"
+    config_dict["ADVANCED"]["sleep_between_requests_in_s"] = "300"
+    config_dict["ADVANCED"]["sleep_between_failed_requests_in_s"] = "30"
+    config_dict["ADVANCED"]["sleep_after_ipban_in_min"] = "180"
+    config_dict["ADVANCED"]["cooldown_after_found_in_min"] = "15"
+    config_dict["ADVANCED"]["jitter"] = "15"
+    config_dict["ADVANCED"]["sleep_at_night"] = "true"
+    config_dict["ADVANCED"]["user_agent"] = "impfbot"
 
 def start_config_generation(config_dict):
     """ entry point for config generation """
