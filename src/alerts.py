@@ -68,14 +68,9 @@ def send_mail(msg: str) -> None:
     mail['subject'] = msg
     mail.set_content(appointment_url)
 
-    if settings.PORT == '465':
-        with smtplib.SMTP_SSL(settings.SERVER, settings.PORT)as smtp:
-            smtp.login(settings.SENDER, settings.PASSWORD)
-            smtp.send_message(mail)
-    else:
-        with smtplib.SMTP(settings.SERVER, settings.PORT)as smtp:
-            smtp.login(settings.SENDER, settings.PASSWORD)
-            smtp.send_message(mail)
+    with smtplib.SMTP(settings.SERVER, settings.PORT) as smtp:
+        smtp.login(settings.SENDER, settings.PASSWORD)
+        smtp.send_message(mail)
 
 
 def send_telegram_msg(msg: str) -> None:
