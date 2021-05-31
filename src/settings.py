@@ -167,3 +167,4 @@ def load(path: str):
         log.warning(
             "'user_agent' is missing in config. Set to 'impfbot'")
         USER_AGENT = 'impfbot'
+

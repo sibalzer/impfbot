@@ -19,6 +19,7 @@ def check_for_slot() -> None:
             max_retries=10,
             sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
             user_agent=settings.USER_AGENT
+            jitter=settings.JITTER
         )
         if result == []:
             log.error("Result is emtpy. (Invalid ZIP Code (PLZ)?)")
