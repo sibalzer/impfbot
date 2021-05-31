@@ -36,6 +36,11 @@ jobs:
       - name: Set up test env
         run: |
           pip install -e .
-      - name: Run tests
-        run: |
-          python -m pytest
+          pip install coverage
+      - name: Generate Report
+      - run: |
+        pip install coverage
+        coverage run -m pytest
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
