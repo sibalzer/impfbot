@@ -7,7 +7,11 @@ from common import sleep
 log = logging.getLogger(__name__)
 
 
-def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, sleep_after_error: int = 30, sleep_after_shadowban: int = 300, jitter: float = 10,  user_agent: str = 'python') -> any:
+class ShadowBanException(Exception):
+    pass
+
+
+def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, sleep_after_error: int = 25, jitter: int = 5,  user_agent: str = 'python') -> any:
     url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{plz}"
     headers = {
         'Accept': 'application/json',
@@ -27,13 +31,8 @@ def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, 
                 f"Couldn't fetch api: ConnectionError (No internet?) {_e}")
             sleep(10, 0)
         except Exception:
-            if fail_counter > max_retries:
-                log.error(
-                    f"Couldn't fetch api. (Shadowbanned IP?) Sleeping for {sleep_after_shadowban/60}min")
-                sleep(sleep_after_shadowban, 30)
-                return None
             fail_counter += 1
-
+            if fail_counter > max_retries:
+                raise ShadowBanException
             sleep_time = sleep_after_error*fail_counter
-
             sleep(sleep_time, jitter)
