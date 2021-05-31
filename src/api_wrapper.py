@@ -2,7 +2,7 @@ import logging
 
 from requests.sessions import Session
 from requests.exceptions import ConnectionError
-from common import 
+from common import sleep
 
 log = logging.getLogger(__name__)
 
