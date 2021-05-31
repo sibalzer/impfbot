@@ -9,7 +9,7 @@ class ParseExeption(BaseException):
 
 def load(path: str):
     config = configparser.ConfigParser()
-    dataset = config.read("config.ini")
+    dataset = config.read(path)
     if not dataset:
         raise FileNotFoundError(f"Could not find config file. Exit...")
 
@@ -42,7 +42,7 @@ def load(path: str):
         SEND_EMAIL = True if config["EMAIL"]["enable"].lower(
         ) == "true" else False
     except KeyError:
-        log.warn(
+        log.warning(
             "[EMAIL] 'enable' is missing in config. Set to False")
         SEND_EMAIL = False
 
@@ -111,11 +111,11 @@ def load(path: str):
     except ValueError:
         log.warning(
             "'sleep_between_failed_requests_in_s' is not a number. Set to 30s")
-        SLEEP_BETWEEN_REQUESTS_IN_S = 300
+        SLEEP_BETWEEN_FAILED_REQUESTS_IN_S = 300
 
     try:
         global SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
-        SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN = int(
+        SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN = float(
             config["ADVANCED"]["sleep_after_ipban_in_min"])*60
     except KeyError:
         log.warning(
@@ -124,11 +124,11 @@ def load(path: str):
     except ValueError:
         log.warning(
             "'sleep_after_ipban_in_min' is not a number. Set to 3h")
-        SLEEP_BETWEEN_REQUESTS_IN_S = 300
+        SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN = 300
 
     try:
         global COOLDOWN_AFTER_FOUND_IN_MIN
-        COOLDOWN_AFTER_FOUND_IN_MIN = int(
+        COOLDOWN_AFTER_FOUND_IN_MIN = float(
             config["ADVANCED"]["cooldown_after_found_in_min"])*60
     except KeyError:
         log.warning(
@@ -137,7 +137,7 @@ def load(path: str):
     except ValueError:
         log.warning(
             "'cooldown_after_found_in_min' is not a number. Set to 15min")
-        SLEEP_BETWEEN_REQUESTS_IN_S = 300
+        COOLDOWN_AFTER_FOUND_IN_MIN = 300
 
     try:
         global JITTER

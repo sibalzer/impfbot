@@ -74,5 +74,5 @@ if not arg['alert']:
 
 
 if not arg['alert']:
-    log.info(f"Finished validation script. Press [enter] to close")
+    print(f"Finished validation script. Press [enter] to close")
     input()

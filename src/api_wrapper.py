@@ -6,7 +6,11 @@ from common import sleep
 log = logging.getLogger(__name__)
 
 
-def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, sleep_after_error: int = 30, sleep_after_shadowban: int = 300, user_agent: str = 'python') -> any:
+class ShadowBanException(Exception):
+    pass
+
+
+def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, sleep_after_error: int = 25, jitter: int = 5,  user_agent: str = 'python') -> any:
     url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{plz}"
 
     headers = {
@@ -23,14 +27,10 @@ def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, 
             session = Session()
             with session.get(url=url, headers=headers, timeout=10) as data:
                 return data.json()["resultList"]
-        except Exception:
-            if fail_counter > max_retries:
-                log.error(
-                    f"Couldn't fetch api. (Shadowbanned IP?) Sleeping for {sleep_after_shadowban}min")
-                sleep(sleep_after_shadowban, 30)
-                return None
+        except Exception as e:
+            print(e)
             fail_counter += 1
-
+            if fail_counter > max_retries:
+                raise ShadowBanException
             sleep_time = sleep_after_error*fail_counter
-
-            sleep(sleep_time, 15)
+            sleep(sleep_time, jitter)
