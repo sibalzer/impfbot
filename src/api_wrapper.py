@@ -7,7 +7,7 @@ from common import sleep
 log = logging.getLogger(__name__)
 
 
-def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, sleep_after_error: int = 30, sleep_after_shadowban: int = 300, user_agent: str = 'python') -> any:
+def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, sleep_after_error: int = 30, sleep_after_shadowban: int = 300, jitter: float = 10,  user_agent: str = 'python') -> any:
     url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{plz}"
     headers = {
         'Accept': 'application/json',
