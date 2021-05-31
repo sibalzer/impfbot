@@ -17,30 +17,20 @@ def test_alert(browser_mock, telegram_mock, email_mock):
     browser_mock.assert_called_once_with(alerts.appointment_url)
 
 
-@mock.patch('smtplib.SMTP')
-def atest_send_email(smtp_mock):
+@mock.patch('smtplib.SMTP', create=True)
+def test_send_email(smtp_mock):
     settings.load("tests/configs/test-config-email.ini")
 
     msg = 'test'
     alerts.send_mail(msg)
 
     smtp_mock.assert_called_once()
-    smtp_mock.login.assert_called_once_with(
-        settings.SERVER, settings.PORT)
-    smtp_mock.send_message.assert_called_once()
 
+    smtp_mock_obj = smtp_mock.return_value.__enter__.return_value
 
-@mock.patch('smtplib.SMTP_SSL')
-def atest_send_email_ssl(smtp_mock):
-    settings.load("tests/configs/test-config-email-ssl.ini")
-
-    msg = 'test'
-    alerts.send_mail(msg)
-
-    smtp_mock.assert_called_once()
-    smtp_mock.assert_called_once_with(
-        settings.SERVER, settings.PORT)
-    smtp_mock.send_message.assert_called_once()
+    smtp_mock_obj.login.assert_called_once_with(
+        settings.SENDER, settings.PASSWORD)
+    smtp_mock_obj.send_message.assert_called_once()
 
 
 @mock.patch('telegram.bot.Bot._validate_token', return_value=None)
