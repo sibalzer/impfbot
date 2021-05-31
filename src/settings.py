@@ -40,7 +40,7 @@ except Exception as e:
     log.warning(f"[COMMON] Invalid birthdate: {e}")
 
 try:
-    SEND_EMAIL = True if config["EMAIL"]["enable"].lower() == "true" else False
+    SEND_EMAIL = config["EMAIL"]["enable"].lower() == "true"
 except KeyError:
     log.warning(
         "[EMAIL] 'enable' is missing in Config. Set False")
@@ -115,8 +115,7 @@ except KeyError:
     JITTER = 15
 
 try:
-    SLEEP_AT_NIGHT = True if config["ADVANCED"]["sleep_at_night"].lower(
-    ) == "true" else False
+    SLEEP_AT_NIGHT = config["ADVANCED"]["sleep_at_night"].lower() == "true"
 except KeyError:
     log.warning("'sleep_at_night' is missing in Config. Set True")
     SLEEP_AT_NIGHT = True
