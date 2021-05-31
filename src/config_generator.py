@@ -256,6 +256,6 @@ def run_cli_config(config_dict):
 
     config_dict["COMMON"]["geburtstag"] = birthday
     config_dict["COMMON"]["postleitzahl"] = plz
-    config_dict["WEBBROWSER"]["open_browser"] = enable_browser
+    config_dict["WEBBROWSER"]["enable"] = enable_browser
 
     return config_dict
