@@ -1,7 +1,13 @@
 import configparser
 import datetime
-from log import log
+import logging
+import sys
+import os
 
+from common import GOOD_PLZ
+from config_generator import start_config_generation
+
+log = logging.getLogger(__name__)
 
 class ParseExeption(BaseException):
     pass
@@ -18,7 +24,7 @@ def load(path: str):
         ZIP = config["COMMON"]["postleitzahl"]
         if len(ZIP) != 5:
             raise Exception('Non 5 digit ZIP-Code')
-        if ZIP[0:2] not in ['19', '21', '26', '27', '28', '29', '30', '31', '34', '37', '38', '48', '49']:
+        if ZIP[0:2] not in GOOD_PLZ:
             ParseExeption(
                 "[EMAIL] Are you sure that you are living in lower saxony? Because your ZIP-Code seem suspicious...")
     except KeyError as e:
@@ -61,11 +67,9 @@ def load(path: str):
 
     try:
         global SEND_TELEGRAM_MSG
-        SEND_TELEGRAM_MSG = True if config["TELEGRAM"]["enable_telegram"].lower(
-        ) == "true" else False
+		SEND_TELEGRAM_MSG = config["TELEGRAM"]["enable"].lower() == "true"
     except KeyError:
-        log.warning(
-            "[TELEGRAM] 'enable_telegram' is missing in config. Set to False")
+        log.warning("[TELEGRAM] 'enable' is missing in config. Set to False")
         SEND_TELEGRAM_MSG = False
 
     try:
@@ -80,11 +84,10 @@ def load(path: str):
 
     try:
         global OPEN_BROWSER
-        OPEN_BROWSER = True if config["WEBBROWSER"]["open_browser"].lower(
-        ) == "true" else False
+		OPEN_BROWSER = config["WEBBROWSER"]["enable"].lower() == "true"
     except KeyError:
         log.warning(
-            "'open_browser' is missing in config. Set to False")
+            "'enable' is missing in config. Set to False")
         OPEN_BROWSER = False
 
     try:
@@ -149,7 +152,7 @@ def load(path: str):
     except ValueError:
         log.warning(
             "'jitter' is not a number. Set to 15s")
-        SLEEP_BETWEEN_REQUESTS_IN_S = 300
+        JITTER = 300
 
     try:
         global SLEEP_AT_NIGHT
@@ -167,4 +170,3 @@ def load(path: str):
         log.warning(
             "'user_agent' is missing in config. Set to 'impfbot'")
         USER_AGENT = 'impfbot'
-

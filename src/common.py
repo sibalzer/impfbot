@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, time as dt
 import time
 import sys
 
+GOOD_PLZ = ['19', '21', '26', '27', '28', '29', '30', '31', '34', '37', '38', '48', '49']
 
 def sleep(time_in_s: int, jitter: int = 0) -> None:
     time_to_wait = time_in_s + random.random()*jitter
