@@ -1,9 +1,8 @@
 import pytest
 import json
-import mock
+import unittest.mock as mock
 import requests_mock
 import api_wrapper
-import common
 
 invalid_json = {
     "resultList": [
@@ -60,13 +59,12 @@ valid_json = {
 }
 
 
-@mock.patch("common.sleep")
-@mock.patch("time.sleep", return_value=None)
-def test_valid(mock_common_sleep, mock_time_sleep):
+@mock.patch("api_wrapper.sleep", return_value=None)
+def test_valid(mock_common_sleep):
     with requests_mock.Mocker() as mocker:
         zip = 49049
         timestamp = 1620505010
-        url = f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip}?stiko=&count=1&birthdate={timestamp*1000}'
+        url = f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip}?stiko=&count=1'
 
         mocker.get(
             url,
@@ -74,7 +72,6 @@ def test_valid(mock_common_sleep, mock_time_sleep):
 
         )
 
-        print(url)
         result = api_wrapper.fetch_api(
             plz=zip,
             birthdate_timestamp=timestamp,
@@ -86,26 +83,25 @@ def test_valid(mock_common_sleep, mock_time_sleep):
         assert a == b
 
 
-@mock.patch("common.sleep")
-@mock.patch("time.sleep", return_value=None)
-def test_shadowban(mock_common_sleep, mock_time_sleep):
+@mock.patch("api_wrapper.sleep", return_value=None)
+def test_shadowban(common_sleep_mock):
     with requests_mock.Mocker() as mocker:
         zip = 49049
         timestamp = 1620505010000
 
         mocker.get(
-            f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip}?stiko=&count=1&birthdate={timestamp}',
+            f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip}?stiko=&count=1',
             json=None
 
         )
 
-        with pytest.raises(Exception):
+        with pytest.raises(api_wrapper.ShadowBanException):
             api_wrapper.fetch_api(
                 plz=zip,
                 birthdate_timestamp=timestamp,
-                max_retries=1,
-                sleep_after_error=0,
-                sleep_after_shadowban=1
+                max_retries=2,
+                sleep_after_error=4,
+                jitter=7
             )
-            common.sleep.assert_called_once_with(0, 0)
-            common.sleep.assert_called_once_with(100, 0)
+
+    assert common_sleep_mock.call_count == 2
