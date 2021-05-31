@@ -38,7 +38,7 @@ jobs:
           pip install -e .
           pip install coverage
       - name: Generate Report
-      - run: |
+        run: |
           pip install coverage
           coverage run -m pytest
       - name: Upload Coverage to Codecov
