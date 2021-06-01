@@ -7,7 +7,7 @@ from tkcalendar import DateEntry
 
 from common import GOOD_PLZ
 
-NOTIFIERS = ["EMail", "Telegram", "APPRISE", "Webbrowser"]
+NOTIFIERS = ["EMail", "Telegram", "Apprise", "Webbrowser"]
 FIELDS = {
     "EMail": {
         "sender": "Absender",
