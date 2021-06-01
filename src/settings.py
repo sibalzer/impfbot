@@ -83,6 +83,24 @@ def load(path: str):
         SEND_EMAIL = False
 
     try:
+        SEND_APPRISE = True if config["APPRISE"]["enable"].lower() == "true" else False
+
+    except KeyError:
+        log.warning(
+            "[APPRISE] 'enable' is missing in Config. Set False")
+        SEND_APPRISE = False
+
+    try:
+        if SEND_APPRISE:
+            APPRISEOBJ = apprise.Apprise()
+            APPRISE_URLS = config["APPRISE"]["service_urls"].split(',')
+            for url in APPRISE_URLS:
+                APPRISEOBJ.add(url)
+    except KeyError as e:
+        log.warning(f"[APPRISE] '{e}' is missing in Config. Set APPRISE to False")
+        SEND_APPRISE = False
+
+    try:
         global OPEN_BROWSER
 		OPEN_BROWSER = config["WEBBROWSER"]["enable"].lower() == "true"
     except KeyError:

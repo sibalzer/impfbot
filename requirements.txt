@@ -5,3 +5,4 @@ telegram==0.0.1
 pytest==6.2.4
 requests-mock==1.9.3
 freezegun==1.1.0
+apprise==0.9.3

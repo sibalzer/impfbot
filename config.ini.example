@@ -24,6 +24,12 @@ token=TOKEN
 ; User-ID des Empfängers: https://t.me/userinfobot
 chat_id=123456789,987654321
 
+[APPRISE]
+; true, wenn Apprise verwendet werden soll;  sonst false
+enable=true
+; Verschiedene Benachritigungsservice. Mehrere durch Komma trennen -> https://pypi.org/project/apprise/
+service_urls=iscord://webhook_id/webhook_token,matrix://hostname
+
 [WEBBROWSER]
 ; Desktop only - Soll der default Browser automatisch geoeffnet werden 
 enable=true

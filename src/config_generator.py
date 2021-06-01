@@ -7,7 +7,7 @@ from tkcalendar import DateEntry
 
 from common import GOOD_PLZ
 
-NOTIFIERS = ["EMail", "Telegram", "Webbrowser"]
+NOTIFIERS = ["EMail", "Telegram", "APPRISE", "Webbrowser"]
 FIELDS = {
     "EMail": {
         "sender": "Absender",
@@ -19,6 +19,9 @@ FIELDS = {
     "Telegram": {
         "token": "Token",
         "chat_ids": "Chat-ID(s)"
+    },
+    "Apprise": {
+        "service_urls": "Different Service URLs"
     }
 }
 # from emailregex.com, adapted for python syntax
@@ -30,7 +33,8 @@ NOTIFIER_REGEX = {
     "port": r"\b\d{2,}\b",
     "receivers": r"\b" + MAIL_REGEX + r"(," + MAIL_REGEX + r")*\b",
     "token": r"\b[a-zA-Z0-9\:\-]+\b",    # I hope this covers all possible tokens
-    "chat_ids": r"\b\d{5,}(,\d{5,})*\b" # matches a list of numbers
+    "chat_ids": r"\b\d{5,}(,\d{5,})*\b", # matches a list of numbers
+    "service_urls": r"\b[^ ]+\b",   # match anything not a space
 }
 
 def init_input(config_dict):
