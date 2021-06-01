@@ -9,9 +9,7 @@ import apprise
 
 import settings
 
-
 appointment_url = r"https://www.impfportal-niedersachsen.de/portal/#/appointment/public"
-
 
 log = logging.getLogger(__name__)
 
@@ -93,8 +91,14 @@ def send_telegram_msg(msg: str) -> None:
             parse_mode=ParseMode.MARKDOWN
         )
 
+
 def send_apprise(msg: str) -> None:
-    settings.APPRISEOBJ.notify(
-        body=f"*{msg}*\n{appointment_url}",
-        title='Impftermin Benachrichtigung!',
+    appobj = apprise.Apprise()
+
+    for url in settings.APPRISE_URLS:
+        appobj.add(url)
+
+    appobj.notify(
+        body=f"{appointment_url}",
+        title=f"*{msg}*",
     )
