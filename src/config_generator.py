@@ -32,8 +32,8 @@ NOTIFIER_REGEX = {
     "server": r"\b[\p{L}\p{N}\-\.]+\b",    # match alphanumeric characters, dash, and dot
     "port": r"\b\d{2,}\b",
     "receivers": r"\b" + MAIL_REGEX + r"(," + MAIL_REGEX + r")*\b",
-    "token": r"\b[a-zA-Z0-9\:\-]+\b",    # I hope this covers all possible tokens
-    "chat_ids": r"\b\d{5,}(,\d{5,})*\b", # matches a list of numbers
+    "token": r"\b[0-9]{7,}\:[a-zA-Z0-9\-\_]+\b",    # I hope this covers all possible tokens
+    "chat_ids": r"\b\d{5,}(,\d{5,})*\b" # matches a list of numbers
     "service_urls": r"\b[^ ]+\b",   # match anything not a space
 }
 
