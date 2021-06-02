@@ -1,3 +1,4 @@
 requests==2.25.1
 python_telegram_bot==13.3
 telegram==0.0.1
+xmpppy==0.6.2

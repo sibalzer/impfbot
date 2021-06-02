@@ -67,6 +67,24 @@ except KeyError as e:
     SEND_EMAIL = False
 
 try:
+    SEND_XMPP_MSG = True if config["XMPP"]["enable_xmpp"].lower(
+    ) == "true" else False
+except KeyError:
+    log.warning("[XMPP] 'enable_xmpp' is missing in Config. Set False")
+    SEND_XMPP_MSG = False
+
+try:
+    if SEND_XMPP_MSG:
+        XMPPNAME = config["XMPP"]["user"]
+        XMPPPASSW = config["XMPP"]["password"]
+        XMPPSERVER = config["XMPP"]["server"]
+        XMPPRECV = config["XMPP"]["receivers"].split(',')
+except KeyError as e:
+    log.warning(
+        f"[XMPP] '{e}' is missing in Config. Set XMPP to False")
+    SEND_XMPP_MSG = False
+
+try:
     OPEN_BROWSER = True if config["WEBBROWSER"]["open_browser"].lower(
     ) == "true" else False
 except KeyError:

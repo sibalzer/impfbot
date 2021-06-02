@@ -24,6 +24,18 @@ token=TOKEN
 ; User-ID des Empfängers: https://t.me/userinfobot
 chat_id=123456789,987654321
 
+[XMPP]
+; true wenn eine Benachrichtigung via XMPP gesendet werden soll sonst false
+enable_xmpp=true
+; Login Name
+user=xxxx
+; Login Passwort
+password=xxxx
+; xmpp Server
+server=xmpp.server.de
+; Empfaenger Liste 
+receivers=sender@server.de,guenni@server.de,frida@server.de
+
 [WEBBROWSER]
 ; Desktop only - Soll der default Browser automatisch geoeffnet werden 
 open_browser=true

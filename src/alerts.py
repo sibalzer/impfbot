@@ -5,6 +5,7 @@ from telegram.ext import Updater
 from telegram.parsemode import ParseMode
 import webbrowser
 import logging
+import xmpp
 
 import settings
 
@@ -47,6 +48,17 @@ def alert(msg: str, verbose: bool = False) -> None:
         verbose_info(
             f"[TELEGRAM] send_telegram_msg is not set to true skipping")
 
+    if settings.SEND_XMPP_MSG:
+        verbose_info(f"[XMPP] try to send XMPP message")
+        try:
+            send_xmpp_msg(msg)
+            verbose_info(f"[XMPP] sending XMPP message was successful")
+        except Exception as e:
+            log.error(f"Couldn't send XMPP message: {e}")
+    else:
+        verbose_info(
+            f"[XMPP] send_xmpp_msg is not set to true skipping")
+
     if settings.OPEN_BROWSER:
         verbose_info(f"[WEBBROWSER] try to open browser")
         try:
@@ -86,3 +98,13 @@ def send_telegram_msg(msg: str) -> None:
             text=f"*{msg}*\n{appointment_url}",
             parse_mode=ParseMode.MARKDOWN
         )
+
+def send_xmpp_msg(msg: str) -> None:
+    client = xmpp.Client(settings.XMPPSERVER, debug=[])
+    client.connect()
+    client.auth(settings.XMPPNAME, settings.XMPPPASSW, 'impfbot')
+    client.sendInitPresence()
+    for recv in settings.XMPPRECV:
+        message = xmpp.Message(recv, msg)
+        message.setAttr('type', 'chat')
+        client.send(message)
