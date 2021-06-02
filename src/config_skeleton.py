@@ -1,96 +1,102 @@
+from datetime import datetime
 from common import *
 
 
-SKELETON_DEFAULT = {
+SKELETON = {
     "COMMON": {
         "zip_code": {
-            "default-value": None,
+            "default": None,
             "type": int,
             "regex": ZIP_REGEX
         },
         "birthdate": {
-            "default-value": None,
-            "type": bool,
+            "default": None,
+            "type": datetime,
             "regex": BIRTHDATE_REGEX
         }
     },
     "EMAIL": {
         "enable": {
-            "default-value": False,
+            "default": False,
             "type": bool,
             "regex": BOOL_REGEX
         },
         "sender": {
-            "default-value": None,
+            "default": None,
             "type": str,
             "regex": NOTIFIER_REGEX["sender"]
         },
+        "user": {
+            "default": None,
+            "type": str,
+            "regex": NOTIFIER_REGEX["user"]
+        },
         "password": {
-            "default-value": None,
+            "default": None,
             "type": str,
             "regex": NOTIFIER_REGEX["password"],
         },
         "server": {
-            "default-value": None,
+            "default": None,
             "type": str,
             "regex": NOTIFIER_REGEX["server"]
         },
         "port": {
-            "default-value": None,
+            "default": None,
             "type": int,
             "regex": NOTIFIER_REGEX["port"]
         },
-        "recievers": {
-            "default-value": None,
+        "receivers": {
+            "default": None,
             "type": list[str],
-            "regex": NOTIFIER_REGEX["recievers"]
+            "regex": NOTIFIER_REGEX["receivers"]
         }
     },
     "TELEGRAM": {
         "enable": {
-            "default-value": False,
+            "default": False,
             "type": bool,
             "regex": BOOL_REGEX
         },
         "token": {
-            "default-value": 30,
+            "default": 30,
             "type": str,
             "regex": NOTIFIER_REGEX["token"]
         },
         "chat_ids": {
-            "default-value": 30,
+            "default": 30,
             "type": list[str],
             "regex": NOTIFIER_REGEX["chat_ids"]
         },
     },
     "ADVANCED": {
         "cooldown_between_requests": {
-            "default-value": 30,
+            "default": 30,
             "type": float,
-            "regex": TIME_REGEX
+            "regex": NUMBER_REGEX
         },
         "cooldown_between_failed_requests": {
-            "default-value": 5,
+            "default": 5,
             "type": float,
-            "regex": TIME_REGEX
+            "regex": NUMBER_REGEX
         },
         "cooldown_after_ip_ban": {
-            "default-value": 60*5,
+            "default": 60*5,
             "type": float,
-            "regex": TIME_REGEX
+            "regex": NUMBER_REGEX
         },
         "cooldown_after_success": {
-            "default-value": 30,
+            "default": 30,
             "type": float,
-            "regex": TIME_REGEX
+            "regex": NUMBER_REGEX
         },
         "jitter": {
-            "default-value": 30,
+            "default": 30,
             "type": float,
-            "regex": TIME_REGEX
+            "regex": NUMBER_REGEX
         },
         "sleep_at_night": {
-            "default-value": True,
+            "default": True,
             "type": bool,
             "regex": BOOL_REGEX
         },
@@ -98,13 +104,13 @@ SKELETON_DEFAULT = {
 }
 
 DEPRACATED_CONFIG_MAP = {
-    "zip_code": ["postleitzahl"],
-    "birthdate": ["geburtstag"],
-    "recievers": ["empfaenger"],
-    "enable": ["enable_telegram"],
-    "chat_ids": ["chat_id"],
-    "cooldown_between_requests": ["sleep_between_requests_in_s"],
-    "cooldown_between_failed_requests": ["sleep_between_failed_requests_in_s"],
-    "cooldown_after_ip_ban": ["sleep_after_ipban_in_min"],
-    "cooldown_after_success": ["cooldown_after_found_in_min"],
+    "postleitzahl": "zip_code",
+    "geburtstag": "birthdate",
+    "empfaenger": "receivers",
+    "enable_telegram": "enable",
+    "chat_id": "chat_ids",
+    "sleep_between_requests_in_s": "cooldown_between_requests",
+    "sleep_between_failed_requests_in_s": "cooldown_between_failed_requests",
+    "sleep_after_ipban_in_min": "cooldown_after_ip_ban",
+    "cooldown_after_found_in_min": "cooldown_after_success",
 }
