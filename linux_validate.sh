@@ -1,3 +1,3 @@
 #!/bin/bash
 pip3 install -q -r requirements.txt
-python3 src/validate_config.py
+python3 src/validate_config.py --config config.ini

@@ -3,17 +3,24 @@ from datetime import datetime, timedelta, time as dt
 import time
 import sys
 
+GOOD_PLZ = ['19', '21', '26', '27', '28', '29', '30', '31', '34', '37', '38', '48', '49']
 
 def sleep(time_in_s: int, jitter: int = 0) -> None:
     time_to_wait = time_in_s + random.random()*jitter
     start = datetime.now()
     end = datetime.now() + timedelta(seconds=time_to_wait)
     while end > datetime.now():
-        elapsed_time = datetime.now() - start
-        time_str = f"\rSleeping ({int(elapsed_time.total_seconds())}s/{int(time_to_wait)}s)"
+        elapsed_time = (datetime.now() - start).total_seconds()
+        elapsed_time_delta = time_in_s - elapsed_time
+
+        time_str = f"\rSleeping ({int(elapsed_time)}s/{int(time_to_wait)}s)"
         sys.stdout.write(time_str)
         sys.stdout.flush()
-        time.sleep(1)
+
+        if elapsed_time_delta < 1:
+            time.sleep(elapsed_time_delta)
+        else:
+            time.sleep(1)
     sys.stdout.write("\r")
     sys.stdout.flush()
 

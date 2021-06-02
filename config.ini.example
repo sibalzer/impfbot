@@ -20,7 +20,7 @@ empfaenger=sender@server.de,guenni@server.de,frida@server.de
 
 [TELEGRAM]
 ; true, wenn Telegram verwendet werden soll;  sonst false
-enable_telegram=true
+enable=true
 ; Token muss zunächst generiert werden: https://t.me/BotFather
 token=TOKEN
 ; User-ID des Empfängers: https://t.me/userinfobot
@@ -28,7 +28,7 @@ chat_id=123456789,987654321
 
 [WEBBROWSER]
 ; Desktop only - Soll der default Browser automatisch geoeffnet werden 
-open_browser=true
+enable=true
 
 [ADVANCED]
 ; Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 5min, kann aber empirisch verkleinert werden)
