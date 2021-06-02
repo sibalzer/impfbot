@@ -105,6 +105,6 @@ def send_xmpp_msg(msg: str) -> None:
     client.auth(settings.XMPPNAME, settings.XMPPPASSW, 'impfbot')
     client.sendInitPresence()
     for recv in settings.XMPPRECV:
-        message = xmpp.Message(recv, msg)
+        message = xmpp.Message(recv, f"{msg}\n{appointment_url}")
         message.setAttr('type', 'chat')
         client.send(message)
