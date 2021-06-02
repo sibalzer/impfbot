@@ -104,4 +104,4 @@ def test_shadowban(common_sleep_mock):
                 jitter=7
             )
 
-    assert common_sleep_mock.call_count == 2
+    assert common_sleep_mock.call_count == 3  # 1 + 2 retries
