@@ -50,7 +50,7 @@ def alert(msg: str, verbose: bool = False) -> None:
     if settings.OPEN_BROWSER:
         verbose_info(f"[WEBBROWSER] try to open browser")
         try:
-            webbrowser.open(appointment_url)
+            webbrowser.open(appointment_url, new=1, autoraise=True)
             verbose_info(f"[WEBBROWSER] open browser was successful")
         except Exception as e:
             log.error(f"Couldn't open browser: {e}")
@@ -68,8 +68,8 @@ def send_mail(msg: str) -> None:
     mail['subject'] = msg
     mail.set_content(appointment_url)
 
-    with smtplib.SMTP(settings.SERVER, settings.PORT) as smtp:
-        smtp.login(settings.SENDER, settings.PASSWORD)
+    with smtplib.SMTP(settings.SERVER, settings.PORT)as smtp:
+        smtp.login(settings.USER, settings.PASSWORD)
         smtp.send_message(mail)
 
 

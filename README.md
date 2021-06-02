@@ -58,6 +58,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 - **\[EMAIL\]**: E-Mail Einstellungen
   - `enable` - Legt fest ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
   - `sender` - Die E-Mail Adresse von der die Benachrichtigungen versendet werden sollen. Beispiel: `sender@server.tld`
+  - `user` - Der Benutzername für die Versender E-Mail Adresse. 
   - `password` - Das Passwort für die Versender E-Mail Adresse. 
   - `server` - Der SMTP-Server. Beispiel: `smtp.server.tld`
   - `port` - Der Port für den SMTP-Server. Beispiel: `465`
@@ -87,6 +88,7 @@ postleitzahl=49049
 [EMAIL]
 enable=true
 sender=beispielsender@server.tld
+user=xxxxxxxxxx
 password=xxxxxxxxxx
 server=smtp.server.de
 port=465
@@ -195,6 +197,7 @@ The following steps must be performed for everyone who wants to receive messages
 - **\[EMAIL\]**: Email settings
   - `enable` - Specifies whether emails should be sent. `true` if yes, `false` otherwise.
   - `sender` - The email address from which the notifications should be sent. Example: `sender@server.tld`.
+  - `user` - The user name for the sender email address. 
   - `password` - The password for the sender email address. 
   - `server` - The SMTP-server. Example: `smtp.server.tld`.
   - `port` - The port for the SMTP server. Example: `465`.
@@ -224,6 +227,7 @@ postleitzahl=49049
 [EMAIL]
 enable=true
 sender=beispielsender@server.tld
+user=xxxxxxxx
 password=xxxxxxxx
 server=smtp.server.com
 port=465

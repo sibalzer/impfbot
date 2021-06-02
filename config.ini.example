@@ -7,6 +7,8 @@ postleitzahl=42042
 enable=true
 ; Absender Adresse
 sender=sender@server.de
+; Login Name
+user=xxxx
 ; Login Passwort
 password=xxxx
 ; smtp Server

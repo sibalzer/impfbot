@@ -57,6 +57,7 @@ def load(path: str):
         if SEND_EMAIL:
             SENDER = config["EMAIL"]["sender"]
             SERVER = config["EMAIL"]["server"]
+            USER = config["EMAIL"]["user"]
             PASSWORD = config["EMAIL"]["password"]
             EMAIL_RECEIVERS = config["EMAIL"]["empfaenger"].split(',')
             PORT = config["EMAIL"]["port"]
@@ -167,6 +168,5 @@ def load(path: str):
         global USER_AGENT
         USER_AGENT = config["ADVANCED"]["user_agent"]
     except KeyError:
-        log.warning(
-            "'user_agent' is missing in config. Set to 'impfbot'")
+        log.warning("'user_agent' is missing in config. Set to 'impfbot'")
         USER_AGENT = 'impfbot'
