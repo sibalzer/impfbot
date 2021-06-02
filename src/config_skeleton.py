@@ -1,5 +1,7 @@
+"""skelton data for the settings"""
+
 from datetime import datetime
-from common import *
+from common import BIRTHDATE_REGEX, BOOL_REGEX, NOTIFIER_REGEX, NUMBER_REGEX, USER_AGENT_REGEX, ZIP_REGEX
 
 
 SKELETON = {
@@ -48,7 +50,7 @@ SKELETON = {
         },
         "receivers": {
             "default": None,
-            "type": list[str],
+            "type": list,
             "regex": NOTIFIER_REGEX["receivers"]
         }
     },
@@ -65,8 +67,15 @@ SKELETON = {
         },
         "chat_ids": {
             "default": 30,
-            "type": list[str],
+            "type": list,
             "regex": NOTIFIER_REGEX["chat_ids"]
+        },
+    },
+    "WEBBROWSER": {
+        "enable": {
+            "default": False,
+            "type": bool,
+            "regex": BOOL_REGEX
         },
     },
     "ADVANCED": {
@@ -99,6 +108,11 @@ SKELETON = {
             "default": True,
             "type": bool,
             "regex": BOOL_REGEX
+        },
+        "user_agent": {
+            "default": "impfbot",
+            "type": str,
+            "regex": USER_AGENT_REGEX
         },
     }
 }

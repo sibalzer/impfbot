@@ -1,16 +1,36 @@
-
-from config_generator import start_config_generation
 from configparser import ConfigParser
 import re
 import logging
 from datetime import datetime
+from tkinter.constants import NO
 
-from config_skeleton import SKELETON, DEPRACATED_CONFIG_MAP, NOTIFIERS
-
-
-settings = __import__(__name__)
+from config_skeleton import SKELETON, DEPRACATED_CONFIG_MAP
+from config_generator import start_config_generation
+from common import NOTIFIERS
 
 log = logging.getLogger(__name__)
+
+
+class Datastore():
+    def __str__(self):
+        result = ""
+        for section in SKELETON:
+            result += f"[{section}]\n"
+            for option in SKELETON[section]:
+                name_builder = option.upper()
+                if section not in "ADVANCED":
+                    name_builder = f"{section.upper()}_{option.upper()}"
+                value = getattr(self, name_builder)
+                if type(value) is list:
+                    list_str = ""
+                    for entry in value:
+                        list_str += str(entry)
+                    value = list_str
+                result += f"   {option}: {value}\n"
+        return result
+
+
+settings = Datastore()
 
 
 class ParseExeption(BaseException):
@@ -36,18 +56,25 @@ def set_option(config: ConfigParser, section: str, option: str, alt_name: str = 
     else:
         value = config[section][option]
     t: any = SKELETON[section][option]["type"]
+
+    name_builder = option.upper()
     if section != "ADVANCED":
-        name_builder = f"{section.upper()}_{option.upper()}"
-        if t is datetime:
-            value = datetime.strptime(value, r'%d.%m.%Y')
-            setattr(settings, name_builder, value)
-        else:
-            setattr(settings, name_builder, t(value))
-    else:
+        name_builder = f"{section.upper()}_" + name_builder
+
+    if t is datetime:
+        value = datetime.strptime(value, r'%d.%m.%Y')
+    elif t is float:
         value = t(value)
         if alt_name[-7:] == "_in_min":
             value *= 60
-        setattr(settings, option.upper(), value)
+    elif t is bool:
+        value = value == "true"
+    elif t is list:
+        value = value.split(',')
+    else:
+        value = t(value)
+
+    setattr(settings, name_builder, value)
 
 
 def parse_option(config: ConfigParser, section: str, option: str):
@@ -68,10 +95,11 @@ def parse_option(config: ConfigParser, section: str, option: str):
     elif section in NOTIFIERS:
         value = SKELETON[section]["enable"]["default"]
         type: any = SKELETON[section][option]["type"]
-        name_builder = f"{section.upper()}_{option.upper()}"
+        name_builder = f"{section.upper()}_ENABLE"
+        setattr(settings, option, None)
         setattr(settings, name_builder, type(value))
 
-        log.warning(f"{section}'{option}' not valid. Disable [{section}]")
+        log.warning(f"[{section}] '{option}' not valid. Disable [{section}]")
         return
 
     elif section in "ADVANCED":
@@ -92,7 +120,7 @@ def load(path):
     if not dataset:
         start_config_generation()
 
-    for section in SKELETON.keys():
+    for section in SKELETON:
         for option in SKELETON[section]:
             try:
                 parse_option(config, section, option)
@@ -100,15 +128,3 @@ def load(path):
                 log.warning(_e)
             except Exception as _e:
                 log.error(f"[{section}] '{option}' error during parsing: {_e}")
-
-
-def __str__():
-    result: str = ""
-    for section in SKELETON.keys():
-        result += f"[{section}]\n"
-        for option in SKELETON[section]:
-            name_builder = option.upper()
-            if section not in "ADVANCED":
-                name_builder = f"{section.upper()}_{option.upper()}"
-            value = getattr(settings, name_builder)
-            result += f"   {option}: {value}\n"
