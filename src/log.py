@@ -1,3 +1,4 @@
+"""logging config modul"""
 import logging
 import sys
 

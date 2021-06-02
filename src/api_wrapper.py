@@ -21,7 +21,8 @@ def fetch_api(plz: int,
               jitter: int = 10,
               user_agent: str = 'python') -> any:
     """fetches the api with ip ban avoidance"""
-    url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{plz}"
+    url = f"https://www.impfportal-niedersachsen.de/portal/" \
+          f"rest/appointments/findVaccinationCenterListFree/{plz}"
     headers = {
         'Accept': 'application/json',
         'User-Agent': user_agent

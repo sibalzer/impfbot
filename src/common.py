@@ -1,4 +1,4 @@
-
+"""common methods and constants"""
 from datetime import datetime, timedelta, time as dt
 import random
 import sys
@@ -30,13 +30,15 @@ NOTIFIER_REGEX = {
 }
 
 
-def datetime2timestamp(date: datetime):
+def datetime2timestamp(date: datetime) -> int:
+    """transforms a datetime in a timestamp (datetime.datetime.timestamp() fails pre epoch)"""
     now = datetime.now()
     s_since_date = (now - date).total_seconds()
     return int(now.timestamp() - s_since_date)
 
 
 def is_night() -> bool:
+    """test if it is night"""
     morning = dt(hour=7, minute=0)
     evening = dt(hour=23, minute=0)
     now = datetime.now().time()
@@ -47,6 +49,7 @@ GOOD_PLZ = ['19', '21', '26', '27', '28', '29',
             '30', '31', '34', '37', '38', '48', '49']
 
 def sleep(time_in_s: int, jitter: int = 0) -> None:
+    """sleeps for time and random jitter; prints output"""
     time_to_wait = time_in_s + random.random()*jitter
     start = datetime.now()
     end = datetime.now() + timedelta(seconds=time_to_wait)
@@ -68,13 +71,9 @@ def sleep(time_in_s: int, jitter: int = 0) -> None:
 
 
 def sleep_until(hour, minute) -> None:
+    """sleep until certain time"""
     t = datetime.today()
     future = datetime(t.year, t.month, t.day, hour, minute)
     if t.timestamp() > future.timestamp():
         future += timedelta(days=1)
     sleep((future-t).total_seconds())
-
-
-def datetime2timestamp(dt):
-    return int(datetime.now().timestamp()
-               - (datetime.now() - dt).total_seconds())

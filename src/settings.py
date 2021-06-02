@@ -1,3 +1,4 @@
+"""config parser modul"""
 from configparser import ConfigParser
 import re
 import logging
@@ -12,6 +13,8 @@ log = logging.getLogger(__name__)
 
 
 class Datastore():
+    """data-class for settings"""
+
     def __str__(self):
         result = ""
         for section in SKELETON:
@@ -34,10 +37,12 @@ settings = Datastore()
 
 
 class ParseExeption(BaseException):
+    """data-class for settings"""
     pass
 
 
 def validate_option(config: ConfigParser, section: str, option: str, alt_name: str = ""):
+    """validates a setting with regex"""
     regex = SKELETON[section][option]["regex"]
 
     if alt_name:
@@ -51,6 +56,7 @@ def validate_option(config: ConfigParser, section: str, option: str, alt_name: s
 
 
 def set_option(config: ConfigParser, section: str, option: str, alt_name: str = ""):
+    """sets an option in the data class"""
     if alt_name:
         value = config[section][alt_name]
     else:
@@ -78,6 +84,7 @@ def set_option(config: ConfigParser, section: str, option: str, alt_name: str = 
 
 
 def parse_option(config: ConfigParser, section: str, option: str):
+    """parse a single setting option"""
     if config.has_option(section, option) and validate_option(config, section, option):
         set_option(config, section, option)
         return
@@ -87,10 +94,12 @@ def parse_option(config: ConfigParser, section: str, option: str):
             if DEPRACATED_CONFIG_MAP[old_key] == option:
                 new_key = DEPRACATED_CONFIG_MAP[old_key]
                 if validate_option(config, section, new_key, alt_name=old_key):
+                    log.warning(
+                        f"[{section}] '{old_key}' is depracated please use: '{new_key}'")
                     set_option(config, section, new_key, alt_name=old_key)
                     return
                 else:
-                    ParseExeption(f"[{section}] '{option}'' is not valid.")
+                    ParseExeption(f"[{section}] '{option}' is not valid.")
 
     elif section in NOTIFIERS:
         value = SKELETON[section]["enable"]["default"]
@@ -111,10 +120,11 @@ def parse_option(config: ConfigParser, section: str, option: str):
             f"[{section}] '{option}' not set. Using default: '{value}'")
         return
 
-    raise ParseExeption(f"[{section}] '{option}'' must be in the config.")
+    raise ParseExeption(f"[{section}] '{option}' must be in the config.")
 
 
 def load(path):
+    """loads a config file"""
     config = ConfigParser()
     dataset = config.read(path)
     if not dataset:
