@@ -43,6 +43,7 @@ try:
     if SEND_EMAIL:
         SENDER = config["EMAIL"]["sender"]
         SERVER = config["EMAIL"]["server"]
+        USER = config["EMAIL"]["user"]
         PASSWORD = config["EMAIL"]["password"]
         EMAIL_RECEIVERS = config["EMAIL"]["empfaenger"].split(',')
         PORT = config["EMAIL"]["port"]

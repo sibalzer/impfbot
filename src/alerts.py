@@ -70,11 +70,11 @@ def send_mail(msg: str) -> None:
 
     if settings.PORT == '465':
         with smtplib.SMTP_SSL(settings.SERVER, settings.PORT)as smtp:
-            smtp.login(settings.SENDER, settings.PASSWORD)
+            smtp.login(settings.USER, settings.PASSWORD)
             smtp.send_message(mail)
     else:
         with smtplib.SMTP(settings.SERVER, settings.PORT)as smtp:
-            smtp.login(settings.SENDER, settings.PASSWORD)
+            smtp.login(settings.USER, settings.PASSWORD)
             smtp.send_message(mail)
 
 
