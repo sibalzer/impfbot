@@ -1,7 +1,8 @@
 """ generate a config if none found """
+import argparse
 import tkinter as tk
 import configparser
-import regex
+import re
 from tkinter import ttk
 from tkcalendar import DateEntry
 
@@ -26,12 +27,15 @@ MAIL_REGEX = r"\b(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]
 NOTIFIER_REGEX = {
     "sender": MAIL_REGEX,
     "password": r"\b[^ ]+\b",   # match anything not a space
-    "server": r"\b[\p{L}\p{N}\-\.]+\b",    # match alphanumeric characters, dash, and dot
+    # match alphanumeric characters, dash, and dot
+    "server": r"(?=[-a-zA-Z0-9_]*\.)[-a-zA-Z0-9]*\.[-a-zA-Z0-9]*",
     "port": r"\b\d{2,}\b",
     "receivers": r"\b" + MAIL_REGEX + r"(," + MAIL_REGEX + r")*\b",
-    "token": r"\b[0-9]{7,}\:[a-zA-Z0-9\-\_]+\b",    # I hope this covers all possible tokens
-    "chat_ids": r"\b\d{5,}(,\d{5,})*\b" # matches a list of numbers
+    # I hope this covers all possible tokens
+    "token": r"\b[a-zA-Z0-9\:\-]+\b",
+    "chat_ids": r"\b\d{5,}(,\d{5,})*\b"  # matches a list of numbers
 }
+
 
 def init_input(config_dict):
     config_dict["COMMON"] = {}
@@ -45,6 +49,7 @@ def init_input(config_dict):
     config_dict["ADVANCED"]["jitter"] = "15"
     config_dict["ADVANCED"]["sleep_at_night"] = "true"
     config_dict["ADVANCED"]["user_agent"] = "impfbot"
+
 
 def start_config_generation(config_dict):
     """ entry point for config generation """
@@ -65,15 +70,18 @@ def start_config_generation(config_dict):
         with open("config.ini", "w") as configfile:
             config_dict.write(configfile)
 
+
 def run_gui_config(tk_window, config_dict):
     """ create a window for data entry """
 
     def get_input():
         """ read config from form """
-        config_dict["COMMON"]["geburtstag"] = birthday.get_date().strftime("%d.%m.%Y")
+        config_dict["COMMON"]["geburtstag"] = birthday.get_date().strftime(
+            "%d.%m.%Y")
         config_dict["COMMON"]["postleitzahl"] = plz.get()
         for item in NOTIFIERS:
-            config_dict[item.upper()]["enable"] = str(enable[item].get()).lower()
+            config_dict[item.upper()]["enable"] = str(
+                enable[item].get()).lower()
 
     def create_subwindow(event):
         """ when selecting a notifier, show a new window with the required options """
@@ -81,7 +89,8 @@ def run_gui_config(tk_window, config_dict):
             """ get values and close window """
             if validate_notifier_input():
                 for field in FIELDS[notifier]:
-                    config_dict[notifier.upper()][field] = input_arr[field].get()
+                    config_dict[notifier.upper(
+                    )][field] = input_arr[field].get()
                 subwindow.destroy()
             else:
                 open_alert_window(msg="Bitte alle Felder ausfüllen.")
@@ -89,7 +98,8 @@ def run_gui_config(tk_window, config_dict):
         def validate_notifier_input():
             """ check for empty input """
             for item in input_arr:
-                match = regex.match(NOTIFIER_REGEX[item], input_arr[item].get())
+                match = re.match(
+                    NOTIFIER_REGEX[item], input_arr[item].get())
                 if match is None:
                     return False
             return True
@@ -102,11 +112,13 @@ def run_gui_config(tk_window, config_dict):
             row_index = 0
             notifier_fields = FIELDS[notifier]
             for field in notifier_fields:
-                tk.Label(subwindow, text=notifier_fields[field]).grid(row=row_index, column=0)
+                tk.Label(subwindow, text=notifier_fields[field]).grid(
+                    row=row_index, column=0)
                 input_arr[field] = tk.Entry(subwindow)
                 input_arr[field].grid(row=row_index, column=1)
                 row_index += 1
-            close = tk.Button(subwindow, text="Fenster schließen", command=close_subwindow)
+            close = tk.Button(
+                subwindow, text="Fenster schließen", command=close_subwindow)
             close.grid(row=row_index, column=1)
         return 0
 
@@ -117,7 +129,8 @@ def run_gui_config(tk_window, config_dict):
 
         alert_window = tk.Toplevel(tk_window)
         tk.Label(alert_window, text=msg).grid(row=0, column=0)
-        close_alert = tk.Button(alert_window, text="OK", command=close_alert_window)
+        close_alert = tk.Button(alert_window, text="OK",
+                                command=close_alert_window)
         close_alert.grid(row=1, column=0)
 
     def check_notifiers_enabled():
@@ -130,13 +143,14 @@ def run_gui_config(tk_window, config_dict):
     def validate_input():
         """ validate user input """
         entered_plz = plz.get()
-        match = regex.match(r"\b\d{5}\b", entered_plz)
+        match = re.match(r"\b\d{5}\b", entered_plz)
         return match is not None and entered_plz[:2] in GOOD_PLZ
 
     def close_window():
         """ close the window """
         if not check_notifiers_enabled():
-            open_alert_window(msg="Bitte eine Art der Benachrichtigung auswählen!")
+            open_alert_window(
+                msg="Bitte eine Art der Benachrichtigung auswählen!")
         elif not validate_input():
             open_alert_window(msg="Bitte korrekte Daten eingeben.")
         else:
@@ -162,10 +176,13 @@ def run_gui_config(tk_window, config_dict):
                 text=field
             ).grid(row=settings_window_row_index, column=0)
             advanced_settings_input[field] = tk.Entry(settings_window)
-            advanced_settings_input[field].grid(row=settings_window_row_index, column=1)
-            advanced_settings_input[field].insert(0, config_dict["ADVANCED"][field])
+            advanced_settings_input[field].grid(
+                row=settings_window_row_index, column=1)
+            advanced_settings_input[field].insert(
+                0, config_dict["ADVANCED"][field])
             settings_window_row_index += 1
-        close_advanced = tk.Button(settings_window, text="Fenster schließen", command=close_settings_window)
+        close_advanced = tk.Button(
+            settings_window, text="Fenster schließen", command=close_settings_window)
         close_advanced.grid(row=settings_window_row_index, column=1)
 
     tk_window.geometry("400x400+250+100")
@@ -183,7 +200,8 @@ def run_gui_config(tk_window, config_dict):
     birthday.grid(row=2, column=1)
     plz.grid(row=4, column=1)
 
-    tk.Label(tk_window, text="Benachrichtigung", font="bold").grid(row=5, column=1)
+    tk.Label(tk_window, text="Benachrichtigung",
+             font="bold").grid(row=5, column=1)
     for item in NOTIFIERS:
         enable[item] = tk.BooleanVar()
         enable[item].set(False)
@@ -203,14 +221,15 @@ def run_gui_config(tk_window, config_dict):
     confirm = tk.Button(tk_window, text="Abbrechen", command=cancel)
     confirm.grid(row=row_index, column=1)
 
-    close = tk.Button(tk_window, text="Speichern und schließen", command=close_window)
+    close = tk.Button(
+        tk_window, text="Speichern und schließen", command=close_window)
     close.grid(row=row_index + 1, column=1)
 
-    advanced = tk.Button(tk_window, text="Weitere Einstellungen", command=advanced_settings)
+    advanced = tk.Button(
+        tk_window, text="Weitere Einstellungen", command=advanced_settings)
     advanced.grid(row=row_index + 2, column=1)
 
     tk_window.mainloop()
-
 
 
 def run_cli_config(config_dict):
@@ -221,7 +240,8 @@ def run_cli_config(config_dict):
             match = None
             while match is None:
                 notifier_input[field] = input(f'{FIELDS[notifier][field]}: ')
-                match = regex.match(NOTIFIER_REGEX[field], notifier_input[field])
+                match = re.match(
+                    NOTIFIER_REGEX[field], notifier_input[field])
         return notifier_input
 
     birthday = ""
@@ -229,11 +249,11 @@ def run_cli_config(config_dict):
     match = None
     while match is None:
         birthday = input('Bitte den Geburtstag eingeben: ')
-        match = regex.match(r"\b\d{1,2}\.\d{1,2}\.\d{4}\b", birthday)
+        match = re.match(r"\b\d{1,2}\.\d{1,2}\.\d{4}\b", birthday)
     match = None
     while match is None or plz[:2] not in GOOD_PLZ:
         plz = input('Bitte die PLZ eingeben: ')
-        match = regex.match(r"\b\d{5}\b", plz)
+        match = re.match(r"\b\d{5}\b", plz)
 
     enable_notifier = {}
     for notifier in FIELDS:
@@ -251,11 +271,26 @@ def run_cli_config(config_dict):
     enable_browser_input = ""
     while enable_browser_input.lower() not in ["j", "n"]:
         enable_browser_input = input('Soll bei Benachrichtigung ein '
-            'Browserfenster geöffnet werden? (j/n): ').lower()
+                                     'Browserfenster geöffnet werden? (j/n): ').lower()
     enable_browser = str(enable_browser_input.lower() == "j").lower()
 
-    config_dict["COMMON"]["geburtstag"] = birthday
-    config_dict["COMMON"]["postleitzahl"] = plz
+    config_dict["COMMON"]["birthdate"] = birthday
+    config_dict["COMMON"]["zip_code"] = plz
     config_dict["WEBBROWSER"]["enable"] = enable_browser
 
     return config_dict
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f', '-c', '--config',
+                        dest='configfile',
+                        help='Path to config.ini file',
+                        required=False,
+                        default='config.ini')
+    arg = vars(parser.parse_args())
+
+    config = configparser.ConfigParser()
+    config.read(arg['configfile'])
+
+    start_config_generation(config)
