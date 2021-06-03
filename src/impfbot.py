@@ -40,12 +40,12 @@ def check_for_slot() -> None:
                 sleep(settings.COOLDOWN_AFTER_SUCCESS)
             else:
                 log.info("No free slot.")
-                sleep(settings.SLEEP_BETWEEN_REQUESTS_IN_S, settings.JITTER)
+                sleep(settings.COOLDOWN_BETWEEN_REQUESTS, settings.JITTER)
 
     except ConnectionError as _e:
         log.error(
             f"Couldn't fetch api: ConnectionError (No internet?) {_e}")
-        sleep(10, 0)
+        sleep(10)
 
     except ShadowBanException as _e:
         sleep_after_shadowban_min = settings.COOLDOWN_AFTER_IP_BAN/60
@@ -56,6 +56,7 @@ def check_for_slot() -> None:
 
     except Exception as _e:
         log.error(f"Something went wrong ({_e})")
+        sleep(settings.COOLDOWN_BETWEEN_REQUESTS, settings.JITTER)
 
 
 if __name__ == "__main__":
@@ -87,7 +88,6 @@ if __name__ == "__main__":
                 sleep_until(hour=7, minute=0)
 
             check_for_slot()
-            sleep(settings.COOLDOWN_BETWEEN_REQUESTS, settings.JITTER)
 
     except (KeyboardInterrupt, SystemExit):
         print("Bye...")

@@ -15,7 +15,8 @@ def test_alert(browser_mock, telegram_mock, email_mock):
 
     email_mock.assert_called_once_with(msg)
     telegram_mock.assert_called_once_with(msg)
-    browser_mock.assert_called_once_with(alerts.APPOINTMENT_URL)
+    browser_mock.assert_called_once_with(
+        alerts.APPOINTMENT_URL, new=1, autoraise=True)
 
 
 @mock.patch('smtplib.SMTP', create=True)
@@ -30,7 +31,7 @@ def test_send_email(smtp_mock):
     smtp_mock_obj = smtp_mock.return_value.__enter__.return_value
 
     smtp_mock_obj.login.assert_called_once_with(
-        settings.EMAIL_SENDER, settings.EMAIL_PASSWORD)
+        settings.EMAIL_USER, settings.EMAIL_PASSWORD)
     smtp_mock_obj.send_message.assert_called_once()
 
 
@@ -53,4 +54,5 @@ def test_open_browser(webbrowser_mock):
 
     alerts.alert('')
 
-    webbrowser_mock.assert_called_once_with(alerts.APPOINTMENT_URL)
+    webbrowser_mock.assert_called_once_with(
+        alerts.APPOINTMENT_URL, new=1, autoraise=True)
