@@ -27,10 +27,19 @@ try:
         config["COMMON"]["geburtstag"], r"%d.%m.%Y")
 except KeyError as e:
     log.warning(
-        f"[COMMON] '{e}' is missing in Config. Cant run without birthdate. Exit.")
-    sys.exit(1)
+        f"[COMMON] '{e}' is missing in Config. Cant run without birthdate. Expecting group size input.")
 except Exception as e:
     log.warning(f"[COMMON] Invalid birthdate: {e}")
+
+try:
+    if not "BIRTHDATE" in locals():
+        GROUP_SIZE = config["COMMON"]["gruppengroesse"]
+except KeyError as e:
+    log.warning(
+        f"[COMMON] '{e}' is missing in Config. Cant run without birthdate or group size.")
+    sys.exit(1)
+except Exception as e:
+    log.warning(f"[COMMON] Invalid group_size: {e}")
 
 try:
     SEND_EMAIL = True if config["EMAIL"]["enable"].lower() == "true" else False

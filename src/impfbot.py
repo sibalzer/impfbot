@@ -9,15 +9,24 @@ from common import sleep, sleep_until, is_night
 
 def check_for_slot() -> None:
     try:
-        result = api_wrapper.fetch_api(
-            plz=settings.ZIP,
-            birthdate_timestamp=int(
-                datetime.now().timestamp() -
-                (datetime.now() - settings.BIRTHDATE).total_seconds()),
-            max_retries=10,
-            sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
-            sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
-        )
+        if "BIRTHDATE" in dir(settings):
+            result = api_wrapper.fetch_api(
+                plz=settings.ZIP,
+                birthdate_timestamp=int(
+                    datetime.now().timestamp() -
+                    (datetime.now() - settings.BIRTHDATE).total_seconds()),
+                max_retries=10,
+                sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
+                sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
+            )
+        else:
+            result = api_wrapper.fetch_api(
+                plz=settings.ZIP,
+                group_size=settings.GROUP_SIZE,
+                max_retries=10,
+                sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
+                sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
+            )
         if not result:
             log.error("Result is emtpy. (Invalid ZIP Code (PLZ))")
         for elem in result:

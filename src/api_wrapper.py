@@ -13,10 +13,19 @@ headers = {
 }
 
 
-def fetch_api(plz: int, birthdate_timestamp: int = None, max_retries: int = 10, sleep_after_error: int = 30, sleep_after_shadowban: int = 300) -> any:
-    url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{plz}"
+def fetch_api(
+        plz: int,
+        birthdate_timestamp: int = None,
+        group_size: int = None,
+        max_retries: int = 10,
+        sleep_after_error: int = 30,
+        sleep_after_shadowban: int = 300
+    ) -> any:
+    url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{plz}?stiko="
     if birthdate_timestamp is not None:
-        url += f"?stiko=&count=1&birthdate={int(birthdate_timestamp)*1000}"
+        url += f"&count=1&birthdate={int(birthdate_timestamp)*1000}"
+    elif group_size is not None:
+        url += f"&count={group_size}"
     fail_counter = 0
 
     while True:
