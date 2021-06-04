@@ -5,7 +5,7 @@ import sys
 
 log = logging.getLogger(__name__)
 
-config = configparser.ConfigParser()
+config = configparser.RawConfigParser()
 config.read("config.ini")
 
 try:
