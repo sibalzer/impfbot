@@ -10,12 +10,12 @@ Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niede
 
 > ### ⚠ Hilfe gesucht! (Zeiten und Shadowbans/IP-Bans)
 >
-> Derzeit fragt der Bot alle 2.5min die API ab ich würde das gerne etwas optmieren brauche dafür aber Hilfe poste dazu deine Settings [hier](https://github.com/sibalzer/impfbot/issues/6)
+> Derzeit fragt der Bot alle 2.5min die API ab. Ich würde das gerne etwas optmieren, brauche dafür aber Hilfe. Poste dazu deine Settings [hier](https://github.com/sibalzer/impfbot/issues/6)
 
 ## Features
 * Automatisches Suchen von kurzfristigen Impfterminen
 * Benachrichtigungen über E-Mail und Telegram 
-* Öffnet deinen Browser automatisch wenn ein Termin gefunden wurde. Du musst nur noch deine Daten eingeben!
+* Öffnet deinen Browser automatisch, wenn ein Termin gefunden wurde. Du musst nur noch deine Daten eingeben!
 
 > Was der impfbot nicht macht: Dem Termin für dich reservieren und/oder deine Daten automatisch eingeben.
 
@@ -45,7 +45,7 @@ Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung.
 Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen will
 
 2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mit `,` getrennt).
-3. ⚠ Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (Url steht in der Bothfather Nachricht und dann start drücken) ⚠
+3. ⚠ Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (Url steht in der Botfather Nachricht und dann start drücken) ⚠
 4. Validieren das auch alles funktioniert: Doppelklick auf `test_telegram.bat`
 
 ### config.ini Parameter
@@ -55,20 +55,20 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 - **\[COMMON\]**: Allgemeine Einstellungen
   - `geburtstag` - Geburtstag der Abgefragt werden soll. Beispiel: `23.06.1912`
   - `postleitzahl` - Fünfstellige PLZ für das Impfzentrum, das der Bot überwachen soll. Beispiel: `49123`
-- **\[EMAIL\]**: E-Mail Einstellungen
+- **\[EMAIL\]**: E-Mail-Einstellungen
   - `enable` - Legt fest ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
   - `sender` - Die E-Mail Adresse von der die Benachrichtigungen versendet werden sollen. Beispiel: `sender@server.tld`
   - `password` - Das Passwort für die Versender E-Mail Adresse. 
   - `server` - Der SMTP-Server. Beispiel: `smtp.server.tld`
   - `port` - Der Port für den SMTP-Server. Beispiel: `465`
   - `empfaenger` - Eine Liste der E-Mail Adressen an die eine Nachricht geschickt werden soll. Beispiel: `sender@server.tld,foo@server.tld,hoo@server.tld` oder (nur an sich selber) `sender@server.tld`
-- **\[TELEGRAM\]**: Email Einstellungen
+- **\[TELEGRAM\]**: Telegram-Einstellungen
   - `enable_telegram` - Legt fest ob Telegram Nachrichten versendet werden sollen. `true` wenn ja, sonst `false`.
   - `token` - Der Bot-Token von https://t.me/BotFather
   - `chat_id` - User-ID des Empfängers: nutze dazu https://t.me/userinfobot
-- **\[WEBBROWSER\]**: Webbrowser Einstellungen
-  - `enable_telegram` - Legt fest ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
-- **\[ADVANCED\]**: Einstellungen für fortgeschrittene hier wirds experimentell
+- **\[WEBBROWSER\]**: Webbrowser-Einstellungen
+  - `open_browser` - Legt fest ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
+- **\[ADVANCED\]**: Einstellungen für Fortgeschrittene, hier wirds experimentell
   - `sleep_between_requests_in_s` - Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 2.5min, kann aber empirisch verkleinert werden)
   - `sleep_between_failed_requests_in_s` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5*15s bis zum nächsen Aufruf
   - `sleep_after_ipban_in_min` - Wenn eine Abfrage 10x fehlschlaegt ist die IP vermutlich gebannt. Standardmaeßig wird dann 3h gewartet.
@@ -146,7 +146,7 @@ A little weekend project of mine. The bot monitors the REST-API of the lower sax
 
 > ### ⚠ Help wanted! (Times and Shadowbans/IP-Bans)
 >
-> Currently the bot queries the API every 2.5min I would like to optimize this a bit but need help post your settings [here](https://github.com/sibalzer/impfbot/issues/6)
+> Currently the bot queries the API every 2.5min. I would like to optimize this a bit but need help. Post your settings [here](https://github.com/sibalzer/impfbot/issues/6)
 
 ## Features
 * Automatic search for short term vaccination dates
@@ -199,12 +199,12 @@ The following steps must be performed for everyone who wants to receive messages
   - `server` - The SMTP-server. Example: `smtp.server.tld`.
   - `port` - The port for the SMTP server. Example: `465`.
   - `recipient` - A list of e-mail addresses to which a message should be sent. Example: `sender@server.tld,foo@server.tld,hoo@server.tld` or (only to itself) `sender@server.tld`.
-- **\[WEBBROWSER\]**: Email settings
+- **\[TELEGRAM\]**: Telegram settings
   - `enable_telegram` - Specifies whether Telegram messages should be sent. `true` if yes, otherwise `false`.
   - `token` - The bot token from https://t.me/BotFather
   - `chat_id` - User-ID of the recipient: use https://t.me/userinfobot
-- **\[TELEGRAM\]**: Web browser settings
-  - `enable_telegram` - Determines if the browser should be opened automatically. (Only on desktop systems) `true` if yes, otherwise `false`.
+- **\[WEBBROWSER\]**: Web browser settings
+  - `open_browser` - Determines if the browser should be opened automatically. (Only on desktop systems) `true` if yes, otherwise `false`.
 - **\[ADVANCED\]**: Settings for advanced users. it's gettting experimental 🤓
   - `sleep_between_requests_in_s` - wait time between requests. A too small wait time leads to an IP ban (default: 2.5min, but can be decreased empirically)
   - `sleep_between_failed_requests_in_s` - waiting time between failed attempts. For each additional one, the waiting time is added again to prevent an IP ban. I.e. five failures = waiting time of 5*15s until the next call.
