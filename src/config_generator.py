@@ -68,6 +68,19 @@ def start_config_generation(config_dict):
 def run_gui_config(tk_window, config_dict):
     """ create a window for data entry """
 
+    def toggle_group_request(event):
+        """ toggle input for group appointment search """
+        if not search_group_appointments.get():
+            birthday.grid_remove()
+            birthday_label.grid_remove()
+            group_size_label.grid(row=2, column=1)
+            group_size.grid(row=3, column=1)
+        else:
+            birthday.grid(row=3, column=1)
+            birthday_label.grid(row=2, column=1)
+            group_size.grid_remove()
+            group_size_label.grid_remove()
+
     def get_input():
         """ read config from form """
         config_dict["COMMON"]["geburtstag"] = birthday.get_date().strftime("%d.%m.%Y")
@@ -170,20 +183,37 @@ def run_gui_config(tk_window, config_dict):
 
     tk_window.geometry("400x400+250+100")
 
-    row_index = 6
+    row_index = 7
     checkboxes = {}
     enable = {}
 
-    tk.Label(tk_window, text="Geburtsdatum", font="bold").grid(row=1, column=1)
-    tk.Label(tk_window, text="PLZ", font="bold").grid(row=3, column=1)
+    search_group_appointments = tk.BooleanVar()
+    search_group_appointments.set(False)
+    group_request = ttk.Checkbutton(
+        tk_window,
+        text="Gruppentermin",
+        variable=search_group_appointments,
+        onvalue=True
+    )
+    group_request.bind('<Button-1>', toggle_group_request)
+    group_request.grid(row=1, column=1)
+
+    birthday_label = tk.Label(tk_window, text="Geburtsdatum", font="bold")
+    birthday_label.grid(row=2, column=1)
+    tk.Label(tk_window, text="PLZ", font="bold").grid(row=4, column=1)
+
+    group_size_label = tk.Label(tk_window, text="Gruppengröße", font="bold")
+    group_size_label.grid_remove()
 
     birthday = DateEntry(tk_window, width=18)
+    group_size = tk.Entry(tk_window)
     plz = tk.Entry(tk_window)
 
-    birthday.grid(row=2, column=1)
-    plz.grid(row=4, column=1)
+    birthday.grid(row=3, column=1)
+    plz.grid(row=5, column=1)
+    group_size.grid_remove()
 
-    tk.Label(tk_window, text="Benachrichtigung", font="bold").grid(row=5, column=1)
+    tk.Label(tk_window, text="Benachrichtigung", font="bold").grid(row=6, column=1)
     for item in NOTIFIERS:
         enable[item] = tk.BooleanVar()
         enable[item].set(False)
