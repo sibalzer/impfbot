@@ -299,7 +299,10 @@ def run_cli_config(config_dict):
             'Browserfenster geöffnet werden? (j/n): ').lower()
     enable_browser = str(enable_browser_input.lower() == "j").lower()
 
-    config_dict["COMMON"]["geburtstag"] = birthday
+    if config_for_group:
+        config_dict["COMMON"]["gruppengroesse"] = group_size
+    else:
+        config_dict["COMMON"]["geburtstag"] = birthday
     config_dict["COMMON"]["postleitzahl"] = plz
     config_dict["WEBBROWSER"]["enable"] = enable_browser
 
