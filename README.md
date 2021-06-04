@@ -6,7 +6,7 @@
 
 English version [here](https://github.com/sibalzer/impfbot#notification-bot-for-the-lower-saxony-vaccination-portal-).
 
-Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niedersächsischen Impfportals (https://impfportal-niedersachsen.de) auf freie Impfslots und sendet eine Benachrichtigung via Mail. Ab da gilt leider der Schnellste gewinnt. Bitte missbraucht den Bot nicht und verwendet moderate Intervalle.
+Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niedersächsischen Impfportals (https://impfportal-niedersachsen.de) auf freie Impfslots und sendet eine Benachrichtigung via Mail. Ab da gilt leider: der Schnellste gewinnt. Bitte missbraucht den Bot nicht und verwendet moderate Intervalle.
 
 > ### ⚠ Hilfe gesucht! (Zeiten und Shadowbans/IP-Bans)
 >
@@ -31,9 +31,9 @@ Am Beispiel von Windows:
 
 1. Python von hier laden und installieren: https://www.python.org/downloads/
 2. Den Bot runterladen (Rechts oben der grüne Button und da ZIP-Archiv oder [hier](https://github.com/sibalzer/impfbot/archive/refs/heads/main.zip))
-3. Das Archiv (Die Zip Datei) entpacken
-4. `config.ini.example` nach `config.ini` umbennen und deine Daten eintragen (PLZ, Geburtstag, Email Server Daten
-5. Doppelklick auf `windows_validate.bat` um die Einstellungen zu prüfen
+3. Das Archiv (Die Zip-Datei) entpacken
+4. `config.ini.example` nach `config.ini` umbennen und deine Daten eintragen (PLZ, Geburtstag, Email-Server-Daten
+5. Doppelklick auf `windows_validate.bat`, um die Einstellungen zu prüfen
 6. Doppelklick auf `windows_start.bat`
 
 Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung. Siehe dazu [docker](https://github.com/sibalzer/impfbot/tree/main/docker). Das Validieren der Config funktioniert über den Befehl `docker exec impfbot python src/validate_config.py -a`.
@@ -44,40 +44,40 @@ Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung.
 
 Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen will
 
-2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mit `,` getrennt).
-3. ⚠ Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (Url steht in der Bothfather Nachricht und dann start drücken) ⚠
-4. Validieren das auch alles funktioniert: Doppelklick auf `test_telegram.bat`
+2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mehrere Nummern mit `,` getrennt).
+3. ⚠ Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (URL steht in der Botfather-Nachricht, dort /start drücken) ⚠
+4. Validieren, dass auch alles funktioniert: Doppelklick auf `test_telegram.bat`
 
 ### config.ini Parameter
 
-> Deine Daten werden lokal gespeichert! Falls du das selber überprüfen willst geht das am einfachsten über die Suche, da bekommst du alle Codezeilen in die bspw. dein Passwort genutzt wird. Bsp.: Passwort https://github.com/sibalzer/impfbot/search?q=password
+> Deine Daten werden lokal gespeichert! Falls du das selber überprüfen willst geht, das am einfachsten über die Suche. Da bekommst du alle Codezeilen, in denen bspw. dein Passwort genutzt wird. Bsp.: Passwort https://github.com/sibalzer/impfbot/search?q=password
 
 - **\[COMMON\]**: Allgemeine Einstellungen
   - `geburtstag` - Geburtstag, der abgefragt werden soll. Beispiel: `23.06.1912`
   - `gruppengroesse` - Anzahl der Gruppenmitglieder, für die ein Termin gesucht wird. Beispiel: `5`
   - `postleitzahl` - Fünfstellige PLZ für das Impfzentrum, das der Bot überwachen soll. Beispiel: `49123`
-- **\[EMAIL\]**: E-Mail Einstellungen
+- **\[EMAIL\]**: E-Mail-Einstellungen
   - `enable` - Legt fest, ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
-  - `sender` - Die E-Mail Adresse von der die Benachrichtigungen versendet werden sollen. Beispiel: `sender@server.tld`
-  - `user` - Der Benutzername für die Versender E-Mail Adresse. 
-  - `password` - Das Passwort für die Versender E-Mail Adresse. 
+  - `sender` - Die E-Mail-Adresse, von der die Benachrichtigungen versendet werden sollen. Beispiel: `sender@server.tld`
+  - `user` - Der Benutzername für die Absender-E-Mail-Adresse. 
+  - `password` - Das Passwort für die Absender-E-Mail-Adresse. 
   - `server` - Der SMTP-Server. Beispiel: `smtp.server.tld`
   - `port` - Der Port für den SMTP-Server. Beispiel: `465`
-  - `empfaenger` - Eine Liste der E-Mail Adressen an die eine Nachricht geschickt werden soll. Beispiel: `sender@server.tld,foo@server.tld,hoo@server.tld` oder (nur an sich selber) `sender@server.tld`
+  - `empfaenger` - Eine Liste der E-Mail Adressen, an die eine Nachricht geschickt werden soll. Beispiel: `sender@server.tld,foo@server.tld,hoo@server.tld` oder (nur an sich selbst) `sender@server.tld`
 - **\[TELEGRAM\]**: Email Einstellungen
   - `enable` - Legt fest, ob Telegram-Nachrichten versendet werden sollen. `true` wenn ja, sonst `false`.
   - `token` - Der Bot-Token von https://t.me/BotFather
-  - `chat_ids` - User-ID des Empfängers: nutze dazu https://t.me/userinfobot
-- **\[WEBBROWSER\]**: Webbrowser Einstellungen
+  - `chat_ids` - User-ID des Empfängers oder der Empfänger: nutze dazu https://t.me/userinfobot
+- **\[WEBBROWSER\]**: Webbrowser-Einstellungen
   - `enable` - Legt fest, ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
-- **\[ADVANCED\]**: Einstellungen für fortgeschrittene hier wirds experimentell
-  - `sleep_between_requests_in_s` - Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 2.5min, kann aber empirisch verkleinert werden)
+- **\[ADVANCED\]**: Einstellungen für Fortgeschrittene, hier wird's experimentell
+  - `sleep_between_requests_in_s` - Wartezeit zwischen den Abfragen; Eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 2.5 min, kann aber empirisch verkleinert werden)
   - `sleep_between_failed_requests_in_s` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5*15s bis zum nächsen Aufruf
-  - `sleep_after_ipban_in_min` - Wenn eine Abfrage 10x fehlschlaegt ist die IP vermutlich gebannt. Standardmaeßig wird dann 3h gewartet.
-  - `cooldown_after_found_in_min` - Cooldown nachdem ein Impftermin gefunden wurde. Standardmaeßig wird dann 15min gewartet (in min)
-  - `jitter` - Zufällige Zeitspanne von 0-jtter Sekunden die auf die Wartezeiten addiert wird (Default: `10`)
-  - `sleep_at_night` - Legt fest ob der Bot nachts schlafen soll (Default: `true` da eh keine Termine veröffentlicht werden)
-  - `user_agent`- Der User Agent im Header übermittel wird (Default: `impfbot`)
+  - `sleep_after_ipban_in_min` - Wenn eine Abfrage 10x fehlschlaegt, ist die IP vermutlich gebannt. Standardmaeßig wird dann 3 h gewartet.
+  - `cooldown_after_found_in_min` - Cooldown, nachdem ein Impftermin gefunden wurde. Standardmaeßig wird dann 15 min gewartet (in min)
+  - `jitter` - Zufällige Zeitspanne von 0-jtter Sekunden, die auf die Wartezeiten addiert wird (Default: `10`)
+  - `sleep_at_night` - Legt fest, ob der Bot nachts schlafen soll (Default: `true`, da eh keine Termine veröffentlicht werden)
+  - `user_agent`- Der User Agent, der im Header übermittelt wird (Default: `impfbot`)
 
 Beispiel Config:
 
