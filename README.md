@@ -53,10 +53,11 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 > Deine Daten werden lokal gespeichert! Falls du das selber überprüfen willst geht das am einfachsten über die Suche, da bekommst du alle Codezeilen in die bspw. dein Passwort genutzt wird. Bsp.: Passwort https://github.com/sibalzer/impfbot/search?q=password
 
 - **\[COMMON\]**: Allgemeine Einstellungen
-  - `geburtstag` - Geburtstag der Abgefragt werden soll. Beispiel: `23.06.1912`
+  - `geburtstag` - Geburtstag, der abgefragt werden soll. Beispiel: `23.06.1912`
+  - `gruppengroesse` - Anzahl der Gruppenmitglieder, für die ein Termin gesucht wird. Beispiel: `5`
   - `postleitzahl` - Fünfstellige PLZ für das Impfzentrum, das der Bot überwachen soll. Beispiel: `49123`
 - **\[EMAIL\]**: E-Mail Einstellungen
-  - `enable` - Legt fest ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
+  - `enable` - Legt fest, ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
   - `sender` - Die E-Mail Adresse von der die Benachrichtigungen versendet werden sollen. Beispiel: `sender@server.tld`
   - `user` - Der Benutzername für die Versender E-Mail Adresse. 
   - `password` - Das Passwort für die Versender E-Mail Adresse. 
@@ -64,11 +65,11 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
   - `port` - Der Port für den SMTP-Server. Beispiel: `465`
   - `empfaenger` - Eine Liste der E-Mail Adressen an die eine Nachricht geschickt werden soll. Beispiel: `sender@server.tld,foo@server.tld,hoo@server.tld` oder (nur an sich selber) `sender@server.tld`
 - **\[TELEGRAM\]**: Email Einstellungen
-  - `enable_telegram` - Legt fest ob Telegram Nachrichten versendet werden sollen. `true` wenn ja, sonst `false`.
+  - `enable` - Legt fest, ob Telegram-Nachrichten versendet werden sollen. `true` wenn ja, sonst `false`.
   - `token` - Der Bot-Token von https://t.me/BotFather
-  - `chat_id` - User-ID des Empfängers: nutze dazu https://t.me/userinfobot
+  - `chat_ids` - User-ID des Empfängers: nutze dazu https://t.me/userinfobot
 - **\[WEBBROWSER\]**: Webbrowser Einstellungen
-  - `enable_telegram` - Legt fest ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
+  - `enable` - Legt fest, ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
 - **\[ADVANCED\]**: Einstellungen für fortgeschrittene hier wirds experimentell
   - `sleep_between_requests_in_s` - Wartezeit zwischen den Abfragen eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 2.5min, kann aber empirisch verkleinert werden)
   - `sleep_between_failed_requests_in_s` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5*15s bis zum nächsen Aufruf
@@ -95,12 +96,12 @@ port=465
 empfaenger=beispielsender@server.tld,beispielsmfaenger@server.tld
 
 [TELEGRAM]
-enable_telegram=true
+enable_=true
 token=xxxxxxxxxx
-chat_id=01234586789,9876543210
+chat_ids=01234586789,9876543210
 
 [WEBBROWSER]
-open_browser=true
+enable=true
 
 [ADVANCED]
 sleep_between_requests_in_s=123
