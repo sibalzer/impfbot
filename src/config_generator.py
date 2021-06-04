@@ -83,7 +83,10 @@ def run_gui_config(tk_window, config_dict):
 
     def get_input():
         """ read config from form """
-        config_dict["COMMON"]["geburtstag"] = birthday.get_date().strftime("%d.%m.%Y")
+        if search_group_appointments.get():
+            config_dict["COMMON"]["group_size"] = group_size.get()
+        else:
+            config_dict["COMMON"]["geburtstag"] = birthday.get_date().strftime("%d.%m.%Y")
         config_dict["COMMON"]["postleitzahl"] = plz.get()
         for item in NOTIFIERS:
             config_dict[item.upper()]["enable"] = str(enable[item].get()).lower()
@@ -142,6 +145,11 @@ def run_gui_config(tk_window, config_dict):
 
     def validate_input():
         """ validate user input """
+        if search_group_appointments.get():
+            entered_group_size = group_size.get()
+            match_group_size = re.match(r"^[2-9][0-9]*$", entered_group_size)
+            if match_group_size is None:
+                return False
         entered_plz = plz.get()
         match = regex.match(r"\b\d{5}\b", entered_plz)
         return match is not None and entered_plz[:2] in GOOD_PLZ
@@ -257,10 +265,17 @@ def run_cli_config(config_dict):
     birthday = ""
     plz = ""
     match = None
-    while match is None:
+    config_for_group_input = ""
+    while config_for_group_input.lower() not in ["j", "n"]:
+        config_for_group_input = input('Soll nach Gruppenterminen gesucht werden? (j/n): ')
+    config_for_group = config_for_group_input.lower() == "j"
+    while match is None and not config_for_group:
         birthday = input('Bitte den Geburtstag eingeben: ')
         match = regex.match(r"\b\d{1,2}\.\d{1,2}\.\d{4}\b", birthday)
     match = None
+    while match is None and config_for_group:
+        group_size = input('Bitte die Gruppengröße eingeben: ')
+        match = re.match(r"^[2-9][0-9]*$", group_size)
     while match is None or plz[:2] not in GOOD_PLZ:
         plz = input('Bitte die PLZ eingeben: ')
         match = regex.match(r"\b\d{5}\b", plz)
