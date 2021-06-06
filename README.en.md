@@ -43,7 +43,7 @@ For advanced users, a docker container is also available as an alternative. See 
 The following steps must be performed for everyone who wants to receive messages.
 
 2. write to https://t.me/userinfobot and copy "Id"-number into `config.ini` (separated with `,`)
-3. ⚠ You have to start a conversation with your own bot before! (Url is in the bothfather message and then press start). ⚠
+3. ⚠ You have to start a conversation with your own bot before! (URL is in the Botfather message, press start there). ⚠
 4. validate that everything works: Double click on `test_telegram.bat`
 
 ### config.ini parameters
@@ -52,9 +52,9 @@ The following steps must be performed for everyone who wants to receive messages
 
 
 - **\[COMMON\]**: General settings
-  - `birthday` - birthday to be queried. Example: `23.06.1912`.
+  - `birthday` - Birthday to be queried. Example: `23.06.1912`.
   - `gruppengroesse` - Size of the group for which an appointment is requested (2 to 15). Example: `5`
-  - `postleitzahl` - five-digit zip code for your vaccination center. Example: `49123`
+  - `postleitzahl` - Five-digit zip code for your vaccination center. Example: `49123`
 - **\[EMAIL\]**: Email settings
   - `enable` - Specifies whether emails should be sent. `true` if yes, `false` otherwise.
   - `sender` - The email address from which the notifications should be sent. Example: `sender@server.tld`.
@@ -67,7 +67,7 @@ The following steps must be performed for everyone who wants to receive messages
   - `enable` - Specifies whether Telegram messages should be sent. `true` if yes, otherwise `false`.
   - `token` - The bot token from https://t.me/BotFather
   - `chat_id` - User-ID of the recipient: use https://t.me/userinfobot
-- **\[TELEGRAM\]**: Web browser settings
+- **\[WEBBROWSER\]**: Web browser settings
   - `enable` - Determines if the browser should be opened automatically. (Only on desktop systems) `true` if yes, otherwise `false`.
 - **\[ADVANCED\]**: Settings for advanced users. it's gettting experimental 🤓
   - `sleep_between_requests_in_s` - wait time between requests. A too small wait time leads to an IP ban (default: 2.5min, but can be decreased empirically)
@@ -100,7 +100,7 @@ token=xxxxxxxx
 chat_id=01234586789,9876543210
 
 [WEBBROWSER]
-open=true
+enable=true
 
 [ADVANCED]
 sleep_between_requests_in_s=123
