@@ -4,6 +4,8 @@
 [![Python](https://img.shields.io/badge/Made%20with-Python%203.x-blue.svg?style=flat-square&logo=Python&logoColor=white)](https://www.python.org/)
 [![GitHub license](https://img.shields.io/github/license/sibalzer/impfbot)](https://github.com/sibalzer/impfbot/blob/main/LICENSE)
 
+_Zur deutschen Version geht's [hier](https://github.com/sibalzer/impfbot/blob/main/README.md)._
+
 A little weekend project of mine. The bot monitors the REST-API of the lower saxony vaccination portal (https://impfportal-niedersachsen.de) for free vaccination slots and sends a notification via mail. From then on, unfortunately, the fastest wins. Please do not abuse the bot and use moderate intervals.
 
 > ### ⚠ Help wanted! (Times and Shadowbans/IP-Bans)
