@@ -96,7 +96,7 @@ port=465
 empfaenger=beispielsender@server.tld,beispielsmfaenger@server.tld
 
 [TELEGRAM]
-enable_=true
+enable=true
 token=xxxxxxxxxx
 chat_ids=01234586789,9876543210
 
