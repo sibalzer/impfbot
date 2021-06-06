@@ -53,7 +53,7 @@ The following steps must be performed for everyone who wants to receive messages
 
 - **\[COMMON\]**: General settings
   - `birthday` - birthday to be queried. Example: `23.06.1912`.
-  - `gruppengroesse` - Size of the group for which an appointment is requested. Example: `5`
+  - `gruppengroesse` - Size of the group for which an appointment is requested (2 to 15). Example: `5`
   - `postleitzahl` - five-digit zip code for your vaccination center. Example: `49123`
 - **\[EMAIL\]**: Email settings
   - `enable` - Specifies whether emails should be sent. `true` if yes, `false` otherwise.

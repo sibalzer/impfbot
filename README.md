@@ -55,7 +55,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 
 - **\[COMMON\]**: Allgemeine Einstellungen
   - `geburtstag` - Geburtstag, der abgefragt werden soll. Beispiel: `23.06.1912`
-  - `gruppengroesse` - Anzahl der Gruppenmitglieder, für die ein Termin gesucht wird. Beispiel: `5`
+  - `gruppengroesse` - Anzahl der Gruppenmitglieder, für die ein Termin gesucht wird (2 - 15). Beispiel: `5`
   - `postleitzahl` - Fünfstellige PLZ für das Impfzentrum, das der Bot überwachen soll. Beispiel: `49123`
 - **\[EMAIL\]**: E-Mail-Einstellungen
   - `enable` - Legt fest, ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
