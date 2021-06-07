@@ -1,5 +1,4 @@
 """tests for module impfbot"""
-from logging import exception
 import unittest.mock as mock
 import requests_mock
 import requests
@@ -67,8 +66,8 @@ empty = {
 }
 
 load("tests/configs/test-config.ini")
-zip = settings.COMMON_ZIP_CODE
-api_url = f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip}?stiko=&count=1'
+zip_code = settings.COMMON_ZIP_CODE
+api_url = f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip_code}?stiko=&count=1'
 
 error_none = None
 

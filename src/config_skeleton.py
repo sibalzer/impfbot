@@ -15,6 +15,11 @@ SKELETON = {
             "default": None,
             "type": datetime,
             "regex": BIRTHDATE_REGEX
+        },
+        "group_size": {
+            "default": None,
+            "type": int,
+            "regex": NUMBER_REGEX
         }
     },
     "EMAIL": {

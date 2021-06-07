@@ -145,7 +145,7 @@ def test_old(log_info_mock,
     assert log_warning_mock.call_count == 11
     for msg in log_warning_mock.call_args_list:
         assert (" is depracated please use: " in msg.args[0]
-                or "[EMAIL] 'user' setting sender as user" in msg.args[0])
+                or "[EMAIL] 'user' is missing; set sender as user" in msg.args[0])
     log_error_mock.assert_not_called()
 
     # COMMON
@@ -189,8 +189,8 @@ def test_missing_optional(log_info_mock,
     load("tests/configs/test-config-optional-missing.ini")
 
     # Check output
-    log_info_mock.assert_not_called()
-    assert log_warning_mock.call_count == 10
+    assert log_info_mock.call_count == 3
+    assert log_warning_mock.call_count == 7
     log_error_mock.assert_not_called()
 
     # EMAIL

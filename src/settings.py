@@ -124,14 +124,14 @@ def __validate_section(section: str):
 def __validate_option(section: str, option: str):
     if section == "COMMON":
         option_name = f'COMMON_{option.upper()}'
-        if option in ["birthdate", "group"]:
-            if not hasattr(settings, "COMMON_BIRTHDATE") and not hasattr(settings, "COMMON_GROUP"):
+        if option in ["birthdate", "group_size"]:
+            if not hasattr(settings, "COMMON_BIRTHDATE") and not hasattr(settings, "COMMON_GROUP_SIZE"):
                 raise ParseExeption(
-                    f"[{section}] 'birthdate' or 'group' must be in the config.")
+                    f"[{section}] 'birthdate' or 'group_size' must be in the config.")
 
-            if not hasattr(settings, "COMMON_BIRTHDATE") ^ hasattr(settings, "COMMON_GROUP"):
+            if not hasattr(settings, "COMMON_BIRTHDATE") ^ hasattr(settings, "COMMON_GROUP_SIZE"):
                 raise ParseExeption(
-                    f"[{section}] only one of 'birthdate' or 'group' is allowed in the same config.")
+                    f"[{section}] only one of 'birthdate' or 'group_size' is allowed in the same config.")
         else:
             if getattr(settings, option_name, None) is None:
                 raise ParseExeption(
@@ -148,7 +148,7 @@ def __validate_option(section: str, option: str):
                     __set_option(section, "user", getattr(
                         settings, "EMAIL_SENDER"))
                     __log.warning(
-                        f"[{section}] '{option}' setting sender as user")
+                        f"[{section}] '{option}' is missing; set sender as user")
                 else:
                     __set_option(section, "enable", "False")
                     __log.warning(
@@ -156,8 +156,8 @@ def __validate_option(section: str, option: str):
         else:
             __set_option(section, "enable", "False")
             if option == "enable":
-                __log.warning(
-                    f"[{section}] '{option}' is missing. Disable [{section}]")
+                __log.info(
+                    f"[{section}] '{option}' is set to 'false'. Disable [{section}]")
 
     elif section == "ADVANCED":
         name = option.upper()

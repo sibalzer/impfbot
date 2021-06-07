@@ -23,7 +23,7 @@ def fetch_api(
         user_agent: str = 'python'
     ) -> any:
     """fetches the api with ip ban avoidance"""
-    url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{plz}?stiko="
+    url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip_code}?stiko="
     if birthdate_timestamp:
         url += f"&count=1&birthdate={int(birthdate_timestamp)*1000}"
     elif group_size:
