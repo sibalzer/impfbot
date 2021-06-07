@@ -1,5 +1,5 @@
 """config parser modul"""
-from configparser import ConfigParser
+from configparser import RawConfigParser
 import re
 import logging
 from datetime import datetime
@@ -9,7 +9,7 @@ from config_skeleton import SKELETON, DEPRACATED_CONFIG_MAP
 from config_generator import start_config_generation
 from common import NOTIFIERS
 
-log = logging.getLogger(__name__)
+__log = logging.getLogger(__name__)
 
 
 class Datastore():
@@ -24,7 +24,7 @@ class Datastore():
                 if section not in "ADVANCED":
                     name_builder = f"{section.upper()}_{option.upper()}"
                 value = getattr(self, name_builder)
-                if type(value) is list:
+                if isinstance(value, list):
                     list_str = ""
                     for entry in value:
                         list_str += str(entry)
@@ -32,109 +32,155 @@ class Datastore():
                 result += f"   {option}: {value}\n"
         return result
 
+    def clear(self):
+        """removes all settings"""
+        attributes = list(settings.__dict__)
+        for att in attributes:
+            delattr(self, att)
+
 
 settings = Datastore()
 
 
 class ParseExeption(BaseException):
     """data-class for settings"""
-    pass
 
 
-def validate_option(config: ConfigParser, section: str, option: str, alt_name: str = ""):
-    """validates a setting with regex"""
-    regex = SKELETON[section][option]["regex"]
-
-    if alt_name:
-        if re.match(regex, config[section][alt_name]):
-            return True
-    else:
-        if re.match(regex, config[section][option]):
-            return True
-
-    return False
-
-
-def set_option(config: ConfigParser, section: str, option: str, alt_name: str = ""):
+def __set_option(section: str, option: str, value: str, multiplyer: int = 1):
     """sets an option in the data class"""
-    if alt_name:
-        value = config[section][alt_name]
-    else:
-        value = config[section][option]
-    t: any = SKELETON[section][option]["type"]
+    regex = SKELETON[section][option]["regex"]
 
     name_builder = option.upper()
     if section != "ADVANCED":
         name_builder = f"{section.upper()}_" + name_builder
 
-    if t is datetime:
-        value = datetime.strptime(value, r'%d.%m.%Y')
-    elif t is float:
-        value = t(value)
-        if alt_name[-7:] == "_in_min":
-            value *= 60
-    elif t is bool:
-        value = value == "true"
-    elif t is list:
-        value = value.split(',')
-    else:
-        value = t(value)
+    if re.match(regex, value):
+        typ: any = SKELETON[section][option]["type"]
 
-    setattr(settings, name_builder, value)
+        if issubclass(typ, datetime):
+            value = datetime.strptime(value, r'%d.%m.%Y')
+        elif typ is float:
+            value = typ(value)*multiplyer
+        elif typ is bool:
+            value = value == "true"
+        elif typ is list:
+            value = value.split(',')
+        else:
+            value = typ(value)
+
+        setattr(settings, name_builder, value)
 
 
-def parse_option(config: ConfigParser, section: str, option: str):
+def __parse(config: RawConfigParser):
+    for section in config.sections():
+        if section in SKELETON:
+            __parse_section(config, section)
+        else:
+            __log.warning(
+                f"[{section}] is unknown")
+
+
+def __parse_section(config: RawConfigParser, section: str):
+    """parse a settings section"""
+    for option in config.options(section):
+        try:
+            __parse_option(config, section, option)
+        except Exception as _e:
+            __log.error(
+                f"[{section}] '{option}' error during parsing: {_e}")
+
+
+def __parse_option(config: RawConfigParser, section: str, option: str):
     """parse a single setting option"""
-    if config.has_option(section, option) and validate_option(config, section, option):
-        set_option(config, section, option)
+    if option in SKELETON[section]:
+        value = config[section][option]
+        __set_option(section, option, value)
         return
 
-    elif option in DEPRACATED_CONFIG_MAP.values():
-        for old_key in DEPRACATED_CONFIG_MAP:
-            if DEPRACATED_CONFIG_MAP[old_key] == option:
-                new_key = DEPRACATED_CONFIG_MAP[old_key]
-                if validate_option(config, section, new_key, alt_name=old_key):
-                    log.warning(
-                        f"[{section}] '{old_key}' is depracated please use: '{new_key}'")
-                    set_option(config, section, new_key, alt_name=old_key)
-                    return
-                else:
-                    ParseExeption(f"[{section}] '{option}' is not valid.")
+    # depracated config
+    elif (section, option) in DEPRACATED_CONFIG_MAP:
+        new_option = DEPRACATED_CONFIG_MAP[(section, option)]
+        value = config[section][option]
+        if option[-7:] == "_in_min":
+            __set_option(section, new_option, value, 60)
+        else:
+            __set_option(section, new_option, value)
+
+        __log.warning(
+            f"[{section}] '{option}' is depracated please use: '{new_option}'")
+
+    # unknown
+    else:
+        __log.warning(f"[{section}] '{option}' is unknown.")
+
+
+def __validate():
+    for section in SKELETON:
+        __validate_section(section)
+
+
+def __validate_section(section: str):
+    for option in SKELETON[section]:
+        __validate_option(section, option)
+
+
+def __validate_option(section: str, option: str):
+    if section == "COMMON":
+        option_name = f'COMMON_{option.upper()}'
+        if option == "birthdate" or option == "group":
+            if not hasattr(settings, "COMMON_BIRTHDATE") and not hasattr(settings, "COMMON_GROUP"):
+                raise ParseExeption(
+                    f"[{section}] 'birthdate' or 'group' must be in the config.")
+
+            if not hasattr(settings, "COMMON_BIRTHDATE") ^ hasattr(settings, "COMMON_GROUP"):
+                raise ParseExeption(
+                    f"[{section}] only one of 'birthdate' or 'group' is allowed in the same config.")
+        else:
+            if getattr(settings, option_name, None) is None:
+                raise ParseExeption(
+                    f"[{section}] '{option}' must be in the config.")
 
     elif section in NOTIFIERS:
-        value = SKELETON[section]["enable"]["default"]
-        type: any = SKELETON[section][option]["type"]
-        name_builder = f"{section.upper()}_ENABLE"
-        setattr(settings, option, None)
-        setattr(settings, name_builder, type(value))
+        option_name = f"{section.upper()}_{option.upper()}"
+        name_enable = f"{section.upper()}_ENABLE"
+        if getattr(settings, name_enable, False):
+            if getattr(settings, option_name, None) is None:
+                if (section == "EMAIL" and option == "user"
+                    # depracated special case email user
+                        and getattr(settings, "EMAIL_SENDER") is not None):
+                    __set_option(section, "user", getattr(
+                        settings, "EMAIL_SENDER"))
+                    __log.warning(
+                        f"[{section}] '{option}' setting sender as user")
+                else:
+                    __set_option(section, "enable", "False")
+                    __log.warning(
+                        f"[{section}] '{option}' not valid or missing. Disable [{section}]")
+        else:
+            __set_option(section, "enable", "False")
+            if option == "enable":
+                __log.warning(
+                    f"[{section}] '{option}' is missing. Disable [{section}]")
 
-        log.warning(f"[{section}] '{option}' not valid. Disable [{section}]")
-        return
+    elif section == "ADVANCED":
+        name = option.upper()
+        if getattr(settings, name, None) is None:
+            value = SKELETON[section][option]["default"]
+            typ: any = SKELETON[section][option]["type"]
+            setattr(settings, option.upper(), typ(value))
 
-    elif section in "ADVANCED":
-        value = SKELETON[section][option]["default"]
-        type: any = SKELETON[section][option]["type"]
-        setattr(settings, option.upper(), type(value))
-
-        log.warning(
-            f"[{section}] '{option}' not set. Using default: '{value}'")
-        return
-
-    raise ParseExeption(f"[{section}] '{option}' must be in the config.")
+            __log.warning(
+                f"[{section}] '{option}' not set. Using default: '{value}'")
+            return
 
 
 def load(path):
     """loads a config file"""
-    config = ConfigParser()
+    settings.clear()
+    config = RawConfigParser()
     dataset = config.read(path)
     if not dataset:
-        start_config_generation()
+        raise FileNotFoundError()
 
-    for section in SKELETON:
-        for option in SKELETON[section]:
-            try:
-                parse_option(config, section, option)
-            except ParseExeption as _e:
-                log.warning(_e)
-            except Exception as _e:
-                log.error(f"[{section}] '{option}' error during parsing: {_e}")
+    __parse(config)
+    __validate()

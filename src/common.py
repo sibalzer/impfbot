@@ -18,8 +18,8 @@ MAIL_REGEX = r"\b(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]
 NOTIFIERS = ["EMAIL", "TELEGRAM", "WEBBROWSER"]
 NOTIFIER_REGEX = {
     "sender": MAIL_REGEX,
-    "user": r"^[^ ]*$",   # match anything not a space
-    "password": r"^[^ ]*$",   # match anything not a space
+    "user": r"^[^ ]*$",   # match anything execpt space
+    "password": r"^[^ ]*$",   # match anything execpt space
     # match alphanumeric characters, dash, and dot
     "server": r"\b^[a-zA-Z0-9-\.]+$",
     "port": r"^\d{2,}$",

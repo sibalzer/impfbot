@@ -90,17 +90,17 @@ SKELETON = {
             "regex": NUMBER_REGEX
         },
         "cooldown_after_ip_ban": {
-            "default": 60*5,
+            "default": 60*60*3,
             "type": float,
             "regex": NUMBER_REGEX
         },
         "cooldown_after_success": {
-            "default": 30,
+            "default": 60*15,
             "type": float,
             "regex": NUMBER_REGEX
         },
         "jitter": {
-            "default": 30,
+            "default": 10,
             "type": float,
             "regex": NUMBER_REGEX
         },
@@ -118,13 +118,14 @@ SKELETON = {
 }
 
 DEPRACATED_CONFIG_MAP = {
-    "postleitzahl": "zip_code",
-    "geburtstag": "birthdate",
-    "empfaenger": "receivers",
-    "enable_telegram": "enable",
-    "chat_id": "chat_ids",
-    "sleep_between_requests_in_s": "cooldown_between_requests",
-    "sleep_between_failed_requests_in_s": "cooldown_between_failed_requests",
-    "sleep_after_ipban_in_min": "cooldown_after_ip_ban",
-    "cooldown_after_found_in_min": "cooldown_after_success",
+    ("COMMON", "postleitzahl"): "zip_code",
+    ("COMMON", "geburtstag"): "birthdate",
+    ("EMAIL", "empfaenger"): "receivers",
+    ("TELEGRAM", "enable_telegram"): "enable",
+    ("TELEGRAM", "chat_id"): "chat_ids",
+    ("WEBBROWSER", "open_browser"): "enable",
+    ("ADVANCED", "sleep_between_requests_in_s"): "cooldown_between_requests",
+    ("ADVANCED", "sleep_between_failed_requests_in_s"): "cooldown_between_failed_requests",
+    ("ADVANCED", "sleep_after_ipban_in_min"): "cooldown_after_ip_ban",
+    ("ADVANCED", "cooldown_after_found_in_min"): "cooldown_after_success",
 }
