@@ -147,7 +147,7 @@ def run_gui_config(tk_window, config_dict):
         """ validate user input """
         if search_group_appointments.get():
             entered_group_size = group_size.get()
-            match_group_size = re.match(r"^[2-9][0-9]*$", entered_group_size)
+            match_group_size = re.match(r"^[2-9]|1[0-5]$", entered_group_size)
             if match_group_size is None:
                 return False
         entered_plz = plz.get()
@@ -275,7 +275,7 @@ def run_cli_config(config_dict):
     match = None
     while match is None and config_for_group:
         group_size = input('Bitte die Gruppengröße eingeben: ')
-        match = re.match(r"^[2-9][0-9]*$", group_size)
+        match = re.match(r"^[2-9]|1[0-5]$", group_size)
     while match is None or plz[:2] not in GOOD_PLZ:
         plz = input('Bitte die PLZ eingeben: ')
         match = regex.match(r"\b\d{5}\b", plz)
