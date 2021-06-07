@@ -1,13 +1,11 @@
 """alert service handler"""
 
+import apprise
 import smtplib
 import webbrowser
 import logging
 from email.message import EmailMessage
 from email.utils import formatdate
-from telegram.ext import Updater
-from telegram.parsemode import ParseMode
-from telegram.error import TelegramError
 
 from common import APPOINTMENT_URL
 from settings import settings
@@ -18,22 +16,22 @@ log = logging.getLogger(__name__)
 def alert(msg: str) -> None:
     """Calls alert services with message"""
     if settings.EMAIL_ENABLE:
-        log.debug("[EMAIL] try to send _e-mail")
+        log.debug("[EMAIL] try to send e-mail")
         try:
             send_mail(msg)
-            log.debug("[EMAIL] sending _e-mail was successful")
-        except smtplib.SMTPException as _e:
-            log.error(f"[EMAIL] Couldn't send mail: {_e}")
+            log.info("[EMAIL] sending e-mail was successful")
+        except smtplib.SMTPException as ex:
+            log.error(f"[EMAIL] Couldn't send mail: {ex}")
     else:
         log.debug("[EMAIL] enable is not set to true. Skipping...")
 
     if settings.TELEGRAM_ENABLE:
         log.debug("[TELEGRAM] Try to send telegram message")
         try:
-            send_telegram_msg(msg)
-            log.debug("[TELEGRAM] Sending telegram message was successful")
-        except TelegramError as _e:
-            log.error(f"[TELEGRAM] Couldn't send Telegram message: {_e}")
+            send_telegram(msg)
+            log.info("[TELEGRAM] Sending telegram message was successful")
+        except Exception as ex:
+            log.error(f"[TELEGRAM] Couldn't send Telegram message: {ex}")
     else:
         log.debug(
             "[TELEGRAM] enable is not set to true. Skipping...")
@@ -42,12 +40,23 @@ def alert(msg: str) -> None:
         log.debug("[WEBBROWSER] try to open browser")
         try:
             webbrowser.open(APPOINTMENT_URL, new=1, autoraise=True)
-            log.debug("[WEBBROWSER] Open browser was successful")
-        except webbrowser.Error as _e:
-            log.error(f"[WEBBROWSER] Couldn't open browser: {_e}")
+            log.info("[WEBBROWSER] Open browser was successful")
+        except webbrowser.Error as ex:
+            log.error(f"[WEBBROWSER] Couldn't open browser: {ex}")
     else:
         log.debug(
             "[WEBBROWSER] enable is not set to true. Skipping...")
+
+    if settings.APPRISE_ENABLE:
+        log.debug(f"[APPRISE] try to send Apprise Notification")
+        try:
+            send_apprise(msg)
+            log.info(
+                f"[APPRISE] sending Apprise Notification was successful")
+        except Exception as ex:
+            log.error(f"Couldn't send Apprise Notification: {ex}")
+    else:
+        log.debug(f"[APPRISE] send_apprise is not set to true skipping")
 
 
 def send_mail(msg: str) -> None:
@@ -66,12 +75,30 @@ def send_mail(msg: str) -> None:
         smtp.send_message(mail)
 
 
-def send_telegram_msg(msg: str) -> None:
+def send_telegram(msg: str) -> None:
     """telegram alert service"""
-    update = Updater(settings.TELEGRAM_TOKEN)
+    appobj = apprise.Apprise()
+
+    url = f"tgram://{settings.TELEGRAM_TOKEN}"
     for chat_id in settings.TELEGRAM_CHAT_IDS:
-        update.bot.send_message(
-            chat_id=chat_id,
-            text=f"*{msg}*\n{APPOINTMENT_URL}",
-            parse_mode=ParseMode.MARKDOWN
-        )
+        url += f"/{chat_id}"
+
+    appobj.add(url)
+
+    appobj.notify(
+        body=f"{APPOINTMENT_URL}",
+        title=f"*{msg}*",
+    )
+
+
+def send_apprise(msg: str) -> None:
+    """apprise alert service"""
+    appobj = apprise.Apprise()
+
+    for url in settings.APPRISE_SERVICE_URIS:
+        appobj.add(url)
+
+    appobj.notify(
+        body=f"{APPOINTMENT_URL}",
+        title=f"*{msg}*",
+    )

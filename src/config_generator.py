@@ -19,6 +19,9 @@ FIELDS = {
     "TELEGRAM": {
         "token": "Token",
         "chat_ids": "Chat-ID(s)"
+    },
+    "APPRISE": {
+        "service_urls": "Different Service URLs"
     }
 }
 
@@ -85,7 +88,8 @@ def run_gui_config(tk_window, config_dict):
         if search_group_appointments.get():
             config_dict["COMMON"]["group_size"] = group_size.get()
         else:
-            config_dict["COMMON"]["birthdate"] = birthday.get_date().strftime("%d.%m.%Y")
+            config_dict["COMMON"]["birthdate"] = birthday.get_date().strftime(
+                "%d.%m.%Y")
         config_dict["COMMON"]["zip_code"] = plz.get()
         for item in NOTIFIERS:
             config_dict[item.upper()]["enable"] = str(
@@ -229,7 +233,8 @@ def run_gui_config(tk_window, config_dict):
     plz.grid(row=5, column=1)
     group_size.grid_remove()
 
-    tk.Label(tk_window, text="Benachrichtigung", font="bold").grid(row=6, column=1)
+    tk.Label(tk_window, text="Benachrichtigung",
+             font="bold").grid(row=6, column=1)
     for item in NOTIFIERS:
         enable[item] = tk.BooleanVar()
         enable[item].set(False)
@@ -277,7 +282,8 @@ def run_cli_config(config_dict):
     match = None
     config_for_group_input = ""
     while config_for_group_input.lower() not in ["j", "n"]:
-        config_for_group_input = input('Soll nach Gruppenterminen gesucht werden? (j/n): ')
+        config_for_group_input = input(
+            'Soll nach Gruppenterminen gesucht werden? (j/n): ')
     config_for_group = config_for_group_input.lower() == "j"
     while match is None and not config_for_group:
         birthday = input('Bitte den Geburtstag eingeben: ')

@@ -5,7 +5,7 @@ import alerts
 
 
 @mock.patch('alerts.send_mail')
-@mock.patch('alerts.send_telegram_msg')
+@mock.patch('alerts.send_telegram')
 @mock.patch('webbrowser.open', return_value=None)
 def test_alert(browser_mock, telegram_mock, email_mock):
     load("tests/configs/test-config.ini")
@@ -35,17 +35,14 @@ def test_send_email(smtp_mock):
     smtp_mock_obj.send_message.assert_called_once()
 
 
-@mock.patch('telegram.bot.Bot._validate_token', return_value=None)
-@mock.patch('telegram.bot.Bot.send_message', return_value=None)
-def test_send_telegram_msg(telegram_send_mock, telegram_validate_token_mock):
+@mock.patch('apprise.Apprise.notify', return_value=None)
+def test_send_telegram_msg(apprise_notify_mock):
     load("tests/configs/test-config-telegram.ini")
 
     msg = 'test'
-    alerts.send_telegram_msg(msg)
+    alerts.send_telegram(msg)
 
-    for chat_id in settings.TELEGRAM_CHAT_IDS:
-        assert telegram_send_mock.call_count == len(settings.TELEGRAM_CHAT_IDS)
-        assert telegram_send_mock.call_args[1]["chat_id"] in settings.TELEGRAM_CHAT_IDS
+    assert apprise_notify_mock.called_once()
 
 
 @mock.patch('webbrowser.open', return_value=None)
@@ -56,3 +53,13 @@ def test_open_browser(webbrowser_mock):
 
     webbrowser_mock.assert_called_once_with(
         alerts.APPOINTMENT_URL, new=1, autoraise=True)
+
+
+@mock.patch('apprise.Apprise.notify', return_value=None)
+def test_send_apprise(apprise_notify_mock):
+    load("tests/configs/test-config-apprise.ini")
+
+    msg = 'test'
+    alerts.send_apprise(msg)
+
+    assert apprise_notify_mock.called_once()

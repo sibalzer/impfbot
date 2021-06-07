@@ -141,7 +141,7 @@ def test_old(log_info_mock,
     load("tests/configs/test-config-old.ini")
 
     # Check output
-    log_info_mock.assert_not_called()
+    assert log_info_mock.call_count == 1
     assert log_warning_mock.call_count == 11
     for msg in log_warning_mock.call_args_list:
         assert (" is depracated please use: " in msg.args[0]
@@ -189,7 +189,7 @@ def test_missing_optional(log_info_mock,
     load("tests/configs/test-config-optional-missing.ini")
 
     # Check output
-    assert log_info_mock.call_count == 3
+    assert log_info_mock.call_count == 4
     assert log_warning_mock.call_count == 7
     log_error_mock.assert_not_called()
 
