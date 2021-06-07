@@ -34,14 +34,23 @@ def load(path: str):
         raise ParseExeption(f"[COMMON] Invalid ZIP-Code: {e}")
 
     try:
-        global BIRTHDATE
         BIRTHDATE = datetime.datetime.strptime(
             config["COMMON"]["geburtstag"], r"%d.%m.%Y")
     except KeyError as e:
-        raise ParseExeption(
-            f"[COMMON] '{e}' is missing in config. Cant run without birthdate. Exit.")
+        log.warning(
+            f"[COMMON] '{e}' is missing in Config. Cant run without birthdate. Expecting group size input.")
     except Exception as e:
-        raise ParseExeption(f"[COMMON] Invalid birthdate: {e}")
+        log.warning(f"[COMMON] Invalid birthdate: {e}")
+
+    try:
+        if not "BIRTHDATE" in locals():
+            GROUP_SIZE = config["COMMON"]["gruppengroesse"]
+    except KeyError as e:
+        log.warning(
+            f"[COMMON] '{e}' is missing in Config. Cant run without birthdate or group size.")
+        sys.exit(1)
+    except Exception as e:
+        log.warning(f"[COMMON] Invalid group_size: {e}")
 
     try:
         global SEND_EMAIL
