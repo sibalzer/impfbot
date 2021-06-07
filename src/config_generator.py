@@ -1,52 +1,53 @@
 """ generate a config if none found """
 import tkinter as tk
-import configparser
-import regex
+import re
 from tkinter import ttk
 from tkcalendar import DateEntry
 
-from common import GOOD_PLZ
+from common import NOTIFIERS, NOTIFIER_REGEX, ZIP_REGEX
+from config_skeleton import SKELETON
 
-NOTIFIERS = ["EMail", "Telegram", "Webbrowser"]
 FIELDS = {
-    "EMail": {
+    "EMAIL": {
         "sender": "Absender",
+        "user": "User",
         "password": "Passwort",
         "server": "Server",
         "port": "Port",
         "receivers": "Empfänger"
     },
-    "Telegram": {
+    "TELEGRAM": {
         "token": "Token",
         "chat_ids": "Chat-ID(s)"
+    },
+    "APPRISE": {
+        "service_urls": "Different Service URLs"
     }
 }
-# from emailregex.com, adapted for python syntax
-MAIL_REGEX = r"\b(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])\b"
-NOTIFIER_REGEX = {
-    "sender": MAIL_REGEX,
-    "password": r"\b[^ ]+\b",   # match anything not a space
-    "server": r"\b[\p{L}\p{N}\-\.]+\b",    # match alphanumeric characters, dash, and dot
-    "port": r"\b\d{2,}\b",
-    "receivers": r"\b" + MAIL_REGEX + r"(," + MAIL_REGEX + r")*\b",
-    "token": r"\b[0-9]{7,}\:[a-zA-Z0-9\-\_]+\b",    # I hope this covers all possible tokens
-    "chat_ids": r"\b\d{5,}(,\d{5,})*\b" # matches a list of numbers
-}
+
 
 def init_input(config_dict):
     config_dict["COMMON"] = {}
     for item in NOTIFIERS:
         config_dict[item.upper()] = {}
     config_dict["ADVANCED"] = {}
-    config_dict["ADVANCED"]["sleep_between_requests_in_s"] = "300"
-    config_dict["ADVANCED"]["sleep_between_failed_requests_in_s"] = "30"
-    config_dict["ADVANCED"]["sleep_after_ipban_in_min"] = "180"
-    config_dict["ADVANCED"]["cooldown_after_found_in_min"] = "15"
-    config_dict["ADVANCED"]["jitter"] = "15"
-    config_dict["ADVANCED"]["sleep_at_night"] = "true"
-    config_dict["ADVANCED"]["user_agent"] = "impfbot"
+    config_dict["ADVANCED"]["cooldown_between_requests"] = str(
+        SKELETON["ADVANCED"]["cooldown_between_requests"]["default"])
+    config_dict["ADVANCED"]["cooldown_between_failed_requests"] = str(
+        SKELETON["ADVANCED"]["cooldown_between_failed_requests"]["default"])
+    config_dict["ADVANCED"]["cooldown_after_ip_ban"] = str(
+        SKELETON["ADVANCED"]["cooldown_after_ip_ban"]["default"])
+    config_dict["ADVANCED"]["cooldown_after_success"] = str(
+        SKELETON["ADVANCED"]["cooldown_after_success"]["default"])
+    config_dict["ADVANCED"]["jitter"] = str(
+        SKELETON["ADVANCED"]["jitter"]["default"])
+    config_dict["ADVANCED"]["sleep_at_night"] = str(
+        SKELETON["ADVANCED"]["sleep_at_night"]["default"])
+    config_dict["ADVANCED"]["user_agent"] = str(
+        SKELETON["ADVANCED"]["user_agent"]["default"])
 
-def start_config_generation(config_dict):
+
+def start_config_generation(config_dict: dict = dict()):
     """ entry point for config generation """
     run_gui = True
     try:
@@ -64,6 +65,7 @@ def start_config_generation(config_dict):
     if config_dict != {}:
         with open("config.ini", "w") as configfile:
             config_dict.write(configfile)
+
 
 def run_gui_config(tk_window, config_dict):
     """ create a window for data entry """
@@ -86,10 +88,12 @@ def run_gui_config(tk_window, config_dict):
         if search_group_appointments.get():
             config_dict["COMMON"]["group_size"] = group_size.get()
         else:
-            config_dict["COMMON"]["geburtstag"] = birthday.get_date().strftime("%d.%m.%Y")
-        config_dict["COMMON"]["postleitzahl"] = plz.get()
+            config_dict["COMMON"]["birthdate"] = birthday.get_date().strftime(
+                "%d.%m.%Y")
+        config_dict["COMMON"]["zip_code"] = plz.get()
         for item in NOTIFIERS:
-            config_dict[item.upper()]["enable"] = str(enable[item].get()).lower()
+            config_dict[item.upper()]["enable"] = str(
+                enable[item].get()).lower()
 
     def create_subwindow(event):
         """ when selecting a notifier, show a new window with the required options """
@@ -97,7 +101,8 @@ def run_gui_config(tk_window, config_dict):
             """ get values and close window """
             if validate_notifier_input():
                 for field in FIELDS[notifier]:
-                    config_dict[notifier.upper()][field] = input_arr[field].get()
+                    config_dict[notifier.upper(
+                    )][field] = input_arr[field].get()
                 subwindow.destroy()
             else:
                 open_alert_window(msg="Bitte alle Felder ausfüllen.")
@@ -105,24 +110,27 @@ def run_gui_config(tk_window, config_dict):
         def validate_notifier_input():
             """ check for empty input """
             for item in input_arr:
-                match = regex.match(NOTIFIER_REGEX[item], input_arr[item].get())
+                match = re.match(
+                    NOTIFIER_REGEX[item], input_arr[item].get())
                 if match is None:
                     return False
             return True
 
         notifier = event.widget.cget("text")
-        if notifier != "Webbrowser" and not enable[notifier].get():
+        if notifier != "WEBBROWSER" and not enable[notifier].get():
             enable[notifier].set(not enable[notifier].get())
             input_arr = {}
             subwindow = tk.Toplevel(tk_window)
             row_index = 0
             notifier_fields = FIELDS[notifier]
             for field in notifier_fields:
-                tk.Label(subwindow, text=notifier_fields[field]).grid(row=row_index, column=0)
+                tk.Label(subwindow, text=notifier_fields[field]).grid(
+                    row=row_index, column=0)
                 input_arr[field] = tk.Entry(subwindow)
                 input_arr[field].grid(row=row_index, column=1)
                 row_index += 1
-            close = tk.Button(subwindow, text="Fenster schließen", command=close_subwindow)
+            close = tk.Button(
+                subwindow, text="Fenster schließen", command=close_subwindow)
             close.grid(row=row_index, column=1)
         return 0
 
@@ -133,7 +141,8 @@ def run_gui_config(tk_window, config_dict):
 
         alert_window = tk.Toplevel(tk_window)
         tk.Label(alert_window, text=msg).grid(row=0, column=0)
-        close_alert = tk.Button(alert_window, text="OK", command=close_alert_window)
+        close_alert = tk.Button(alert_window, text="OK",
+                                command=close_alert_window)
         close_alert.grid(row=1, column=0)
 
     def check_notifiers_enabled():
@@ -147,17 +156,17 @@ def run_gui_config(tk_window, config_dict):
         """ validate user input """
         if search_group_appointments.get():
             entered_group_size = group_size.get()
-            match_group_size = re.match(r"^[2-9][0-9]*$", entered_group_size)
+            match_group_size = re.match(r"^[2-9]|1[0-5]$", entered_group_size)
             if match_group_size is None:
                 return False
         entered_plz = plz.get()
-        match = regex.match(r"\b\d{5}\b", entered_plz)
-        return match is not None and entered_plz[:2] in GOOD_PLZ
+        return bool(re.match(ZIP_REGEX, entered_plz))
 
     def close_window():
         """ close the window """
         if not check_notifiers_enabled():
-            open_alert_window(msg="Bitte eine Art der Benachrichtigung auswählen!")
+            open_alert_window(
+                msg="Bitte eine Art der Benachrichtigung auswählen!")
         elif not validate_input():
             open_alert_window(msg="Bitte korrekte Daten eingeben.")
         else:
@@ -183,10 +192,13 @@ def run_gui_config(tk_window, config_dict):
                 text=field
             ).grid(row=settings_window_row_index, column=0)
             advanced_settings_input[field] = tk.Entry(settings_window)
-            advanced_settings_input[field].grid(row=settings_window_row_index, column=1)
-            advanced_settings_input[field].insert(0, config_dict["ADVANCED"][field])
+            advanced_settings_input[field].grid(
+                row=settings_window_row_index, column=1)
+            advanced_settings_input[field].insert(
+                0, config_dict["ADVANCED"][field])
             settings_window_row_index += 1
-        close_advanced = tk.Button(settings_window, text="Fenster schließen", command=close_settings_window)
+        close_advanced = tk.Button(
+            settings_window, text="Fenster schließen", command=close_settings_window)
         close_advanced.grid(row=settings_window_row_index, column=1)
 
     tk_window.geometry("400x400+250+100")
@@ -221,7 +233,8 @@ def run_gui_config(tk_window, config_dict):
     plz.grid(row=5, column=1)
     group_size.grid_remove()
 
-    tk.Label(tk_window, text="Benachrichtigung", font="bold").grid(row=6, column=1)
+    tk.Label(tk_window, text="Benachrichtigung",
+             font="bold").grid(row=6, column=1)
     for item in NOTIFIERS:
         enable[item] = tk.BooleanVar()
         enable[item].set(False)
@@ -241,14 +254,15 @@ def run_gui_config(tk_window, config_dict):
     confirm = tk.Button(tk_window, text="Abbrechen", command=cancel)
     confirm.grid(row=row_index, column=1)
 
-    close = tk.Button(tk_window, text="Speichern und schließen", command=close_window)
+    close = tk.Button(
+        tk_window, text="Speichern und schließen", command=close_window)
     close.grid(row=row_index + 1, column=1)
 
-    advanced = tk.Button(tk_window, text="Weitere Einstellungen", command=advanced_settings)
+    advanced = tk.Button(
+        tk_window, text="Weitere Einstellungen", command=advanced_settings)
     advanced.grid(row=row_index + 2, column=1)
 
     tk_window.mainloop()
-
 
 
 def run_cli_config(config_dict):
@@ -259,7 +273,8 @@ def run_cli_config(config_dict):
             match = None
             while match is None:
                 notifier_input[field] = input(f'{FIELDS[notifier][field]}: ')
-                match = regex.match(NOTIFIER_REGEX[field], notifier_input[field])
+                match = re.match(
+                    NOTIFIER_REGEX[field], notifier_input[field])
         return notifier_input
 
     birthday = ""
@@ -267,18 +282,19 @@ def run_cli_config(config_dict):
     match = None
     config_for_group_input = ""
     while config_for_group_input.lower() not in ["j", "n"]:
-        config_for_group_input = input('Soll nach Gruppenterminen gesucht werden? (j/n): ')
+        config_for_group_input = input(
+            'Soll nach Gruppenterminen gesucht werden? (j/n): ')
     config_for_group = config_for_group_input.lower() == "j"
     while match is None and not config_for_group:
         birthday = input('Bitte den Geburtstag eingeben: ')
-        match = regex.match(r"\b\d{1,2}\.\d{1,2}\.\d{4}\b", birthday)
+        match = re.match(r"\b\d{1,2}\.\d{1,2}\.\d{4}\b", birthday)
     match = None
     while match is None and config_for_group:
         group_size = input('Bitte die Gruppengröße eingeben: ')
-        match = re.match(r"^[2-9][0-9]*$", group_size)
-    while match is None or plz[:2] not in GOOD_PLZ:
+        match = re.match(r"^[2-9]|1[0-5]$", group_size)
+    while match is None or bool(re.match(ZIP_REGEX, plz)):
         plz = input('Bitte die PLZ eingeben: ')
-        match = regex.match(r"\b\d{5}\b", plz)
+        match = re.match(r"\b\d{5}\b", plz)
 
     enable_notifier = {}
     for notifier in FIELDS:
@@ -296,14 +312,19 @@ def run_cli_config(config_dict):
     enable_browser_input = ""
     while enable_browser_input.lower() not in ["j", "n"]:
         enable_browser_input = input('Soll bei Benachrichtigung ein '
-            'Browserfenster geöffnet werden? (j/n): ').lower()
+                                     'Browserfenster geöffnet werden? (j/n): ').lower()
     enable_browser = str(enable_browser_input.lower() == "j").lower()
 
     if config_for_group:
-        config_dict["COMMON"]["gruppengroesse"] = group_size
+        config_dict["COMMON"]["group_size"] = group_size
     else:
-        config_dict["COMMON"]["geburtstag"] = birthday
-    config_dict["COMMON"]["postleitzahl"] = plz
+        config_dict["COMMON"]["birthday"] = birthday
+    config_dict["COMMON"]["zip_cpde"] = plz
     config_dict["WEBBROWSER"]["enable"] = enable_browser
 
     return config_dict
+
+
+if __name__ == "__main__":
+
+    start_config_generation()
