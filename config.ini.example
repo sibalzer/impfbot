@@ -1,5 +1,7 @@
 [COMMON]
 geburtstag=23.6.1912
+; Falls ein Gruppentermin gesucht wird:
+gruppengroesse=5
 postleitzahl=42042
 
 [EMAIL]
