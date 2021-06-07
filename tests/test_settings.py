@@ -38,7 +38,7 @@ def test_valid(log_info_mock,
 
     # TELEGRAM
     assert settings.TELEGRAM_ENABLE is True
-    assert settings.TELEGRAM_TOKEN == "secre0815:TOKEN"
+    assert settings.TELEGRAM_TOKEN == "123456789:alphanumeric_characters"
     assert settings.TELEGRAM_CHAT_IDS == ["123456789", "987654321"]
 
     # WEBBROWSER
@@ -164,7 +164,7 @@ def test_old(log_info_mock,
 
     # TELEGRAM
     assert settings.TELEGRAM_ENABLE is True
-    assert settings.TELEGRAM_TOKEN == "TOKEN"
+    assert settings.TELEGRAM_TOKEN == "123456789:alphanumeric_characters"
     assert settings.TELEGRAM_CHAT_IDS == ["123456789", "987654321"]
 
     # WEBBROWSER
