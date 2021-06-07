@@ -13,15 +13,25 @@ from settings import load, settings, ParseExeption
 def check_for_slot() -> None:
     """checks if a slot is available"""
     try:
-        birthdate_timestamp = datetime2timestamp(settings.COMMON_BIRTHDATE)
-        result = fetch_api(
-            plz=settings.COMMON_ZIP_CODE,
-            birthdate_timestamp=birthdate_timestamp,
-            max_retries=10,
-            sleep_after_error=settings.COOLDOWN_BETWEEN_FAILED_REQUESTS,
-            user_agent=settings.USER_AGENT,
-            jitter=settings.JITTER
-        )
+        if "BIRTHDATE" in dir(settings):
+            birthdate_timestamp = datetime2timestamp(settings.COMMON_BIRTHDATE)
+            result = fetch_api(
+                zip_code=settings.COMMON_ZIP_CODE,
+                birthdate_timestamp=birthdate_timestamp,
+                max_retries=10,
+                sleep_after_error=settings.COOLDOWN_BETWEEN_FAILED_REQUESTS,
+                user_agent=settings.USER_AGENT,
+                jitter=settings.JITTER
+            )
+        else:
+            result = api_wrapper.fetch_api(
+                zip_code=settings.COMMON_ZIP_CODE,
+                group_size=settings.GROUP_SIZE,
+                max_retries=10,
+                sleep_after_error=settings.COOLDOWN_BETWEEN_FAILED_REQUESTS,
+                user_agent=settings.USER_AGENT,
+                jitter=settings.JITTER
+            )
         if result == []:
             log.error("Result is emtpy. (Invalid ZIP Code (PLZ)?)")
         for elem in result:
