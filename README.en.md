@@ -43,7 +43,7 @@ For advanced users, a docker container is also available as an alternative. See 
 The following steps must be performed for everyone who wants to receive messages.
 
 2. write to https://t.me/userinfobot and copy "Id"-number into `config.ini` (separated with `,`)
-3. ⚠ You have to start a conversation with your own bot before! (URL is in the Botfather message, press start there). ⚠
+3. ⚠ You have to start a conversation with your own bot before! (URL is in the Botfather message, press /start there). ⚠
 4. validate that everything works: Double click on `test_telegram.bat`
 
 ### 🛠️ config.ini parameters

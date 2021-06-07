@@ -64,8 +64,8 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
   - `password` - Das Passwort für die Absender-E-Mail-Adresse.
   - `server` - Der SMTP-Server. Beispiel: `smtp.server.tld`
   - `port` - Der Port für den SMTP-Server. Beispiel: `465`
-  - `receivers` - E-Mail Empfänger Liste - Trag hier auch deine Absender Adresse ein, wenn du selber Mails empfangen möchtest (Mit Kommata getrennt). Beispiel: `sender@server.tld,foo@server.tld,hoo@server.tld` oder (nur an sich selbst) `sender@server.tld`
-- **\[TELEGRAM\]**: Email Einstellungen
+  - `receivers` - E-Mail Empfänger Liste - Trag hier auch deine Absender-Adresse ein, wenn du selber Mails empfangen möchtest (Mit Kommata getrennt). Beispiel: `sender@server.tld,foo@server.tld,hoo@server.tld` oder (nur an sich selbst) `sender@server.tld`
+- **\[TELEGRAM\]**:Telegram-Einstellungen
   - `enable` - Legt fest, ob Telegram-Nachrichten versendet werden sollen. `true` wenn ja, sonst `false`.
   - `token` - Bot-Token - Dieser zunächst beim BotFather generiert werden: [https://t.me/BotFather](https://t.me/BotFather)
   - `chat_ids` - User-IDs der Empfänger - Die bekommst du am einfachsten wenn du den User-Info-Bot anschreibst https://t.me/userinfobot. Da bekommst du eine Id, die hier eingetragen werden muss. Mehrere Id's durch Kommata trennen.
@@ -132,6 +132,6 @@ Schreib [hier](https://github.com/sibalzer/impfbot/issues/5) oder [twitter](http
 
 Dir hat der impfbot geholfen und du möchtest monetär etwas beitragen? Dann spende doch unter [dieser Spendenaktion an Ärzte ohne Grenzen](https://www.aerzte-ohne-grenzen.de/spenden-sammeln?cfd=z1suz). (Ja, etwas abgekupfert von [vaccipy](https://github.com/iamnotturner/vaccipy). Aber ich fand die Idee gut.)
 
-### 🙏 Vielen Dank geht an:
+### 🙏 Vielen Dank an:
 
 - [paulypeter](https://github.com/paulypeter) - Telegram Integration & mehr
