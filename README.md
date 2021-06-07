@@ -78,7 +78,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
   - `cooldown_between_requests` - Wartezeit zwischen den Abfragen; Eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 1 min, kann aber empirisch verkleinert werden)
   - `cooldown_between_failed_requests` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5\*15s bis zum nächsen Aufruf
   - `cooldown_after_ip_ban` - Wenn eine Abfrage 10x fehlschlaegt, ist die IP vermutlich gebannt. Standardmaeßig wird dann 3 h gewartet.
-  - `cooldown_after_success` - Cooldown, nachdem ein Impftermin gefunden wurde. Standardmaeßig wird dann 15 min gewartet (in min)
+  - `cooldown_after_success` - Cooldown, nachdem ein Impftermin gefunden wurde. Standardmaeßig wird dann 15 min gewartet (in Sekunden)
   - `jitter` - Zufällige Zeitspanne von 0-jtter Sekunden, die auf die Wartezeiten addiert wird (Default: `5`)
   - `sleep_at_night` - Legt fest, ob der Bot nachts schlafen soll (Default: `true`, da eh keine Termine veröffentlicht werden)
   - `user_agent`- Der User Agent, der im Header übermittelt wird (Default: `impfbot`)
