@@ -1,18 +1,20 @@
+
+"""api wrapper for the lower saxony vaccination portal"""
 import logging
 
 from requests.sessions import Session
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError as RequestConnectionError
 from common import sleep
 
 log = logging.getLogger(__name__)
 
 
 class ShadowBanException(Exception):
-    pass
+    """Exception for ip ban detection"""
 
 
 def fetch_api(
-        plz: int,
+        zip_code: int,
         birthdate_timestamp: int = None,
         group_size: int = None,
         max_retries: int = 10,
@@ -20,25 +22,28 @@ def fetch_api(
         jitter: int = 5,
         user_agent: str = 'python'
     ) -> any:
-    url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{plz}?stiko="
+    """fetches the api with ip ban avoidance"""
+    url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip_code}?stiko="
     if birthdate_timestamp:
         url += f"&count=1&birthdate={int(birthdate_timestamp)*1000}"
     elif group_size:
         url += f"&count={group_size}"
     fail_counter = 0
+    
+    headers = {
+        'Accept': 'application/json',
+        'User-Agent': user_agent
+    }
 
-    while True:
+    for fail_counter in range(0, max_retries+1):
         try:
             session = Session()
             with session.get(url=url, headers=headers, timeout=10) as data:
                 return data.json()["resultList"]
-        except ConnectionError as _e:
-            log.error(
-                f"Couldn't fetch api: ConnectionError (No internet?) {_e}")
-            sleep(10, 0)
-        except Exception:
-            fail_counter += 1
-            if fail_counter > max_retries:
-                raise ShadowBanException
+        except RequestConnectionError as ex:
+            raise ex
+        except Exception as ex:
+            log.debug(f"Exeption during request {ex}")
             sleep_time = sleep_after_error*fail_counter
             sleep(sleep_time, jitter)
+    raise ShadowBanException

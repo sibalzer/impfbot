@@ -1,181 +1,186 @@
-import configparser
-import datetime
+"""config parser modul"""
+from configparser import RawConfigParser
+import re
 import logging
-import sys
-import os
+from datetime import datetime
 
-from common import GOOD_PLZ
-from config_generator import start_config_generation
+from config_skeleton import SKELETON, DEPRACATED_CONFIG_MAP
+from common import NOTIFIERS
 
-log = logging.getLogger(__name__)
+__log = logging.getLogger(__name__)
+
+
+class Datastore():
+    """data-class for settings"""
+
+    def __str__(self):
+        result = ""
+        for section in SKELETON:
+            result += f"[{section}]\n"
+            for option in SKELETON[section]:
+                name_builder = option.upper()
+                if section not in "ADVANCED":
+                    name_builder = f"{section.upper()}_{option.upper()}"
+                value = getattr(self, name_builder, "not set")
+                if isinstance(value, list):
+                    list_str = ""
+                    for entry in value:
+                        list_str += str(entry)
+                    value = list_str
+                result += f"   {option}: {value}\n"
+        return result
+
+    def clear(self):
+        """removes all settings"""
+        attributes = list(settings.__dict__)
+        for att in attributes:
+            delattr(self, att)
+
+
+settings = Datastore()
+
 
 class ParseExeption(BaseException):
-    pass
+    """data-class for settings"""
 
 
-def load(path: str):
-    config = configparser.ConfigParser()
+def __set_option(section: str, option: str, value: str, multiplyer: int = 1):
+    """sets an option in the data class"""
+    regex = SKELETON[section][option]["regex"]
+
+    name_builder = option.upper()
+    if section != "ADVANCED":
+        name_builder = f"{section.upper()}_" + name_builder
+
+    if re.match(regex, value):
+        typ: any = SKELETON[section][option]["type"]
+
+        if issubclass(typ, datetime):
+            value = datetime.strptime(value, r'%d.%m.%Y')
+        elif typ is float:
+            value = typ(value)*multiplyer
+        elif typ is bool:
+            value = value == "true"
+        elif typ is list:
+            value = value.split(',')
+        else:
+            value = typ(value)
+
+        setattr(settings, name_builder, value)
+
+
+def __parse(config: RawConfigParser):
+    for section in config.sections():
+        if section in SKELETON:
+            __parse_section(config, section)
+        else:
+            __log.warning(
+                f"[{section}] is unknown")
+
+
+def __parse_section(config: RawConfigParser, section: str):
+    """parse a settings section"""
+    for option in config.options(section):
+        try:
+            __parse_option(config, section, option)
+        except Exception as ex:
+            __log.error(
+                f"[{section}] '{option}' error during parsing: {ex}")
+
+
+def __parse_option(config: RawConfigParser, section: str, option: str):
+    """parse a single setting option"""
+    if option in SKELETON[section]:
+        value = config[section][option]
+        __set_option(section, option, value)
+
+    # depracated config
+    elif (section, option) in DEPRACATED_CONFIG_MAP:
+        new_option = DEPRACATED_CONFIG_MAP[(section, option)]
+        value = config[section][option]
+        if option[-7:] == "_in_min":
+            __set_option(section, new_option, value, 60)
+        else:
+            __set_option(section, new_option, value)
+
+        __log.warning(
+            f"[{section}] '{option}' is depracated please use: '{new_option}'")
+
+    # unknown
+    else:
+        __log.warning(f"[{section}] '{option}' is unknown.")
+
+
+def __validate():
+    for section in SKELETON:
+        __validate_section(section)
+
+
+def __validate_section(section: str):
+    for option in SKELETON[section]:
+        __validate_option(section, option)
+
+
+def __validate_option(section: str, option: str):
+    if section == "COMMON":
+        option_name = f'COMMON_{option.upper()}'
+        if option in ["birthdate", "group_size"]:
+            if not hasattr(settings, "COMMON_BIRTHDATE") and not hasattr(settings, "COMMON_GROUP_SIZE"):
+                raise ParseExeption(
+                    f"[{section}] 'birthdate' or 'group_size' must be in the config.")
+
+            if not hasattr(settings, "COMMON_BIRTHDATE") ^ hasattr(settings, "COMMON_GROUP_SIZE"):
+                raise ParseExeption(
+                    f"[{section}] only one of 'birthdate' or 'group_size' is allowed in the same config.")
+        else:
+            if getattr(settings, option_name, None) is None:
+                raise ParseExeption(
+                    f"[{section}] '{option}' must be in the config.")
+
+    elif section in NOTIFIERS:
+        option_name = f"{section.upper()}_{option.upper()}"
+        name_enable = f"{section.upper()}_ENABLE"
+        if getattr(settings, name_enable, False):
+            if getattr(settings, option_name, None) is None:
+                if (section == "EMAIL" and option == "user"
+                    # depracated special case email user
+                        and getattr(settings, "EMAIL_SENDER") is not None):
+                    __set_option(section, "user", getattr(
+                        settings, "EMAIL_SENDER"))
+                    __log.warning(
+                        f"[{section}] '{option}' is missing; set sender as user")
+                else:
+                    __set_option(section, "enable", "False")
+                    __log.warning(
+                        f"[{section}] '{option}' not valid or missing. Disable [{section}]")
+        else:
+            __set_option(section, "enable", "False")
+            if option == "enable":
+                __log.info(
+                    f"[{section}] '{option}' is set to 'false'. Disable [{section}]")
+
+    elif section == "ADVANCED":
+        name = option.upper()
+        if getattr(settings, name, None) is None:
+            value = SKELETON[section][option]["default"]
+            typ: any = SKELETON[section][option]["type"]
+            setattr(settings, option.upper(), typ(value))
+
+            __log.warning(
+                f"[{section}] '{option}' not set. Using default: '{value}'")
+            return
+    else:
+        raise ParseExeption(
+            f"[{section}] '{option}' is unknown")
+
+
+def load(path):
+    """loads a config file"""
+    settings.clear()
+    config = RawConfigParser()
     dataset = config.read(path)
     if not dataset:
-        raise FileNotFoundError(f"Could not find config file. Exit...")
+        raise FileNotFoundError()
 
-    try:
-        global ZIP
-        ZIP = config["COMMON"]["postleitzahl"]
-        if len(ZIP) != 5:
-            raise Exception('Non 5 digit ZIP-Code')
-        if ZIP[0:2] not in GOOD_PLZ:
-            ParseExeption(
-                "[EMAIL] Are you sure that you are living in lower saxony? Because your ZIP-Code seem suspicious...")
-    except KeyError as e:
-        raise ParseExeption(
-            f"[COMMON] '{e}' is missing in config. Cant run without Zip-Code.")
-    except Exception as e:
-        raise ParseExeption(f"[COMMON] Invalid ZIP-Code: {e}")
-
-    try:
-        BIRTHDATE = datetime.datetime.strptime(
-            config["COMMON"]["geburtstag"], r"%d.%m.%Y")
-    except KeyError as e:
-        log.warning(
-            f"[COMMON] '{e}' is missing in Config. Cant run without birthdate. Expecting group size input.")
-    except Exception as e:
-        log.warning(f"[COMMON] Invalid birthdate: {e}")
-
-    try:
-        if not "BIRTHDATE" in locals():
-            GROUP_SIZE = config["COMMON"]["gruppengroesse"]
-    except KeyError as e:
-        log.warning(
-            f"[COMMON] '{e}' is missing in Config. Cant run without birthdate or group size.")
-        sys.exit(1)
-    except Exception as e:
-        log.warning(f"[COMMON] Invalid group_size: {e}")
-
-    try:
-        global SEND_EMAIL
-        SEND_EMAIL = True if config["EMAIL"]["enable"].lower(
-        ) == "true" else False
-    except KeyError:
-        log.warning(
-            "[EMAIL] 'enable' is missing in config. Set to False")
-        SEND_EMAIL = False
-
-    try:
-        global SENDER, SERVER, PASSWORD, EMAIL_RECEIVERS, PORT
-        if SEND_EMAIL:
-            SENDER = config["EMAIL"]["sender"]
-            SERVER = config["EMAIL"]["server"]
-            USER = config["EMAIL"]["user"]
-            PASSWORD = config["EMAIL"]["password"]
-            EMAIL_RECEIVERS = config["EMAIL"]["empfaenger"].split(',')
-            PORT = config["EMAIL"]["port"]
-    except KeyError as e:
-        log.warning(
-            f"[EMAIL] '{e}' is missing in config. Set Send Email to False")
-        SEND_EMAIL = False
-
-    try:
-        global SEND_TELEGRAM_MSG
-		SEND_TELEGRAM_MSG = config["TELEGRAM"]["enable"].lower() == "true"
-    except KeyError:
-        log.warning("[TELEGRAM] 'enable' is missing in config. Set to False")
-        SEND_TELEGRAM_MSG = False
-
-    try:
-        if SEND_TELEGRAM_MSG:
-            global TOKEN, CHAT_IDS
-            TOKEN = config["TELEGRAM"]["token"]
-            CHAT_IDS = config["TELEGRAM"]["chat_id"].split(',')
-    except KeyError as e:
-        log.warning(
-            f"[TELEGRAM] '{e}' is missing in config. Set Telegram to False")
-        SEND_EMAIL = False
-
-    try:
-        global OPEN_BROWSER
-		OPEN_BROWSER = config["WEBBROWSER"]["enable"].lower() == "true"
-    except KeyError:
-        log.warning(
-            "'enable' is missing in config. Set to False")
-        OPEN_BROWSER = False
-
-    try:
-        global SLEEP_BETWEEN_REQUESTS_IN_S
-        SLEEP_BETWEEN_REQUESTS_IN_S = int(
-            config["ADVANCED"]["sleep_between_requests_in_s"])
-    except KeyError:
-        log.warning(
-            "'sleep_between_requests_in_s' is missing in config. Set to 5min")
-        SLEEP_BETWEEN_REQUESTS_IN_S = 300
-    except ValueError:
-        log.warning(
-            "'sleep_between_requests_in_s' is not a number. Set to 5min")
-        SLEEP_BETWEEN_REQUESTS_IN_S = 300
-
-    try:
-        global SLEEP_BETWEEN_FAILED_REQUESTS_IN_S
-        SLEEP_BETWEEN_FAILED_REQUESTS_IN_S = int(
-            config["ADVANCED"]["sleep_between_failed_requests_in_s"])
-    except KeyError:
-        log.warning(
-            "'sleep_between_failed_requests_in_s' is missing in config. Set to 30s")
-        SLEEP_BETWEEN_FAILED_REQUESTS_IN_S = 30
-    except ValueError:
-        log.warning(
-            "'sleep_between_failed_requests_in_s' is not a number. Set to 30s")
-        SLEEP_BETWEEN_FAILED_REQUESTS_IN_S = 300
-
-    try:
-        global SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
-        SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN = float(
-            config["ADVANCED"]["sleep_after_ipban_in_min"])*60
-    except KeyError:
-        log.warning(
-            "'sleep_after_ipban_in_min' is missing in config. Set to 3h")
-        SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN = 60*180
-    except ValueError:
-        log.warning(
-            "'sleep_after_ipban_in_min' is not a number. Set to 3h")
-        SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN = 300
-
-    try:
-        global COOLDOWN_AFTER_FOUND_IN_MIN
-        COOLDOWN_AFTER_FOUND_IN_MIN = float(
-            config["ADVANCED"]["cooldown_after_found_in_min"])*60
-    except KeyError:
-        log.warning(
-            "'cooldown_after_found_in_min' is missing in config. Set to 15min")
-        COOLDOWN_AFTER_FOUND_IN_MIN = 60*15
-    except ValueError:
-        log.warning(
-            "'cooldown_after_found_in_min' is not a number. Set to 15min")
-        COOLDOWN_AFTER_FOUND_IN_MIN = 300
-
-    try:
-        global JITTER
-        JITTER = int(
-            config["ADVANCED"]["jitter"])
-    except KeyError:
-        log.warning("'jitter' is missing in config. Set to 15s")
-        JITTER = 15
-    except ValueError:
-        log.warning(
-            "'jitter' is not a number. Set to 15s")
-        JITTER = 300
-
-    try:
-        global SLEEP_AT_NIGHT
-        SLEEP_AT_NIGHT = True if config["ADVANCED"]["sleep_at_night"].lower(
-        ) == "true" else False
-    except KeyError:
-        log.warning(
-            "'sleep_at_night' is missing in config. Set to True")
-        SLEEP_AT_NIGHT = True
-
-    try:
-        global USER_AGENT
-        USER_AGENT = config["ADVANCED"]["user_agent"]
-    except KeyError:
-        log.warning("'user_agent' is missing in config. Set to 'impfbot'")
-        USER_AGENT = 'impfbot'
+    __parse(config)
+    __validate()

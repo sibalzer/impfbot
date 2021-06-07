@@ -1,10 +1,10 @@
-from datetime import datetime
+"""tests for module impfbot"""
 import unittest.mock as mock
 import requests_mock
+import requests
 
 import impfbot
-import common
-import settings
+from settings import settings, load
 
 in_stock = {
     "resultList": [
@@ -65,9 +65,9 @@ empty = {
     "succeeded": True
 }
 
-settings.load("tests/configs/test-config.ini")
-zip = settings.ZIP
-api_url = f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip}?stiko=&count=1'
+load("tests/configs/test-config.ini")
+zip_code = settings.COMMON_ZIP_CODE
+api_url = f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip_code}?stiko=&count=1'
 
 error_none = None
 
@@ -77,8 +77,13 @@ error_none = None
 @mock.patch('logging.Logger.error')
 @mock.patch('logging.Logger.warning')
 @mock.patch('logging.Logger.info')
-def test_check_for_slot_in_stock(log_info_mock, log_warning_mock, log_error_mock, alert_mock, sleep_mock):
-    settings.load("tests/configs/test-config.ini")
+def test_check_for_slot_in_stock(log_info_mock,
+                                 log_warning_mock,
+                                 log_error_mock,
+                                 alert_mock,
+                                 sleep_mock):
+    """test for vaccine in stock"""
+    load("tests/configs/test-config.ini")
     with requests_mock.Mocker() as mocker:
         mocker.get(
             url=api_url,
@@ -94,15 +99,19 @@ def test_check_for_slot_in_stock(log_info_mock, log_warning_mock, log_error_mock
     log_warning_mock.assert_not_called()
     log_error_mock.assert_not_called()
 
-    sleep_mock.assert_called_once_with(settings.COOLDOWN_AFTER_FOUND_IN_MIN)
+    sleep_mock.assert_called_once_with(settings.COOLDOWN_AFTER_SUCCESS)
 
 
 @mock.patch('impfbot.sleep', return_value=None)
 @mock.patch('logging.Logger.error')
 @mock.patch('logging.Logger.warning')
 @mock.patch('logging.Logger.info')
-def test_check_for_slot_out_of_stock(log_info_mock, log_warning_mock, log_error_mock, sleep_mock):
-    settings.load("tests/configs/test-config.ini")
+def test_check_for_slot_out_of_stock(log_info_mock,
+                                     log_warning_mock,
+                                     log_error_mock,
+                                     sleep_mock):
+    """test for vaccine out of stock"""
+    load("tests/configs/test-config.ini")
     with requests_mock.Mocker() as mocker:
         mocker.get(
             url=api_url,
@@ -120,8 +129,13 @@ def test_check_for_slot_out_of_stock(log_info_mock, log_warning_mock, log_error_
 @mock.patch('logging.Logger.error')
 @mock.patch('logging.Logger.warning')
 @mock.patch('logging.Logger.info')
-def test_check_for_slot_shadowban(log_info_mock, log_warning_mock, log_error_mock, sleep_mock, sleep_api_mock):
-    settings.load("tests/configs/test-config.ini")
+def test_check_for_slot_shadowban(log_info_mock,
+                                  log_warning_mock,
+                                  log_error_mock,
+                                  sleep_mock,
+                                  sleep_api_mock):
+    """test for shadowban exception"""
+    load("tests/configs/test-config.ini")
     with requests_mock.Mocker() as mocker:
         mocker.get(
             url=api_url,
@@ -130,32 +144,35 @@ def test_check_for_slot_shadowban(log_info_mock, log_warning_mock, log_error_moc
         impfbot.check_for_slot()
 
     sleep_mock.assert_called_with(
-        settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN)
+        settings.COOLDOWN_AFTER_IP_BAN)
 
     log_info_mock.assert_not_called()
     log_warning_mock.assert_not_called()
     log_error_mock.assert_called_with(
-        f"Couldn't fetch api. (Shadowbanned IP?) Sleeping for {settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN/60}min")
+        f"Couldn't fetch api. (Shadowbanned IP?) "
+        f"Sleeping for {settings.COOLDOWN_AFTER_IP_BAN/60}min")
 
-# TODO
-# @mock.patch('api_wrapper.sleep', return_value=None)
-# @mock.patch('impfbot.sleep', return_value=None)
-# @mock.patch('logging.Logger.error')
-# @mock.patch('logging.Logger.warning')
-# @mock.patch('logging.Logger.info')
-# def test_check_for_slot_connection_lost(log_info_mock, log_warning_mock, log_error_mock, sleep_mock, sleep_api_mock):
-#    settings.load("tests/configs/test-config.ini")
-#    with requests_mock.Mocker() as mocker:
-#        mocker.get(
-#            url=api_url,
-#            json=None
-#        )
-#        impfbot.check_for_slot()
-#
-#    sleep_mock.assert_called_with(
-#        settings.SLEEP_BETWEEN_REQUESTS_IN_S, settings.JITTER)
-#
-#    log_info_mock.assert_not_called()
-#    log_warning_mock.assert_not_called()
-#    log_error_mock.assert_called_with(
-#        f"Couldn't fetch api. (Connection lost) Sleeping for {settings.SLEEP_BETWEEN_REQUESTS_IN_S}s.")
+
+@mock.patch('api_wrapper.sleep', return_value=None)
+@mock.patch('impfbot.sleep', return_value=None)
+@mock.patch('logging.Logger.error')
+@mock.patch('logging.Logger.warning')
+@mock.patch('logging.Logger.info')
+def test_check_for_slot_connection_lost(log_info_mock,
+                                        log_warning_mock,
+                                        log_error_mock,
+                                        sleep_mock,
+                                        sleep_api_mock):
+    """test for shadowban exception"""
+    load("tests/configs/test-config.ini")
+    with requests_mock.Mocker() as mocker:
+        mocker.get(
+            url=api_url,
+            exc=requests.exceptions.ConnectionError
+        )
+        impfbot.check_for_slot()
+
+    log_info_mock.assert_not_called()
+    log_warning_mock.assert_not_called()
+    log_error_mock.assert_called_with(
+        f"Couldn't fetch api: ConnectionError (No internet?) ")
