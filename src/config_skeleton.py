@@ -83,6 +83,18 @@ SKELETON = {
             "regex": BOOL_REGEX
         },
     },
+    "APPRISE": {
+        "enable": {
+            "default": False,
+            "type": bool,
+            "regex": BOOL_REGEX
+        },
+        "service_uris": {
+            "default": 30,
+            "type": list,
+            "regex": NOTIFIER_REGEX["service_uris"]
+        },
+    },
     "ADVANCED": {
         "cooldown_between_requests": {
             "default": 30,

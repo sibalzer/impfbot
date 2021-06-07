@@ -65,7 +65,7 @@ empty = {
     "succeeded": True
 }
 
-load("tests/configs/test-config.ini")
+load("tests/configs/test-config-valid.ini")
 zip_code = settings.COMMON_ZIP_CODE
 api_url = f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip_code}?stiko=&count=1'
 
@@ -83,7 +83,7 @@ def test_check_for_slot_in_stock(log_info_mock,
                                  alert_mock,
                                  sleep_mock):
     """test for vaccine in stock"""
-    load("tests/configs/test-config.ini")
+    load("tests/configs/test-config-valid.ini")
     with requests_mock.Mocker() as mocker:
         mocker.get(
             url=api_url,
@@ -111,7 +111,7 @@ def test_check_for_slot_out_of_stock(log_info_mock,
                                      log_error_mock,
                                      sleep_mock):
     """test for vaccine out of stock"""
-    load("tests/configs/test-config.ini")
+    load("tests/configs/test-config-valid.ini")
     with requests_mock.Mocker() as mocker:
         mocker.get(
             url=api_url,
@@ -135,7 +135,7 @@ def test_check_for_slot_shadowban(log_info_mock,
                                   sleep_mock,
                                   sleep_api_mock):
     """test for shadowban exception"""
-    load("tests/configs/test-config.ini")
+    load("tests/configs/test-config-valid.ini")
     with requests_mock.Mocker() as mocker:
         mocker.get(
             url=api_url,
@@ -164,7 +164,7 @@ def test_check_for_slot_connection_lost(log_info_mock,
                                         sleep_mock,
                                         sleep_api_mock):
     """test for shadowban exception"""
-    load("tests/configs/test-config.ini")
+    load("tests/configs/test-config-valid.ini")
     with requests_mock.Mocker() as mocker:
         mocker.get(
             url=api_url,

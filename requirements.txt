@@ -1,8 +1,6 @@
 requests==2.25.1
-tkcalendar==1.6.1
-python_telegram_bot==13.3
-telegram==0.0.1
 pytest==6.2.4
 requests-mock==1.9.3
 freezegun==1.1.0
 tkcalendar==1.6.1
+apprise==0.9.3
