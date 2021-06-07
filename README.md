@@ -132,6 +132,6 @@ Schreib [hier](https://github.com/sibalzer/impfbot/issues/5) oder [twitter](http
 
 Dir hat der impfbot geholfen und du möchtest monetär etwas beitragen? Dann spende doch unter [dieser Spendenaktion an Ärzte ohne Grenzen](https://www.aerzte-ohne-grenzen.de/spenden-sammeln?cfd=z1suz). (Ja, etwas abgekupfert von [vaccipy](https://github.com/iamnotturner/vaccipy). Aber ich fand die Idee gut.)
 
-### 🙏 Vielen Dank geht an:
+### 🙏 Vielen Dank an:
 
 - [paulypeter](https://github.com/paulypeter) - Telegram Integration & mehr
