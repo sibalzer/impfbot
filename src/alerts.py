@@ -6,6 +6,7 @@ import webbrowser
 import logging
 from email.message import EmailMessage
 from email.utils import formatdate
+import ssl
 
 from common import APPOINTMENT_URL
 from settings import settings
@@ -29,7 +30,6 @@ def alert(msg: str) -> None:
         log.debug("[TELEGRAM] Try to send telegram message")
         try:
             send_telegram(msg)
-            log.info("[TELEGRAM] Sending telegram message was successful")
         except Exception as ex:
             log.error(f"[TELEGRAM] Couldn't send Telegram message: {ex}")
     else:
@@ -51,8 +51,6 @@ def alert(msg: str) -> None:
         log.debug(f"[APPRISE] try to send Apprise Notification")
         try:
             send_apprise(msg)
-            log.info(
-                f"[APPRISE] sending Apprise Notification was successful")
         except Exception as ex:
             log.error(f"Couldn't send Apprise Notification: {ex}")
     else:
@@ -70,9 +68,19 @@ def send_mail(msg: str) -> None:
     mail['subject'] = msg
     mail.set_content(APPOINTMENT_URL)
 
-    with smtplib.SMTP(settings.EMAIL_SERVER, settings.EMAIL_PORT) as smtp:
-        smtp.login(settings.EMAIL_USER, settings.EMAIL_PASSWORD)
-        smtp.send_message(mail)
+    if settings.EMAIL_PORT == 465:
+        with smtplib.SMTP_SSL(settings.EMAIL_SERVER, settings.EMAIL_PORT)as smtp:
+            smtp.login(settings.EMAIL_USER, settings.EMAIL_PASSWORD)
+            smtp.send_message(mail)
+    elif settings.EMAIL_PORT == 587:
+        with smtplib.SMTP(settings.EMAIL_SERVER, settings.EMAIL_PORT)as smtp:
+            smtp.starttls(context=ssl.create_default_context())
+            smtp.login(settings.EMAIL_USER, settings.EMAIL_PASSWORD)
+            smtp.send_message(mail)
+    else:
+        with smtplib.SMTP(settings.EMAIL_SERVER, settings.EMAIL_PORT)as smtp:
+            smtp.login(settings.EMAIL_USER, settings.EMAIL_PASSWORD)
+            smtp.send_message(mail)
 
 
 def send_telegram(msg: str) -> None:
@@ -82,12 +90,13 @@ def send_telegram(msg: str) -> None:
     url = f"tgram://{settings.TELEGRAM_TOKEN}"
     for chat_id in settings.TELEGRAM_CHAT_IDS:
         url += f"/{chat_id}"
+    url += "?format=markdown"
 
     appobj.add(url)
 
     appobj.notify(
         body=f"{APPOINTMENT_URL}",
-        title=f"*{msg}*",
+        title=f"**{msg}**",
     )
 
 
@@ -100,5 +109,5 @@ def send_apprise(msg: str) -> None:
 
     appobj.notify(
         body=f"{APPOINTMENT_URL}",
-        title=f"*{msg}*",
+        title=f"{msg}",
     )

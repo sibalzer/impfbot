@@ -20,13 +20,13 @@ NOTIFIER_REGEX = {
     "user": r"^[^ ]*$",   # match anything execpt space
     "password": r"^[^ ]*$",   # match anything execpt space
     # match alphanumeric characters, dash, and dot
-    "server": r"\b^[a-zA-Z0-9-\.]+$",
+    "server": r"^[a-zA-Z0-9-\.]+$",
     "port": r"^\d{2,}$",
-    "receivers": r"\b" + MAIL_REGEX + r"(," + MAIL_REGEX + r")*\b",
+    "receivers": r"^" + MAIL_REGEX + r"(," + MAIL_REGEX + r")*$",
     # I hope this covers all possible tokens
-    "token": r"^[a-zA-Z0-9\:\-]+$",
+    "token": r"^[0-9]+:[a-zA-Z0-9\-_]+$",
     "chat_ids": r"^\d{5,}(,\d{5,})*$",  # matches a list of numbers
-    "service_uris": r"\b[^ ]+\b",   # match anything not a space
+    "service_uris": r"^[^ ]+$",   # match anything not a space
 }
 
 
