@@ -1,0 +1,4 @@
+[TYPECHECK]
+generated-members=settings.Datastore.*
+[LOGGING]
+disable=logging-fstring-interpolation

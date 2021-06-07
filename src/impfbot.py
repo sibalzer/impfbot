@@ -1,49 +1,115 @@
-from datetime import datetime
-from log import log
-import settings
-import api_wrapper
-import alerts
+"""Notification bot for the lower saxony vaccination portal"""
+import argparse
+import sys
 
-from common import sleep, sleep_until, is_night
+from alerts import alert
+from api_wrapper import fetch_api, ShadowBanException, RequestConnectionError
+from common import sleep, sleep_until, is_night, datetime2timestamp, YES, NO
+from config_generator import start_config_generation
+from log import log
+from settings import load, settings, ParseExeption
 
 
 def check_for_slot() -> None:
+    """checks if a slot is available"""
     try:
-        result = api_wrapper.fetch_api(
-            plz=settings.ZIP,
-            birthdate_timestamp=int(
-                datetime.now().timestamp() -
-                (datetime.now() - settings.BIRTHDATE).total_seconds()),
-            max_retries=10,
-            sleep_after_error=settings.SLEEP_BETWEEN_FAILED_REQUESTS_IN_S,
-            sleep_after_shadowban=settings.SLEEP_AFTER_DETECTED_SHADOWBAN_IN_MIN
-        )
-        if not result:
-            log.error("Result is emtpy. (Invalid ZIP Code (PLZ))")
+        if hasattr(settings,"COMMON_BIRTHDATE"):
+            birthdate_timestamp = datetime2timestamp(settings.COMMON_BIRTHDATE)
+            result = fetch_api(
+                zip_code=settings.COMMON_ZIP_CODE,
+                birthdate_timestamp=birthdate_timestamp,
+                max_retries=10,
+                sleep_after_error=settings.COOLDOWN_BETWEEN_FAILED_REQUESTS,
+                user_agent=settings.USER_AGENT,
+                jitter=settings.JITTER
+            )
+        else:
+            result = fetch_api(
+                zip_code=settings.COMMON_ZIP_CODE,
+                group_size=settings.COMMON_GROUP_SIZE,
+                max_retries=10,
+                sleep_after_error=settings.COOLDOWN_BETWEEN_FAILED_REQUESTS,
+                user_agent=settings.USER_AGENT,
+                jitter=settings.JITTER
+            )
+        if result == []:
+            log.error("Result is emtpy. (Invalid ZIP Code (PLZ)?)")
         for elem in result:
             if not elem['outOfStock']:
+                free_slots = elem['freeSlotSizeOnline']
+                vaccine_name = elem['vaccineName']
+                vaccine_type = elem['vaccineType']
+
                 log.info(
-                    f"Free slot! ({elem['freeSlotSizeOnline']}) {elem['vaccineName']}/{elem['vaccineType']}")
+                    f"Free slot! ({free_slots}) {vaccine_name}/{vaccine_type}")
+                msg = f"Freier Impfslot ({free_slots})! {vaccine_name}/{vaccine_type}"
 
-                msg = f"Freier Impfslot ({elem['freeSlotSizeOnline']})! {elem['vaccineName']}/{elem['vaccineType']}"
-                alerts.alert(msg)
-
-                sleep(settings.COOLDOWN_AFTER_FOUND_IN_MIN, 0)
+                alert(msg)
+                sleep(settings.COOLDOWN_AFTER_SUCCESS)
             else:
                 log.info("No free slot.")
-    except Exception as e:
-        log.error(f"Something went wrong ({e})")
+                sleep(settings.COOLDOWN_BETWEEN_REQUESTS, settings.JITTER)
+
+    except RequestConnectionError as ex:
+        log.error(
+            f"Couldn't fetch api: ConnectionError (No internet?) {ex}")
+        sleep(10)
+
+    except ShadowBanException:
+        sleep_after_shadowban_min = settings.COOLDOWN_AFTER_IP_BAN/60
+        log.error(
+            f"Couldn't fetch api. (Shadowbanned IP?) "
+            f"Sleeping for {sleep_after_shadowban_min}min")
+        sleep(settings.COOLDOWN_AFTER_IP_BAN)
+
+    except Exception as ex:
+        log.error(f"Something went wrong ({ex})")
+        sleep(settings.COOLDOWN_BETWEEN_REQUESTS, settings.JITTER)
 
 
 if __name__ == "__main__":
     try:
+        parser = argparse.ArgumentParser(
+            description='Notification bot for the lower saxony vaccination portal')
+        parser.add_argument('-f', '-c', '--config',
+                            dest='configfile',
+                            help='Path to config.ini file',
+                            required=False,
+                            default='config.ini')
+        arg = vars(parser.parse_args())
+
+        try:
+            load(arg['configfile'])
+        except FileNotFoundError:
+            while True:
+                log.error("config file not found")
+                print("Do you want to use the interface to generate a config? yes/no")
+                result = input()
+                if result in YES:
+                    log.info("Starting config generator")
+                    start_config_generation()
+                    break
+                elif result in NO:
+                    sys.exit(1)
+                else:
+                    print("Invalid input")
+
+        except ParseExeption as ex:
+            log.error(ex)
+            print("Press [enter] to close.")
+            input()
+            sys.exit(1)
+        except Exception as ex:
+            log.warning(ex)
+
+        print(settings)
+
         while True:
             if is_night() and settings.SLEEP_AT_NIGHT:
                 log.info("It's night. Sleeping until 7am")
                 sleep_until(hour=7, minute=0)
 
             check_for_slot()
-            sleep(settings.SLEEP_BETWEEN_REQUESTS_IN_S, settings.JITTER)
 
     except (KeyboardInterrupt, SystemExit):
         print("Bye...")
