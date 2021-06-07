@@ -3,7 +3,6 @@ from datetime import datetime, timedelta, time as dt
 import random
 import sys
 import time
-import re
 
 APPOINTMENT_URL = r"https://www.impfportal-niedersachsen.de/portal/#/appointment/public"
 
@@ -30,6 +29,10 @@ NOTIFIER_REGEX = {
 }
 
 
+YES = ["yes", "y", "ja", "j"]
+NO = ["no", "n", "nein"]
+
+
 def datetime2timestamp(date: datetime) -> int:
     """transforms a datetime in a timestamp (datetime.datetime.timestamp() fails pre epoch)"""
     now = datetime.now()
@@ -42,7 +45,7 @@ def is_night() -> bool:
     morning = dt(hour=7, minute=0)
     evening = dt(hour=23, minute=0)
     now = datetime.now().time()
-    return not (morning < now and now < evening)
+    return not (morning < now < evening)
 
 
 GOOD_PLZ = ['19', '21', '26', '27', '28', '29',
@@ -73,8 +76,8 @@ def sleep(time_in_s: int, jitter: int = 0) -> None:
 
 def sleep_until(hour, minute) -> None:
     """sleep until certain time"""
-    t = datetime.today()
-    future = datetime(t.year, t.month, t.day, hour, minute)
-    if t.timestamp() > future.timestamp():
+    today = datetime.today()
+    future = datetime(today.year, today.month, today.day, hour, minute)
+    if today.timestamp() > future.timestamp():
         future += timedelta(days=1)
-    sleep((future-t).total_seconds())
+    sleep((future-today).total_seconds())

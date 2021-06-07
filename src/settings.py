@@ -3,10 +3,8 @@ from configparser import RawConfigParser
 import re
 import logging
 from datetime import datetime
-from tkinter.constants import NO
 
 from config_skeleton import SKELETON, DEPRACATED_CONFIG_MAP
-from config_generator import start_config_generation
 from common import NOTIFIERS
 
 __log = logging.getLogger(__name__)
@@ -23,7 +21,7 @@ class Datastore():
                 name_builder = option.upper()
                 if section not in "ADVANCED":
                     name_builder = f"{section.upper()}_{option.upper()}"
-                value = getattr(self, name_builder)
+                value = getattr(self, name_builder, "not set")
                 if isinstance(value, list):
                     list_str = ""
                     for entry in value:
@@ -85,9 +83,9 @@ def __parse_section(config: RawConfigParser, section: str):
     for option in config.options(section):
         try:
             __parse_option(config, section, option)
-        except Exception as _e:
+        except Exception as ex:
             __log.error(
-                f"[{section}] '{option}' error during parsing: {_e}")
+                f"[{section}] '{option}' error during parsing: {ex}")
 
 
 def __parse_option(config: RawConfigParser, section: str, option: str):
@@ -95,7 +93,6 @@ def __parse_option(config: RawConfigParser, section: str, option: str):
     if option in SKELETON[section]:
         value = config[section][option]
         __set_option(section, option, value)
-        return
 
     # depracated config
     elif (section, option) in DEPRACATED_CONFIG_MAP:
@@ -127,7 +124,7 @@ def __validate_section(section: str):
 def __validate_option(section: str, option: str):
     if section == "COMMON":
         option_name = f'COMMON_{option.upper()}'
-        if option == "birthdate" or option == "group":
+        if option in ["birthdate", "group"]:
             if not hasattr(settings, "COMMON_BIRTHDATE") and not hasattr(settings, "COMMON_GROUP"):
                 raise ParseExeption(
                     f"[{section}] 'birthdate' or 'group' must be in the config.")
@@ -172,6 +169,9 @@ def __validate_option(section: str, option: str):
             __log.warning(
                 f"[{section}] '{option}' not set. Using default: '{value}'")
             return
+    else:
+        raise ParseExeption(
+            f"[{section}] '{option}' is unknown")
 
 
 def load(path):

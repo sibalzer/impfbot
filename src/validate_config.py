@@ -1,10 +1,10 @@
+"""cli interface for validating the config"""
+
 import argparse
 from log import log
-from settings import settings
+from settings import load, settings
 from alerts import alert
-
-YES = ["yes", "y", "ja", "j"]
-NO = ["no", "n", "nein"]
+from common import YES, NO
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '-c', '--config',
@@ -20,7 +20,7 @@ arg = vars(parser.parse_args())
 
 log.info("validate config.ini")
 
-settings.load(arg['configfile'])
+load(arg['configfile'])
 
 log.info("settings validation finished")
 
@@ -31,7 +31,7 @@ while True:
         result = input()
 
     if result in YES or arg['alert']:
-        alert("Test", verbose=True)
+        alert("Test")
         log.info("Finished: Sending test massages")
         break
     elif result in NO:

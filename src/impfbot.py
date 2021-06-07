@@ -3,13 +3,11 @@ import argparse
 import sys
 
 from alerts import alert
-from api_wrapper import fetch_api, ShadowBanException, ConnectionError
-from common import sleep, sleep_until, is_night, datetime2timestamp
+from api_wrapper import fetch_api, ShadowBanException, RequestConnectionError
+from common import sleep, sleep_until, is_night, datetime2timestamp, YES, NO
+from config_generator import start_config_generation
 from log import log
-from settings import load, settings
-
-
-from common import sleep, sleep_until, is_night, datetime2timestamp
+from settings import load, settings, ParseExeption
 
 
 def check_for_slot() -> None:
@@ -42,20 +40,20 @@ def check_for_slot() -> None:
                 log.info("No free slot.")
                 sleep(settings.COOLDOWN_BETWEEN_REQUESTS, settings.JITTER)
 
-    except ConnectionError as _e:
+    except RequestConnectionError as ex:
         log.error(
-            f"Couldn't fetch api: ConnectionError (No internet?) {_e}")
+            f"Couldn't fetch api: ConnectionError (No internet?) {ex}")
         sleep(10)
 
-    except ShadowBanException as _e:
+    except ShadowBanException:
         sleep_after_shadowban_min = settings.COOLDOWN_AFTER_IP_BAN/60
         log.error(
             f"Couldn't fetch api. (Shadowbanned IP?) "
             f"Sleeping for {sleep_after_shadowban_min}min")
         sleep(settings.COOLDOWN_AFTER_IP_BAN)
 
-    except Exception as _e:
-        log.error(f"Something went wrong ({_e})")
+    except Exception as ex:
+        log.error(f"Something went wrong ({ex})")
         sleep(settings.COOLDOWN_BETWEEN_REQUESTS, settings.JITTER)
 
 
@@ -72,13 +70,27 @@ if __name__ == "__main__":
 
         try:
             load(arg['configfile'])
-        except (settings.ParseExeption, FileNotFoundError) as e:
-            log.error(e)
-            print(f"Press [enter] to close.")
+        except FileNotFoundError:
+            while True:
+                log.error("config file not found")
+                print("Do you want to use the interface to generate a config? yes/no")
+                result = input()
+                if result in YES:
+                    log.info("Starting config generator")
+                    start_config_generation()
+                    break
+                elif result in NO:
+                    sys.exit(1)
+                else:
+                    print("Invalid input")
+
+        except ParseExeption as ex:
+            log.error(ex)
+            print("Press [enter] to close.")
             input()
             sys.exit(1)
-        except Exception as _e:
-            log.warning(_e)
+        except Exception as ex:
+            log.warning(ex)
 
         print(settings)
 

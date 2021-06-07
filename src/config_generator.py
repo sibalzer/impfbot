@@ -1,39 +1,25 @@
 """ generate a config if none found """
-import argparse
 import tkinter as tk
-import configparser
 import re
 from tkinter import ttk
 from tkcalendar import DateEntry
 
-from common import GOOD_PLZ
+from common import NOTIFIERS, NOTIFIER_REGEX, ZIP_REGEX
+from config_skeleton import SKELETON
 
-NOTIFIERS = ["EMail", "Telegram", "Webbrowser"]
 FIELDS = {
-    "EMail": {
+    "EMAIL": {
         "sender": "Absender",
+        "user": "User",
         "password": "Passwort",
         "server": "Server",
         "port": "Port",
         "receivers": "Empfänger"
     },
-    "Telegram": {
+    "TELEGRAM": {
         "token": "Token",
         "chat_ids": "Chat-ID(s)"
     }
-}
-# from emailregex.com, adapted for python syntax
-MAIL_REGEX = r"\b(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])\b"
-NOTIFIER_REGEX = {
-    "sender": MAIL_REGEX,
-    "password": r"\b[^ ]+\b",   # match anything not a space
-    # match alphanumeric characters, dash, and dot
-    "server": r"(?=[-a-zA-Z0-9_]*\.)[-a-zA-Z0-9]*\.[-a-zA-Z0-9]*",
-    "port": r"\b\d{2,}\b",
-    "receivers": r"\b" + MAIL_REGEX + r"(," + MAIL_REGEX + r")*\b",
-    # I hope this covers all possible tokens
-    "token": r"\b[a-zA-Z0-9\:\-]+\b",
-    "chat_ids": r"\b\d{5,}(,\d{5,})*\b"  # matches a list of numbers
 }
 
 
@@ -42,16 +28,23 @@ def init_input(config_dict):
     for item in NOTIFIERS:
         config_dict[item.upper()] = {}
     config_dict["ADVANCED"] = {}
-    config_dict["ADVANCED"]["sleep_between_requests_in_s"] = "300"
-    config_dict["ADVANCED"]["sleep_between_failed_requests_in_s"] = "30"
-    config_dict["ADVANCED"]["sleep_after_ipban_in_min"] = "180"
-    config_dict["ADVANCED"]["cooldown_after_found_in_min"] = "15"
-    config_dict["ADVANCED"]["jitter"] = "15"
-    config_dict["ADVANCED"]["sleep_at_night"] = "true"
-    config_dict["ADVANCED"]["user_agent"] = "impfbot"
+    config_dict["ADVANCED"]["cooldown_between_requests"] = str(
+        SKELETON["ADVANCED"]["cooldown_between_requests"]["default"])
+    config_dict["ADVANCED"]["cooldown_between_failed_requests"] = str(
+        SKELETON["ADVANCED"]["cooldown_between_failed_requests"]["default"])
+    config_dict["ADVANCED"]["cooldown_after_ip_ban"] = str(
+        SKELETON["ADVANCED"]["cooldown_after_ip_ban"]["default"])
+    config_dict["ADVANCED"]["cooldown_after_success"] = str(
+        SKELETON["ADVANCED"]["cooldown_after_success"]["default"])
+    config_dict["ADVANCED"]["jitter"] = str(
+        SKELETON["ADVANCED"]["jitter"]["default"])
+    config_dict["ADVANCED"]["sleep_at_night"] = str(
+        SKELETON["ADVANCED"]["sleep_at_night"]["default"])
+    config_dict["ADVANCED"]["user_agent"] = str(
+        SKELETON["ADVANCED"]["user_agent"]["default"])
 
 
-def start_config_generation(config_dict):
+def start_config_generation(config_dict: dict = dict()):
     """ entry point for config generation """
     run_gui = True
     try:
@@ -105,7 +98,7 @@ def run_gui_config(tk_window, config_dict):
             return True
 
         notifier = event.widget.cget("text")
-        if notifier != "Webbrowser" and not enable[notifier].get():
+        if notifier != "WEBBROWSER" and not enable[notifier].get():
             enable[notifier].set(not enable[notifier].get())
             input_arr = {}
             subwindow = tk.Toplevel(tk_window)
@@ -143,8 +136,7 @@ def run_gui_config(tk_window, config_dict):
     def validate_input():
         """ validate user input """
         entered_plz = plz.get()
-        match = re.match(r"\b\d{5}\b", entered_plz)
-        return match is not None and entered_plz[:2] in GOOD_PLZ
+        return bool(re.match(ZIP_REGEX, entered_plz))
 
     def close_window():
         """ close the window """
@@ -251,7 +243,7 @@ def run_cli_config(config_dict):
         birthday = input('Bitte den Geburtstag eingeben: ')
         match = re.match(r"\b\d{1,2}\.\d{1,2}\.\d{4}\b", birthday)
     match = None
-    while match is None or plz[:2] not in GOOD_PLZ:
+    while match is None or bool(re.match(ZIP_REGEX, plz)):
         plz = input('Bitte die PLZ eingeben: ')
         match = re.match(r"\b\d{5}\b", plz)
 
@@ -282,15 +274,5 @@ def run_cli_config(config_dict):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '-c', '--config',
-                        dest='configfile',
-                        help='Path to config.ini file',
-                        required=False,
-                        default='config.ini')
-    arg = vars(parser.parse_args())
 
-    config = configparser.ConfigParser()
-    config.read(arg['configfile'])
-
-    start_config_generation(config)
+    start_config_generation()

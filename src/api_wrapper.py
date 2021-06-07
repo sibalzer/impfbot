@@ -3,7 +3,7 @@
 import logging
 
 from requests.sessions import Session
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError as RequestConnectionError
 from common import sleep
 
 log = logging.getLogger(__name__)
@@ -11,7 +11,6 @@ log = logging.getLogger(__name__)
 
 class ShadowBanException(Exception):
     """Exception for ip ban detection"""
-    pass
 
 
 def fetch_api(plz: int,
@@ -35,9 +34,10 @@ def fetch_api(plz: int,
             session = Session()
             with session.get(url=url, headers=headers, timeout=10) as data:
                 return data.json()["resultList"]
-        except ConnectionError as _e:
-            raise _e
-        except Exception as e:
+        except RequestConnectionError as ex:
+            raise ex
+        except Exception as ex:
+            log.debug(f"Exeption during request {ex}")
             sleep_time = sleep_after_error*fail_counter
             sleep(sleep_time, jitter)
     raise ShadowBanException
