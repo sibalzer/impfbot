@@ -16,6 +16,7 @@ Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niede
 - Öffnet deinen Browser automatisch wenn ein Termin gefunden wurde. Du musst nur noch deine Daten eingeben!
 - Einfaches Einrichten mit
 
+
 > Was der impfbot nicht macht: Dem Termin für dich reservieren und/oder deine Daten automatisch eingeben.
 
 ## ⚙️ Setup
@@ -47,6 +48,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 3. ⚠ Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (URL steht in der Botfather-Nachricht, dort /start drücken) ⚠
 4. Validieren, dass auch alles funktioniert: Doppelklick auf `test_telegram.bat`
 
+
 ### 🛠️ config.ini Parameter
 
 > Deine Daten werden nur lokal gespeichert!
@@ -70,10 +72,8 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 - **\[WEBBROWSER\]**: Webbrowser-Einstellungen
   - `enable` - Legt fest, ob der Browser automatisch geöffnet werden soll. (Nur auf Desktop-Systemen) `true` wenn ja, sonst `false`.
 - **\[APPRISE\]** Verschiedene Benachrichtigungsservices (So ziemlich alles was man sich vorstellen kann).
-
   - `enable` - 'true' wenn Apprise verwendet werden soll, sonst 'false'
   - `service_uris` - Service URIs. Für mehr Informationen: [Apprise Documentation](https://github.com/caronc/apprise) (Mehrere URIs durch Kommata trennen)
-
 - **\[ADVANCED\]**: Einstellungen für Fortgeschrittene, hier wird's experimentell
   - `cooldown_between_requests` - Wartezeit zwischen den Abfragen; Eine zu kleine Wartezeit führt zu einem IP-Ban (Default: 1 min, kann aber empirisch verkleinert werden)
   - `cooldown_between_failed_requests` - Wartezeit zwischen fehlgeschlagenen Versuchen. Bei jedem weiteren wird die Wartezeit nochmal hinzuaddiert, um einen IP Ban zu verhindern. D.h. fünf Fehlschläge = Wartezeit von 5\*15s bis zum nächsen Aufruf
@@ -82,6 +82,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
   - `jitter` - Zufällige Zeitspanne von 0-jtter Sekunden, die auf die Wartezeiten addiert wird (Default: `5`)
   - `sleep_at_night` - Legt fest, ob der Bot nachts schlafen soll (Default: `true`, da eh keine Termine veröffentlicht werden)
   - `user_agent`- Der User Agent, der im Header übermittelt wird (Default: `impfbot`)
+
 
 Beispiel Config:
 
