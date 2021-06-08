@@ -1,11 +1,11 @@
 # Anleitung für Nutzung auf Android-Geräten
 
-Termux ist eine App, die eine Linux-Umgebung inkl. Terminal emulator auf dem Smartphone zugänglich macht. Dort lässt sich u. a. python installieren. Die anschließende Einrichtung unterscheidet sich nicht von der unter Linux. E-Mails und Telegram-Benachrichtigungen können versendet werden, eine direkte Implementierung von Push-Nachrichten könnte ggf. noch implementiert werden.
+Termux ist eine App, die eine Linux-Umgebung inkl. Terminal emulator auf dem Adnroid-Smartphone zugänglich macht. Dort lässt sich u. a. `python` installieren. Die anschließende Einrichtung unterscheidet sich nicht von der unter Linux. E-Mails und Telegram-Benachrichtigungen können versendet werden, eine direkte Implementierung von Push-Nachrichten könnte ggf. noch implementiert werden.
 
 ## Voraussetzungen
 
 - Termux https://termux.com/
-- ggf. PC mit ssh-Client für einfachere Einrichtung
+- ggf. PC mit `ssh`-Client für einfachere Einrichtung
 
 ## Anleitung
 
@@ -21,13 +21,13 @@ Der letzte Befehl ermöglicht (wenn ihr dem Dateizugriff zustimmt) den Dateiaust
 
 3. Den Bot runterladen und entpacken:
 ```
-curl -L https://github.com/sibalzer/impfbot/archive/refs/tags/v2.0.0.tar.gz -o impfbot.tar.gz
-tar -zxvf impfbot.tar.gz
+curl -L https://api.github.com/repos/sibalzer/impfbot/tarball -o impfbot.tar.gz
+mkdir impfbot && cd impfbot
+tar xf ../impfbot.tar.gz --strip-components 1
 ```
 
 4. config.ini kopieren (unter der Annahme, dass sie im Android-Download-Ordner liegt)
 ```
-cd impfbot-2.0.0
 cp ../storage/downloads/config.ini .
 ```
 
@@ -36,10 +36,9 @@ cp ../storage/downloads/config.ini .
 ./linux_start.sh
 ```
 
-6. Einstellungen testen kann man ggf. mit
+6. Einstellungen (Mailversand, Telegram) testen kann man ggf. mit
 ```
-python src/test_email.py
-python src/test_telegram.py
+./linux_validate.sh
 ```
 
 ## mögliche Probleme
