@@ -1,5 +1,30 @@
 # Changelog
 
+## [3.0.0](https://www.github.com/sibalzer/impfbot/compare/v2.0.0...v3.0.0) (2021-06-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* v3.0.0
+
+### Features
+
+* add apprise ([#81](https://www.github.com/sibalzer/impfbot/issues/81)) ([3e458d5](https://www.github.com/sibalzer/impfbot/commit/3e458d5ecb864098cb613079a4f0570ef78e37fa))
+* add apprise notification service ([54cb3ff](https://www.github.com/sibalzer/impfbot/commit/54cb3ff6c7af8b83dfca8f452ad5a7507d388e46))
+* config gui generation (beta) ([54cb3ff](https://www.github.com/sibalzer/impfbot/commit/54cb3ff6c7af8b83dfca8f452ad5a7507d388e46))
+* group notifications ([54cb3ff](https://www.github.com/sibalzer/impfbot/commit/54cb3ff6c7af8b83dfca8f452ad5a7507d388e46))
+* v3.0.0 ([54cb3ff](https://www.github.com/sibalzer/impfbot/commit/54cb3ff6c7af8b83dfca8f452ad5a7507d388e46))
+
+
+### Bug Fixes
+
+* **doc:** min -> sec ([06092d0](https://www.github.com/sibalzer/impfbot/commit/06092d056d4a5150fef0d635a629f5e4c09b3815))
+* explicit ConnectionError handling ([54cb3ff](https://www.github.com/sibalzer/impfbot/commit/54cb3ff6c7af8b83dfca8f452ad5a7507d388e46))
+* interpolation in config ([3f5a64e](https://www.github.com/sibalzer/impfbot/commit/3f5a64e4804fe7a8341963d5c123357185a20dbb))
+* make browser pop up ([5745805](https://www.github.com/sibalzer/impfbot/commit/57458058c66a2e8b30b91c6eeca78f906c180baf))
+* smtp starttls ([54cb3ff](https://www.github.com/sibalzer/impfbot/commit/54cb3ff6c7af8b83dfca8f452ad5a7507d388e46))
+* telegram token regex, email starttls ([bc0f07f](https://www.github.com/sibalzer/impfbot/commit/bc0f07f5f2a2d95694ef6031d65e5c963d099598))
+
 ## [2.0.0](https://www.github.com/sibalzer/impfbot/compare/v1.2.1...v2.0.0) (2021-05-27)
 
 
