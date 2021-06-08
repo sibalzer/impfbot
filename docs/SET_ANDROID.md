@@ -53,6 +53,6 @@ Die Benachrichtung von Termux selbst hat bei mir den Knopf "Acquire wakelock". D
 
 ## weitere Ideen
 
-wenn du in Termux ssh installierst kannst du (als Server oder Client) mit cp das Directory vom PC einfach komplett rüberkopieren
+wenn du in Termux  `ssh` installierst kannst du (als Server oder Client) mit  `scp` das Directory vom PC einfach komplett rüberkopieren
 
 man könnte in den Impfbot noch direkte Push-Nachrichten über die Termux:API integrieren
