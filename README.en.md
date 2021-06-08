@@ -14,6 +14,7 @@ A little weekend project of mine. The bot monitors the REST-API of the lower sax
 - Automatic search for short term vaccination dates
 - Notifications via email and telegram & many more
 - Opens your browser automatically when an appointment is found. All you have to do is enter your details!
+- Simple setup with GUI
 
 > What the impfbot doesn't do: Book the appointment for you and/or enter your data automatically.
 
@@ -115,11 +116,16 @@ jitter=5
 sleep_at_night=true
 user_agent=impfbot
 ```
+## Miscellaneous
 
-## ⭐ Sponsorship
+### 🙋 Feedback & problems setting up.
+
+Write [here](https://github.com/sibalzer/impfbot/issues/5) or [twitter](https://twitter.com/datearl) me.
+
+### ⭐ Sponsorship
 
 The impfbot helped you and you want to contribute monetarily? Then donate at [this fundraiser to Doctors Without Borders](https://www.aerzte-ohne-grenzen.de/spenden-sammeln?cfd=z1suz). (Yes, somewhat cribbed from [vaccipy](https://github.com/iamnotturner/vaccipy). But I liked the idea.)
 
-## 🙏 Many thanks to:
+### 🙏 Many thanks to:
 
-- [paulypeter](https://github.com/paulypeter) - Telegram Integration & more
+- [paulypeter](https://github.com/paulypeter) - Telegram Integration, Config-GUI & more
