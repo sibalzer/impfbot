@@ -14,7 +14,7 @@ Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niede
 - Automatisches Suchen von kurzfristigen Impfterminen
 - Benachrichtigungen über E-Mail, Telegram und vielen anderen Services
 - Öffnet deinen Browser automatisch wenn ein Termin gefunden wurde. Du musst nur noch deine Daten eingeben!
-- Einfaches Einrichten mit
+- Einfaches Einrichten mit GUI-Interface
 
 
 > Was der impfbot nicht macht: Dem Termin für dich reservieren und/oder deine Daten automatisch eingeben.
@@ -126,7 +126,7 @@ user_agent=impfbot
 
 ## Sonstiges
 
-## 🙋 Feedback & Probleme beim Einrichten
+### 🙋 Feedback & Probleme beim Einrichten
 
 Schreib [hier](https://github.com/sibalzer/impfbot/issues/5) oder [twitter](https://twitter.com/datearl) mich an.
 
@@ -136,4 +136,4 @@ Dir hat der impfbot geholfen und du möchtest monetär etwas beitragen? Dann spe
 
 ### 🙏 Vielen Dank an:
 
-- [paulypeter](https://github.com/paulypeter) - Telegram Integration & mehr
+- [paulypeter](https://github.com/paulypeter) - Telegram Integration, Config-GUI & mehr
