@@ -41,6 +41,8 @@ jobs:
         with:
           context: .
           file: docker/Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
-          tags: ghcr.io/${{ GITHUB_REPOSITORY }}:latest,ghcr.io/${{ GITHUB_REPOSITORY }}:${{ steps.release.outputs.tag_name }}
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ steps.release.outputs.tag_name }}
