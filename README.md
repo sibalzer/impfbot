@@ -36,6 +36,8 @@ Am Beispiel von Windows:
 5. Doppelklick auf `windows_validate.bat`, um die Einstellungen zu prüfen
 6. Doppelklick auf `windows_start.bat`
 
+Wer den Impfbot auf seinem Android-Smartphone laufen lassen möchte, liest [hier](https://github.com/sibalzer/impfbot/tree/main/docs/SETUP_ANDROID.md) weiter.
+
 Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung. Siehe dazu [docker](https://github.com/sibalzer/impfbot/tree/main/docker). Das Validieren der Config funktioniert über den Befehl `docker exec impfbot python src/validate_config.py -a`.
 
 ### 📣 Einrichten von Telegram
