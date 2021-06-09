@@ -25,7 +25,7 @@ NOTIFIER_REGEX = {
     "receivers": r"^" + MAIL_REGEX + r"(," + MAIL_REGEX + r")*$",
     # I hope this covers all possible tokens
     "token": r"^[0-9]+:[a-zA-Z0-9\-_]+$",
-    "chat_ids": r"^\d{5,}(,\d{5,})*$",  # matches a list of numbers
+    "chat_ids": r"^\-?\d{5,}(,\-?\d{5,})*$",  # matches a list of numbers with possible leading dash
     "service_uris": r"^[^ ]+$",   # match anything not a space
 }
 
