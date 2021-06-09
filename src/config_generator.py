@@ -56,11 +56,12 @@ def init_input(config_dict):
 
 def start_config_generation(config_dict: dict = dict()):
     """ entry point for config generation """
-    try:
-        gui_window = tk.Tk()
-    except tk.TclError:
-        # most likely no display was found (i. e. running headless)
-        run_gui = False
+    if run_gui:
+        try:
+            gui_window = tk.Tk()
+        except tk.TclError:
+            # most likely no display was found (i. e. running headless)
+            run_gui = False
 
     init_input(config_dict)
     if run_gui:
