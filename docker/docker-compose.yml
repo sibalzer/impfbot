@@ -5,6 +5,6 @@ services:
     image: ghcr.io/sibalzer/impfbot:latest
     restart: unless-stopped
     volumes:
-      - ./config.ini:/config.ini
+      - ./config.ini:/config.ini    # must exist before launching
     environment:
       - TZ=Europe/Berlin
