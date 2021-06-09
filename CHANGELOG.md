@@ -1,5 +1,12 @@
 # Changelog
 
+### [3.0.1](https://www.github.com/sibalzer/impfbot/compare/v3.0.0...v3.0.1) (2021-06-09)
+
+
+### Bug Fixes
+
+* no tkinter on servers [#88](https://www.github.com/sibalzer/impfbot/issues/88) ([4d97f5d](https://www.github.com/sibalzer/impfbot/commit/4d97f5d7334d302605affbb5a514677656e94d31))
+
 ## [3.0.0](https://www.github.com/sibalzer/impfbot/compare/v2.0.0...v3.0.0) (2021-06-08)
 
 
