@@ -26,6 +26,7 @@ log.info("settings validation finished")
 
 
 while True:
+    result = ""
     if not arg['alert']:
         print("Do you want to send a test message? yes/no")
         result = input()
