@@ -84,7 +84,7 @@ if __name__ == "__main__":
             while True:
                 log.error("config file not found")
                 print("Do you want to use the interface to generate a config? yes/no")
-                result = input()
+                result = input().lower()
                 if result in YES:
                     log.info("Starting config generator")
                     start_config_generation()
