@@ -180,7 +180,7 @@ def load(path):
     config = RawConfigParser()
     dataset = config.read(path)
     if not dataset:
-        raise FileNotFoundError()
+        raise FileNotFoundError("config.ini not found.")
 
     __parse(config)
     __validate()
