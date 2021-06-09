@@ -28,7 +28,7 @@ log.info("settings validation finished")
 while True:
     if not arg['alert']:
         print("Do you want to send a test message? yes/no")
-        result = input()
+        result = input().lower()
 
     if result in YES or arg['alert']:
         alert("Test")
@@ -42,7 +42,7 @@ while True:
 if not arg['alert']:
     while True:
         print("Do you want to see your config? yes/no")
-        result = input()
+        result = input().lower()
         if result in YES:
             print(settings)
             break
