@@ -1,5 +1,12 @@
 # Changelog
 
+### [3.0.3](https://www.github.com/sibalzer/impfbot/compare/v3.0.2...v3.0.3) (2021-06-09)
+
+
+### Bug Fixes
+
+* lower yes/no input for comparison ([715dc87](https://www.github.com/sibalzer/impfbot/commit/715dc8768cd27003e761765abd4bfff971c9fb7d))
+
 ### [3.0.2](https://www.github.com/sibalzer/impfbot/compare/v3.0.1...v3.0.2) (2021-06-09)
 
 
