@@ -1,5 +1,12 @@
 # Changelog
 
+### [3.0.4](https://www.github.com/sibalzer/impfbot/compare/v3.0.3...v3.0.4) (2021-06-09)
+
+
+### Bug Fixes
+
+* no result when using option --alert ([#90](https://www.github.com/sibalzer/impfbot/issues/90)) ([f895fbd](https://www.github.com/sibalzer/impfbot/commit/f895fbd357017b7a786e013f24e7b4652932bfb5))
+
 ### [3.0.3](https://www.github.com/sibalzer/impfbot/compare/v3.0.2...v3.0.3) (2021-06-09)
 
 
