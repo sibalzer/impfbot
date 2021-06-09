@@ -5,7 +5,6 @@ import sys
 from alerts import alert
 from api_wrapper import fetch_api, ShadowBanException, RequestConnectionError
 from common import sleep, sleep_until, is_night, datetime2timestamp, YES, NO
-from config_generator import start_config_generation
 from log import log
 from settings import load, settings, ParseExeption
 
@@ -86,6 +85,7 @@ if __name__ == "__main__":
                 print("Do you want to use the interface to generate a config? yes/no")
                 result = input()
                 if result in YES:
+                    from config_generator import start_config_generation
                     log.info("Starting config generator")
                     start_config_generation()
                     break
