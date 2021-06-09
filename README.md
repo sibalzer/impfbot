@@ -36,9 +36,9 @@ Am Beispiel von Windows:
 5. Doppelklick auf `windows_validate.bat`, um die Einstellungen zu prüfen
 6. Doppelklick auf `windows_start.bat`
 
-Wer den Impfbot auf seinem Android-Smartphone laufen lassen möchte, liest [hier](https://github.com/sibalzer/impfbot/tree/main/docs/SETUP_ANDROID.md) weiter.
+Wer den Impfbot auf seinem Android-Smartphone laufen lassen möchte, liest [hier](docs/SETUP_ANDROID.md) weiter.
 
-Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung. Siehe dazu [docker](https://github.com/sibalzer/impfbot/tree/main/docker). Das Validieren der Config funktioniert über den Befehl `docker exec impfbot python src/validate_config.py -a`.
+Für Fortgeschrittene steht alternativ auch ein Docker-Container zur Verfügung. Siehe dazu [docker](docker). Das Validieren der Config funktioniert über den Befehl `docker exec impfbot python src/validate_config.py -a`.
 
 ### 📣 Einrichten von Telegram
 
@@ -59,7 +59,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
   - `birthdate` - Dein Geburtstag - Da die Verteilung vom Alter abhängig ist, ist dieser zwingend notwendig. Beispiel: `23.06.1912`
   - `group_size` - Gruppengröße - Wenn du lieber einen Gruppentermin suchen möchtest musst du birthdate auskommentieren und eine Gruppengröße angeben (zwischen 2 und 15). Es darf nur eins von beiden in der Config sein! Beispiel: `5`
   - `zip_code` - Fünfstellige PLZ für das Impfzentrum, das der Bot überwachen soll. Beispiel: `49123`
-- **\[EMAIL\]**: E-Mail-Einstellungen
+- **\[EMAIL\]**: E-Mail-Einstellungen. Bei manchen Anbietern müssen vorher bestimmte Einstellungen gemacht werden, eine Sammlung von Anleitungen findet ihr [hier](docs/SETUP_EMAIL_SERVICES.md).
   - `enable` - Legt fest, ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
   - `sender` - Die E-Mail-Adresse, von der die Benachrichtigungen versendet werden sollen. Beispiel: `sender@server.tld`
   - `user` - Login Name für den SMTP-Server (in den meisten Fällen identisch mit der Absender Adresse)
