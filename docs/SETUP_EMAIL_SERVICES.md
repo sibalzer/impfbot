@@ -1,15 +1,15 @@
-# Anleitung für das Aufsetzen des E-Mail Versands bei verschiedenen Anbietern
+# Anleitung für das Aufsetzen des E-Mail-Versands bei verschiedenen Anbietern
 
 Bei manchen Anbietern müssen zunächst bestimmte Einstellungen vorgenommen werden, um dem Bot den Zugriff zu erlauben. (Wenn ihr den Bot nicht mehr nutzt, einfach alles rückgängig machen 😉)
 
 ## GMail
 
 1. Bei Gmail anmelden
-2. Unter den [IMAP Einstellungen](https://mail.google.com/mail/u/0/#settings/fwdandpop) IMAP aktivieren
+2. Unter den [IMAP-Einstellungen](https://mail.google.com/mail/u/0/#settings/fwdandpop) IMAP aktivieren
 3. Unter [Zugriff durch weniger sichere Apps](https://myaccount.google.com/lesssecureapps) weniger sichere Apps zulassen
 
 
-### Beispiel Config
+### Beispiel-Config
 
 ```ini
 [EMAIL]
@@ -29,9 +29,9 @@ receivers=meinemail@gmail.com
 3. Unter "WEB.DE Mail über POP3 & IMAP" das Häkchen neben "POP3 und IMAP Zugriff erlauben" setzen
 4. Speichern
 
-Alternativ: Anleitung mit Viedo von Web.de [hier](https://hilfe.web.de/pop-imap/einschalten.html)
+Alternativ: Anleitung mit Video von Web.de [hier](https://hilfe.web.de/pop-imap/einschalten.html)
 
-### Beispiel Config
+### Beispiel-Config
 
 ```ini
 [EMAIL]

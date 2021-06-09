@@ -1,6 +1,6 @@
 # Anleitung für Nutzung auf Android-Geräten
 
-Termux ist eine App, die eine Linux-Umgebung inkl. Terminal emulator auf dem Adnroid-Smartphone zugänglich macht. Dort lässt sich u. a. `python` installieren. Die anschließende Einrichtung unterscheidet sich nicht von der unter Linux. E-Mails und Telegram-Benachrichtigungen können versendet werden, eine direkte Implementierung von Push-Nachrichten könnte ggf. noch implementiert werden.
+Termux ist eine App, die eine Linux-Umgebung inkl. Terminal Emulator auf dem Android-Smartphone zugänglich macht. Dort lässt sich u. a. `python` installieren. Die anschließende Einrichtung unterscheidet sich nicht von der unter Linux. E-Mails und Telegram-Benachrichtigungen können versendet werden, eine direkte Implementierung von Push-Nachrichten könnte ggf. noch implementiert werden.
 
 ## Voraussetzungen
 
