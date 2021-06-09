@@ -1,11 +1,18 @@
 """ generate a config if none found """
-import tkinter as tk
 import re
-from tkinter import ttk
-from tkcalendar import DateEntry
 
 from common import NOTIFIERS, NOTIFIER_REGEX, ZIP_REGEX
 from config_skeleton import SKELETON
+
+try:
+    import tkinter as tk
+    from tkinter import ttk
+    from tkcalendar import DateEntry
+    run_gui = True
+except ImportError:
+    # tk is missing -> run CLI config
+    run_gui = False
+
 
 FIELDS = {
     "EMAIL": {
@@ -49,12 +56,13 @@ def init_input(config_dict):
 
 def start_config_generation(config_dict: dict = dict()):
     """ entry point for config generation """
-    run_gui = True
-    try:
-        gui_window = tk.Tk()
-    except tk.TclError:
-        # most likely no display was found (i. e. running headless)
-        run_gui = False
+    global run_gui
+    if run_gui:
+        try:
+            gui_window = tk.Tk()
+        except tk.TclError:
+            # most likely no display was found (i. e. running headless)
+            run_gui = False
 
     init_input(config_dict)
     if run_gui:
