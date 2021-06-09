@@ -48,7 +48,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
 
 2. https://t.me/userinfobot anschreiben und "Id"-Nummer in die `config.ini` kopieren (mehrere Nummern mit `,` getrennt).
 3. ⚠ Mit dem eigenen Bot muss vorher eine Konversation begonnen werden! (URL steht in der Botfather-Nachricht, dort /start drücken) ⚠
-4. Validieren, dass auch alles funktioniert: Doppelklick auf `test_telegram.bat`
+4. Validieren, dass auch alles funktioniert: Doppelklick auf `windows_validate.bat`
 
 
 ### 🛠️ config.ini Parameter
