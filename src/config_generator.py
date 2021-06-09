@@ -56,6 +56,7 @@ def init_input(config_dict):
 
 def start_config_generation(config_dict: dict = dict()):
     """ entry point for config generation """
+    global run_gui
     if run_gui:
         try:
             gui_window = tk.Tk()
