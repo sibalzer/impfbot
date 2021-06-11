@@ -144,7 +144,7 @@ def test_old(log_info_mock,
 
     # Check output
     assert log_info_mock.call_count == 1
-    assert log_warning_mock.call_count == 12
+    assert log_warning_mock.call_count == 11
     for msg in log_warning_mock.call_args_list:
         assert (" is depracated please use: " in msg.args[0]
                 or "[EMAIL] 'user' is missing; set sender as user" in msg.args[0])
