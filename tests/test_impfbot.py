@@ -93,7 +93,7 @@ def test_check_for_slot_in_stock(log_info_mock,
         impfbot.check_for_slot()
 
     alert_mock.assert_called_once_with(
-        "Freier Impfslot (253)! AstraZeneca/Vector")
+        "[Impfbot] Freier Impfslot (253)! AstraZeneca/Vector")
     log_info_mock.assert_called_once_with(
         "Free slot! (253) AstraZeneca/Vector")
     log_warning_mock.assert_not_called()

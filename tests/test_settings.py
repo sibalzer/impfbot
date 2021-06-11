@@ -45,6 +45,7 @@ def test_valid(log_info_mock,
     assert settings.WEBBROWSER_ENABLE is True
 
     # ADVANCED
+    assert settings.CUSTOM_MESSAGE_PREFIX == "Impfbot"
     assert settings.COOLDOWN_BETWEEN_REQUESTS == 60
     assert settings.COOLDOWN_BETWEEN_FAILED_REQUESTS == 10
     assert settings.COOLDOWN_AFTER_IP_BAN == 10800
@@ -123,6 +124,7 @@ def test_invalid_advanced(log_info_mock,
     log_error_mock.assert_not_called()
 
     # ADVANCED
+    assert settings.CUSTOM_MESSAGE_PREFIX == "Impfbot"
     assert settings.COOLDOWN_BETWEEN_REQUESTS == 30
     assert settings.COOLDOWN_BETWEEN_FAILED_REQUESTS == 5
     assert settings.COOLDOWN_AFTER_IP_BAN == 10800
@@ -142,7 +144,7 @@ def test_old(log_info_mock,
 
     # Check output
     assert log_info_mock.call_count == 1
-    assert log_warning_mock.call_count == 11
+    assert log_warning_mock.call_count == 12
     for msg in log_warning_mock.call_args_list:
         assert (" is depracated please use: " in msg.args[0]
                 or "[EMAIL] 'user' is missing; set sender as user" in msg.args[0])
@@ -171,6 +173,7 @@ def test_old(log_info_mock,
     assert settings.WEBBROWSER_ENABLE is True
 
     # ADVANCED
+    assert settings.CUSTOM_MESSAGE_PREFIX == "Impfbot"
     assert settings.COOLDOWN_BETWEEN_REQUESTS == 1
     assert settings.COOLDOWN_BETWEEN_FAILED_REQUESTS == 2
     assert settings.COOLDOWN_AFTER_IP_BAN == 3*60
@@ -190,7 +193,7 @@ def test_missing_optional(log_info_mock,
 
     # Check output
     assert log_info_mock.call_count == 4
-    assert log_warning_mock.call_count == 7
+    assert log_warning_mock.call_count == 8
     log_error_mock.assert_not_called()
 
     # EMAIL
@@ -200,6 +203,7 @@ def test_missing_optional(log_info_mock,
     # WEBBROWSER
     assert settings.WEBBROWSER_ENABLE is False
     # ADVANCED
+    assert settings.CUSTOM_MESSAGE_PREFIX == "Impfbot"
     assert settings.COOLDOWN_BETWEEN_REQUESTS == 30
     assert settings.COOLDOWN_BETWEEN_FAILED_REQUESTS == 5
     assert settings.COOLDOWN_AFTER_IP_BAN == 3*60*60
