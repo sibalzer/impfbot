@@ -42,7 +42,7 @@ def check_for_slot() -> None:
 
                 log.info(
                     f"Free slot! ({free_slots}) {vaccine_name}/{vaccine_type}")
-                msg = f"Freier Impfslot ({free_slots})! {vaccine_name}/{vaccine_type}"
+                msg = f"[{settings.CUSTOM_MESSAGE_PREFIX}] Freier Impfslot ({free_slots})! {vaccine_name}/{vaccine_type}"
 
                 alert(msg)
                 sleep(settings.COOLDOWN_AFTER_SUCCESS)
