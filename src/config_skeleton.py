@@ -100,7 +100,7 @@ SKELETON = {
             "default": "Impfbot",
             "type": str,
             "regex": USER_AGENT_REGEX
-        }
+        },
         "cooldown_between_requests": {
             "default": 30,
             "type": float,
