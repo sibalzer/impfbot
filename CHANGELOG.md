@@ -1,5 +1,13 @@
 # Changelog
 
+### [3.0.5](https://www.github.com/sibalzer/impfbot/compare/v3.0.4...v3.0.5) (2021-06-12)
+
+
+### Bug Fixes
+
+* improve user input regexes ([#111](https://www.github.com/sibalzer/impfbot/issues/111)) ([b925a01](https://www.github.com/sibalzer/impfbot/commit/b925a0143021a0ba7b64d8c8236721b044f560a1))
+* more permissive user agent regex ([b925a01](https://www.github.com/sibalzer/impfbot/commit/b925a0143021a0ba7b64d8c8236721b044f560a1))
+
 ### [3.0.4](https://www.github.com/sibalzer/impfbot/compare/v3.0.3...v3.0.4) (2021-06-09)
 
 
