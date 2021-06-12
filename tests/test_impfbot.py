@@ -93,9 +93,9 @@ def test_check_for_slot_in_stock(log_info_mock,
         impfbot.check_for_slot()
 
     alert_mock.assert_called_once_with(
-        "Freier Impfslot (253)! AstraZeneca/Vector")
+        "Freier Impfslot (253)! AstraZeneca/Vector verfügbar ab dem 30.05.2021")
     log_info_mock.assert_called_once_with(
-        "Free slot! (253) AstraZeneca/Vector")
+        "Free slot! (253) AstraZeneca/Vector Appointment date: 30.05.2021")
     log_warning_mock.assert_not_called()
     log_error_mock.assert_not_called()
 
