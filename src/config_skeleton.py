@@ -1,7 +1,15 @@
 """skelton data for the settings"""
 
 from datetime import datetime
-from common import BIRTHDATE_REGEX, BOOL_REGEX, NOTIFIER_REGEX, NUMBER_REGEX, USER_AGENT_REGEX, ZIP_REGEX
+from common import (
+    BIRTHDATE_REGEX,
+    BOOL_REGEX,
+    NOTIFIER_REGEX,
+    NUMBER_REGEX,
+    USER_AGENT_REGEX,
+    ZIP_REGEX,
+    GROUP_SIZE_REGEX
+)
 
 
 SKELETON = {
@@ -19,7 +27,7 @@ SKELETON = {
         "group_size": {
             "default": None,
             "type": int,
-            "regex": NUMBER_REGEX
+            "regex": GROUP_SIZE_REGEX
         }
     },
     "EMAIL": {
