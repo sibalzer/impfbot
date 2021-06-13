@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://www.github.com/sibalzer/impfbot/compare/v3.0.5...v3.1.0) (2021-06-13)
+
+
+### Features
+
+* add appointment date to message ([#113](https://www.github.com/sibalzer/impfbot/issues/113)) ([022cc03](https://www.github.com/sibalzer/impfbot/commit/022cc030eab65274a31ae2c9c82619f01c15aa68))
+
 ### [3.0.5](https://www.github.com/sibalzer/impfbot/compare/v3.0.4...v3.0.5) (2021-06-12)
 
 
