@@ -18,6 +18,10 @@ A little weekend project of mine. The bot monitors the REST-API of the lower sax
 
 > What the impfbot doesn't do: Book the appointment for you and/or enter your data automatically.
 
+### ⚠️ Disclaimer
+
+Using this bot does __not__ guarantee to get you a vaccination appointment. Please also use the waiting list of your local vaccination centre and your family physician!
+
 ## ⚙️ Setup
 
 ### Requirements

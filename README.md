@@ -17,7 +17,11 @@ Ein kleines Wochenend-Projekt von mir. Der Bot überwacht die REST-API des niede
 - Einfaches Einrichten mit GUI-Interface
 
 
-> Was der impfbot nicht macht: Dem Termin für dich reservieren und/oder deine Daten automatisch eingeben.
+> Was der impfbot nicht macht: Den Termin für dich reservieren und/oder deine Daten automatisch eingeben.
+
+### ⚠️ Achtung
+
+Die Nutzung des Bots garantiert __nicht__, einen Impftermin zu bekommen. Bitte nutze zusätzlich auch die Warteliste deines zuständigen Impfzentrums und deines Hausarztes!
 
 ## ⚙️ Setup
 
