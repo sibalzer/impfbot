@@ -37,7 +37,7 @@ def check_for_slot() -> None:
             log.error("Result is emtpy. (Invalid ZIP Code (PLZ)?)")
         for elem in result:
             if not elem['outOfStock']:
-                local_timezone = timezone(timedelta(hours=1))
+                local_timezone = timezone(timedelta(hours=2))
 
                 free_slots = elem['freeSlotSizeOnline']
                 vaccine_name = elem['vaccineName']
