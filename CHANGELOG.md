@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://www.github.com/sibalzer/impfbot/compare/v3.1.1...v3.2.0) (2021-06-14)
+
+
+### Features
+
+* arm64 docker images ([#76](https://www.github.com/sibalzer/impfbot/issues/76)) ([23bc387](https://www.github.com/sibalzer/impfbot/commit/23bc38794ee61839c8976f14b6010465f3425cad))
+
 ### [3.1.1](https://www.github.com/sibalzer/impfbot/compare/v3.1.0...v3.1.1) (2021-06-14)
 
 
