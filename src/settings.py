@@ -23,10 +23,7 @@ class Datastore():
                     name_builder = f"{section.upper()}_{option.upper()}"
                 value = getattr(self, name_builder, "not set")
                 if isinstance(value, list):
-                    list_str = ""
-                    for entry in value:
-                        list_str += str(entry)
-                    value = list_str
+                    value = ', '.join(value)
                 result += f"   {option}: {value}\n"
         return result
 
