@@ -1,5 +1,12 @@
 # Changelog
 
+### [3.1.1](https://www.github.com/sibalzer/impfbot/compare/v3.1.0...v3.1.1) (2021-06-14)
+
+
+### Bug Fixes
+
+* print list values as comma separated string ([#120](https://www.github.com/sibalzer/impfbot/issues/120)) ([680b088](https://www.github.com/sibalzer/impfbot/commit/680b088a3314abeb13298bb0667ba304c804aafa))
+
 ## [3.1.0](https://www.github.com/sibalzer/impfbot/compare/v3.0.5...v3.1.0) (2021-06-13)
 
 
