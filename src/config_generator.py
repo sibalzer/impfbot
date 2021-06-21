@@ -1,7 +1,13 @@
 """ generate a config if none found """
 import re
 
-from common import NOTIFIERS, NOTIFIER_REGEX, ZIP_REGEX
+from common import (
+    NOTIFIERS,
+    NOTIFIER_REGEX,
+    ZIP_REGEX,
+    GROUP_SIZE_REGEX,
+    BIRTHDATE_REGEX
+)
 from config_skeleton import SKELETON
 
 try:
@@ -166,7 +172,7 @@ def run_gui_config(tk_window, config_dict):
         """ validate user input """
         if search_group_appointments.get():
             entered_group_size = group_size.get()
-            match_group_size = re.match(r"^[2-9]|1[0-5]$", entered_group_size)
+            match_group_size = re.match(GROUP_SIZE_REGEX, entered_group_size)
             if match_group_size is None:
                 return False
         entered_plz = plz.get()
@@ -297,14 +303,14 @@ def run_cli_config(config_dict):
     config_for_group = config_for_group_input.lower() == "j"
     while match is None and not config_for_group:
         birthday = input('Bitte den Geburtstag eingeben: ')
-        match = re.match(r"\b\d{1,2}\.\d{1,2}\.\d{4}\b", birthday)
+        match = re.match(BIRTHDATE_REGEX, birthday)
     match = None
     while match is None and config_for_group:
         group_size = input('Bitte die Gruppengröße eingeben: ')
-        match = re.match(r"^[2-9]|1[0-5]$", group_size)
+        match = re.match(GROUP_SIZE_REGEX, group_size)
     while match is None or bool(re.match(ZIP_REGEX, plz)):
         plz = input('Bitte die PLZ eingeben: ')
-        match = re.match(r"\b\d{5}\b", plz)
+        match = re.match(ZIP_REGEX, plz)
 
     enable_notifier = {}
     for notifier in FIELDS:

@@ -1,5 +1,34 @@
 # Changelog
 
+## [3.2.0](https://www.github.com/sibalzer/impfbot/compare/v3.1.1...v3.2.0) (2021-06-14)
+
+
+### Features
+
+* arm64 docker images ([#76](https://www.github.com/sibalzer/impfbot/issues/76)) ([23bc387](https://www.github.com/sibalzer/impfbot/commit/23bc38794ee61839c8976f14b6010465f3425cad))
+
+### [3.1.1](https://www.github.com/sibalzer/impfbot/compare/v3.1.0...v3.1.1) (2021-06-14)
+
+
+### Bug Fixes
+
+* print list values as comma separated string ([#120](https://www.github.com/sibalzer/impfbot/issues/120)) ([680b088](https://www.github.com/sibalzer/impfbot/commit/680b088a3314abeb13298bb0667ba304c804aafa))
+
+## [3.1.0](https://www.github.com/sibalzer/impfbot/compare/v3.0.5...v3.1.0) (2021-06-13)
+
+
+### Features
+
+* add appointment date to message ([#113](https://www.github.com/sibalzer/impfbot/issues/113)) ([022cc03](https://www.github.com/sibalzer/impfbot/commit/022cc030eab65274a31ae2c9c82619f01c15aa68))
+
+### [3.0.5](https://www.github.com/sibalzer/impfbot/compare/v3.0.4...v3.0.5) (2021-06-12)
+
+
+### Bug Fixes
+
+* improve user input regexes ([#111](https://www.github.com/sibalzer/impfbot/issues/111)) ([b925a01](https://www.github.com/sibalzer/impfbot/commit/b925a0143021a0ba7b64d8c8236721b044f560a1))
+* more permissive user agent regex ([b925a01](https://www.github.com/sibalzer/impfbot/commit/b925a0143021a0ba7b64d8c8236721b044f560a1))
+
 ### [3.0.4](https://www.github.com/sibalzer/impfbot/compare/v3.0.3...v3.0.4) (2021-06-09)
 
 

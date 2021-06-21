@@ -7,8 +7,9 @@ import time
 APPOINTMENT_URL = r"https://www.impfportal-niedersachsen.de/portal/#/appointment/public"
 
 ZIP_REGEX = r"^(19|21|26|27|28|29|30|31|34|37|38|48|49)([0-9]{3})$"
-BIRTHDATE_REGEX = r"^[0-3]?[0-9]\.[0-3]?[0-9]\.(?:[0-9]{2})?[0-9]{2}$"
+BIRTHDATE_REGEX = r"^[0-3]?[0-9]\.[0-3]?[0-9]\.(?:19|20)?[0-9]{2}$"
 NUMBER_REGEX = r"^[0-9]*(?:\.[0-9])?$"
+GROUP_SIZE_REGEX = r"^[2-9]|1[0-5]$"
 BOOL_REGEX = r"(?i)^(?:true)|(?:false)$"
 USER_AGENT_REGEX = r"^.*$"
 

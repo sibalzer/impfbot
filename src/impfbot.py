@@ -1,5 +1,6 @@
 """Notification bot for the lower saxony vaccination portal"""
 import argparse
+from datetime import datetime, timezone, timedelta
 import sys
 
 from alerts import alert
@@ -13,7 +14,7 @@ from settings import load, settings, ParseExeption
 def check_for_slot() -> None:
     """checks if a slot is available"""
     try:
-        if hasattr(settings,"COMMON_BIRTHDATE"):
+        if hasattr(settings, "COMMON_BIRTHDATE"):
             birthdate_timestamp = datetime2timestamp(settings.COMMON_BIRTHDATE)
             result = fetch_api(
                 zip_code=settings.COMMON_ZIP_CODE,
@@ -36,13 +37,19 @@ def check_for_slot() -> None:
             log.error("Result is emtpy. (Invalid ZIP Code (PLZ)?)")
         for elem in result:
             if not elem['outOfStock']:
+                local_timezone = timezone(timedelta(hours=2))
+
                 free_slots = elem['freeSlotSizeOnline']
                 vaccine_name = elem['vaccineName']
                 vaccine_type = elem['vaccineType']
+                first_appoinment_date = datetime.fromtimestamp(
+                    elem['firstAppoinmentDateSorterOnline'] /
+                    1000, local_timezone
+                ).strftime("%d.%m.%Y")
 
                 log.info(
-                    f"Free slot! ({free_slots}) {vaccine_name}/{vaccine_type}")
-                msg = f"[{settings.CUSTOM_MESSAGE_PREFIX}] Freier Impfslot ({free_slots})! {vaccine_name}/{vaccine_type}"
+                    f"Free slot! ({free_slots}) {vaccine_name}/{vaccine_type} Appointment date: {first_appoinment_date}")
+                msg = f"[{settings.CUSTOM_MESSAGE_PREFIX}] Freier fslot ({free_slots})! {vaccine_name}/{vaccine_type} verfügbar ab dem {first_appoinment_date}"
 
                 alert(msg)
                 sleep(settings.COOLDOWN_AFTER_SUCCESS)

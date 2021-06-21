@@ -65,3 +65,24 @@ server=mail.gmx.net
 port=587
 receivers=meinemail@gmx.net
 ```
+
+## iCloud
+
+1. Den [Apple-ID-Account](https://appleid.apple.com/account/home) aufrufen
+2. "Sicherheit" anklicken
+3. "Anwendungsspezifische Passwörter" auswählen und dort "Passwort erstellen"
+4. Den Anweisungen folgen
+5. Das so erstellte Passwort in der `config.ini` speichern
+
+### Beispiel-Config
+
+```ini
+[EMAIL]
+enable=true
+sender=meinemail@icloud.com
+user=meinemail@icloud.com
+password=xxxxxx
+server=smtp.mail.me.com
+port=587
+receivers=meinemail@icloud.com
+```
