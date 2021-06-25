@@ -67,7 +67,7 @@ empty = {
 
 load("tests/configs/test-config-valid.ini")
 zip_code = settings.COMMON_ZIP_CODE
-api_url = f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip_code}?stiko=&count=1'
+api_url = f'https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip_code}?stiko=&count=1&showWithVectorVaccine=true'
 
 error_none = None
 
@@ -88,7 +88,6 @@ def test_check_for_slot_in_stock(log_info_mock,
         mocker.get(
             url=api_url,
             json=in_stock
-
         )
         impfbot.check_for_slot()
 
