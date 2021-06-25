@@ -131,8 +131,18 @@ def __validate_option(section: str, option: str):
                     f"[{section}] only one of 'birthdate' or 'group_size' is allowed in the same config.")
         else:
             if getattr(settings, option_name, None) is None:
-                raise ParseExeption(
-                    f"[{section}] '{option}' must be in the config.")
+                if option_name == "COMMON_WITH_VECTOR":
+                    if getattr(settings, option_name, None) is None:
+                        value = SKELETON[section][option]["default"]
+                        typ: any = SKELETON[section][option]["type"]
+                        setattr(settings, option_name, typ(value))
+
+                        __log.warning(
+                            f"[{section}] '{option}' not set. Using default: '{value}'")
+                        return
+                else:
+                    raise ParseExeption(
+                        f"[{section}] '{option}' must be in the config.")
 
     elif section in NOTIFIERS:
         option_name = f"{section.upper()}_{option.upper()}"
