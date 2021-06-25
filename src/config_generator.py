@@ -44,6 +44,8 @@ def init_input(config_dict):
     for item in NOTIFIERS:
         config_dict[item.upper()] = {}
     config_dict["ADVANCED"] = {}
+    config_dict["ADVANCED"]["custom_message_prefix"] = str(
+        SKELETON["ADVANCED"]["custom_message_prefix"]["default"])
     config_dict["ADVANCED"]["cooldown_between_requests"] = str(
         SKELETON["ADVANCED"]["cooldown_between_requests"]["default"])
     config_dict["ADVANCED"]["cooldown_between_failed_requests"] = str(

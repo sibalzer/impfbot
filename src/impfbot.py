@@ -51,7 +51,7 @@ def check_for_slot() -> None:
 
                 log.info(
                     f"Free slot! ({free_slots}) {vaccine_name}/{vaccine_type} Appointment date: {first_appoinment_date}")
-                msg = f"Freier Impfslot ({free_slots})! {vaccine_name}/{vaccine_type} verfügbar ab dem {first_appoinment_date}"
+                msg = f"[{settings.CUSTOM_MESSAGE_PREFIX}] Freier Impfslot ({free_slots})! {vaccine_name}/{vaccine_type} verfügbar ab dem {first_appoinment_date}"
 
                 alert(msg)
                 sleep(settings.COOLDOWN_AFTER_SUCCESS)

@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://www.github.com/sibalzer/impfbot/compare/v3.2.0...v3.3.0) (2021-06-21)
+
+
+### Features
+
+* add message prefix ([#124](https://www.github.com/sibalzer/impfbot/issues/124)) ([d389f5f](https://www.github.com/sibalzer/impfbot/commit/d389f5f15b8030a8136d98bc99a4b87e77d6783a))
+
 ## [3.2.0](https://www.github.com/sibalzer/impfbot/compare/v3.1.1...v3.2.0) (2021-06-14)
 
 
