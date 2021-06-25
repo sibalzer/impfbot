@@ -63,6 +63,7 @@ Folgende Schritte muss für jeden ausgeführt werden, der Nachrichten empfangen 
   - `birthdate` - Dein Geburtstag - Da die Verteilung vom Alter abhängig ist, ist dieser zwingend notwendig. Beispiel: `23.06.1912`
   - `group_size` - Gruppengröße - Wenn du lieber einen Gruppentermin suchen möchtest musst du birthdate auskommentieren und eine Gruppengröße angeben (zwischen 2 und 15). Es darf nur eins von beiden in der Config sein! Beispiel: `5`
   - `zip_code` - Fünfstellige PLZ für das Impfzentrum, das der Bot überwachen soll. Beispiel: `49123`
+  - `with_vector` - Für die unter 60-Jährigen: Soll auch nach Vector-Impfstoffen gesucht werden? Beispiel: `true`
 - **\[EMAIL\]**: E-Mail-Einstellungen. Bei manchen Anbietern müssen vorher bestimmte Einstellungen gemacht werden, eine Sammlung von Anleitungen findet ihr [hier](docs/SETUP_EMAIL_SERVICES.md).
   - `enable` - Legt fest, ob E-Mails versendet werden sollen. `true` wenn ja, sonst `false`.
   - `sender` - Die E-Mail-Adresse, von der die Benachrichtigungen versendet werden sollen. Beispiel: `sender@server.tld`
@@ -96,6 +97,7 @@ Beispiel Config:
 [COMMON]
 zip_code=42042
 birthdate=23.06.1912
+with_vector=true
 
 [EMAIL]
 enable=true
