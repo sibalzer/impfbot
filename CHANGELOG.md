@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://www.github.com/sibalzer/impfbot/compare/v3.3.0...v3.4.0) (2021-06-26)
+
+
+### Features
+
+* add vector option ([#127](https://www.github.com/sibalzer/impfbot/issues/127)) ([eb347fc](https://www.github.com/sibalzer/impfbot/commit/eb347fca1295ca9c365828fcecfcecf3282553ff))
+
 ## [3.3.0](https://www.github.com/sibalzer/impfbot/compare/v3.2.0...v3.3.0) (2021-06-21)
 
 
