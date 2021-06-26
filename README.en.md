@@ -57,6 +57,7 @@ The following steps must be performed for everyone who wants to receive messages
   - `birthday` - Birthday to be queried. Example: `23.06.1912`.
   - `group_size` - Size of the group for which an appointment is requested (2 to 15). Example: `5`
   - `zip_code` - Five-digit zip code for your vaccination center. Example: `49123`
+  - `with_vector` - For the under 60s: should also be searched for vector vaccines? Example: `true`
 - **\[EMAIL\]**: Email settings
   - `enable` - Specifies whether emails should be sent. `true` if yes, `false` otherwise.
   - `sender` - The email address from which the notifications should be sent. Example: `sender@server.tld`.
@@ -89,6 +90,7 @@ The following steps must be performed for everyone who wants to receive messages
 [COMMON]
 zip_code=42042
 birthdate=23.06.1912
+with_vector=true
 
 [EMAIL]
 enable=true

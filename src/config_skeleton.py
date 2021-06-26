@@ -28,6 +28,11 @@ SKELETON = {
             "default": None,
             "type": int,
             "regex": GROUP_SIZE_REGEX
+        },
+        "with_vector": {
+            "default": True,
+            "type": bool,
+            "regex": BOOL_REGEX
         }
     },
     "EMAIL": {

@@ -14,22 +14,25 @@ class ShadowBanException(Exception):
 
 
 def fetch_api(
-        zip_code: int,
-        birthdate_timestamp: int = None,
-        group_size: int = None,
-        max_retries: int = 10,
-        sleep_after_error: int = 30,
-        jitter: int = 5,
-        user_agent: str = 'python'
-    ) -> any:
+    zip_code: int,
+    birthdate_timestamp: int = None,
+    group_size: int = None,
+    with_vector: bool = True,
+    max_retries: int = 10,
+    sleep_after_error: int = 30,
+    jitter: int = 5,
+    user_agent: str = 'python'
+) -> any:
     """fetches the api with ip ban avoidance"""
     url = f"https://www.impfportal-niedersachsen.de/portal/rest/appointments/findVaccinationCenterListFree/{zip_code}?stiko="
     if birthdate_timestamp:
         url += f"&count=1&birthdate={int(birthdate_timestamp)*1000}"
     elif group_size:
         url += f"&count={group_size}"
+    if with_vector:
+        url += f"&showWithVectorVaccine=true"
     fail_counter = 0
-    
+
     headers = {
         'Accept': 'application/json',
         'User-Agent': user_agent

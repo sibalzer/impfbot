@@ -19,6 +19,7 @@ def check_for_slot() -> None:
             result = fetch_api(
                 zip_code=settings.COMMON_ZIP_CODE,
                 birthdate_timestamp=birthdate_timestamp,
+                with_vector=settings.COMMON_WITH_VECTOR,
                 max_retries=10,
                 sleep_after_error=settings.COOLDOWN_BETWEEN_FAILED_REQUESTS,
                 user_agent=settings.USER_AGENT,
@@ -28,6 +29,7 @@ def check_for_slot() -> None:
             result = fetch_api(
                 zip_code=settings.COMMON_ZIP_CODE,
                 group_size=settings.COMMON_GROUP_SIZE,
+                with_vector=settings.COMMON_WITH_VECTOR,
                 max_retries=10,
                 sleep_after_error=settings.COOLDOWN_BETWEEN_FAILED_REQUESTS,
                 user_agent=settings.USER_AGENT,
